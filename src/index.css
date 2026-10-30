@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-logo: "Orbitron", ui-sans-serif, sans-serif;
+  --color-space: #080d1b;
+  --color-ink: #e8eef9;
+  --color-mist: #b7c3d6;
+  --color-galaxy: #a78bfa;
+  --color-nature: #86efac;
+  --color-animals: #d8b4fe;
+  --color-climate: #7dd3fc;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #080d1b;
+  color: #e8eef9;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #a78bfa;
+  color: #080d1b;
+}
+
+:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 3px;
+}
+
+.starfield-stars {
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 90px 140px, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1.5px 1.5px at 180px 70px, rgba(167, 139, 250, 0.85), transparent),
+    radial-gradient(1px 1px at 260px 190px, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 40px 220px, rgba(125, 211, 252, 0.7), transparent),
+    radial-gradient(1px 1px at 320px 40px, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 360px 260px;
+  animation: star-drift 90s linear infinite;
+}
+
+@keyframes star-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -260px;
+  }
+}
+
+.accent-card {
+  border: 1px solid color-mix(in srgb, var(--accent, #a78bfa) 32%, transparent);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.accent-card:hover {
+  border-color: color-mix(in srgb, var(--accent, #a78bfa) 70%, transparent);
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--accent, #a78bfa) 16%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
