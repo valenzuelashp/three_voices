@@ -15,8 +15,14 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 4rem;
   color-scheme: dark;
+}
+
+@media (min-width: 640px) {
+  html {
+    scroll-padding-top: 5.5rem;
+  }
 }
 
 body {

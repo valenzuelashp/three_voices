@@ -62,9 +62,9 @@ export default function ContactForm() {
 
   if (done) {
     return (
-      <div role="status" className="rounded-3xl border border-white/10 bg-white/[0.03] p-7 sm:p-8">
-        <p className="font-logo text-[11px] tracking-[0.28em] text-galaxy">PREVIEW</p>
-        <h3 className="mt-3 font-display text-3xl text-ink">Thanks, {done.name}.</h3>
+      <div role="status" className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:rounded-3xl sm:p-8">
+        <p className="font-logo text-[10px] tracking-[0.14em] text-galaxy sm:text-[11px] sm:tracking-[0.28em]">PREVIEW</p>
+        <h3 className="mt-3 font-display text-2xl text-ink sm:text-3xl">Thanks, {done.name}.</h3>
         <p className="mt-4 leading-7 text-mist">
           This form does not send email or save your note on a server. It stays in this browser until you leave the
           page.
@@ -83,7 +83,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form noValidate onSubmit={onSubmit} className="space-y-5 rounded-3xl border border-white/10 bg-white/[0.03] p-7 sm:p-8">
+    <form noValidate onSubmit={onSubmit} className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:space-y-5 sm:rounded-3xl sm:p-8">
       <Field id="name" label="Name" error={errors.name}>
         <input
           id="name"

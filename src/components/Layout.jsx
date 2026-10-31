@@ -1,11 +1,16 @@
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useEffect } from "react"
-import { Outlet, useLocation } from "react-router-dom"
+import { useLocation, useOutlet } from "react-router-dom"
 import Footer from "./Footer"
 import Navbar from "./Navbar"
 import Starfield from "./Starfield"
 
+const ease = [0.22, 1, 0.36, 1]
+
 export default function Layout() {
   const { pathname } = useLocation()
+  const outlet = useOutlet()
+  const reduce = useReducedMotion()
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -22,7 +27,17 @@ export default function Layout() {
       <Starfield />
       <Navbar />
       <main id="content" tabIndex={-1} className="outline-none">
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname}
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0, y: -10 }}
+            transition={reduce ? { duration: 0 } : { duration: 0.4, ease }}
+          >
+            {outlet}
+          </motion.div>
+        </AnimatePresence>
       </main>
       <Footer />
     </>

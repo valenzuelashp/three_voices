@@ -18,8 +18,8 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-space/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
-        <Link to="/" className="font-logo text-[11px] tracking-[0.28em] text-ink sm:text-xs">
+      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
+        <Link to="/" className="font-logo text-[10px] tracking-[0.16em] text-ink sm:text-xs sm:tracking-[0.28em]">
           {site.name.toUpperCase()}
         </Link>
 
@@ -57,7 +57,7 @@ export default function Navbar() {
       </div>
 
       {open ? (
-        <nav id="mobile-nav" className="border-t border-white/10 px-5 py-4 md:hidden" aria-label="Mobile">
+        <nav id="mobile-nav" className="border-t border-white/10 px-4 py-3 md:hidden" aria-label="Mobile">
           <ul className="space-y-1">
             {navLinks.map((link) => (
               <li key={link.to}>
