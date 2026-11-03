@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { advocacyList } from "../data/site"
+import { profiles } from "../data/site"
 
 const inputClass =
   "w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-ink placeholder:text-mist/50"
@@ -38,7 +38,7 @@ export default function ContactForm() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(next.email.trim())) {
       result.email = "Enter an email address like name@email.com."
     }
-    if (!next.subject) result.subject = "Choose which voice this note is about."
+    if (!next.subject) result.subject = "Choose a topic for this note."
     if (next.message.trim().length < 12) result.message = "Write at least a sentence."
     return result
   }
@@ -120,10 +120,11 @@ export default function ContactForm() {
           aria-describedby={errors.subject ? "subject-error" : undefined}
           className={inputClass}
         >
-          <option value="">Choose a voice</option>
-          {advocacyList.map((item) => (
-            <option key={item.slug} value={`${item.nav} — ${item.member}`}>
-              {item.nav} — {item.member}
+          <option value="">Choose a topic</option>
+          <option value="Animal advocacy">Animal advocacy</option>
+          {profiles.map((profile) => (
+            <option key={profile.slug} value={`Animal advocacy — ${profile.name}`}>
+              Animal advocacy — {profile.name}
             </option>
           ))}
           <option value="The website">The website</option>

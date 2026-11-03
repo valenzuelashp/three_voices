@@ -11,9 +11,7 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="nature" element={<Portfolio slug="nature" />} />
-          <Route path="animals" element={<Portfolio slug="animals" />} />
-          <Route path="climate" element={<Portfolio slug="climate" />} />
+          <Route path="profiles/:slug" element={<Portfolio />} />
           <Route path="get-involved" element={<GetInvolved />} />
           <Route path="*" element={<NotFound />} />
         </Route>
