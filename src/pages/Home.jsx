@@ -1,23 +1,57 @@
+import { Bone, Heart, PawPrint } from "lucide-react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import AdvocacyCard from "../components/AdvocacyCard"
 import Container from "../components/Container"
+import PetGallery from "../components/PetGallery"
 import Reveal from "../components/Reveal"
 import { profiles, site } from "../data/site"
 import usePageTitle from "../usePageTitle"
 
+const heroSlides = [
+  { id: "dog-window", src: "/images/hero-dog-window.png" },
+  { id: "placeholder-2", label: "Photo coming soon" },
+  { id: "placeholder-3", label: "Photo coming soon" },
+]
+
 export default function Home() {
   usePageTitle("Three Voices · Animal Advocacy")
+  const [heroIndex, setHeroIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setHeroIndex((current) => (current + 1) % heroSlides.length)
+    }, 10000)
+    return () => window.clearInterval(timer)
+  }, [heroIndex])
 
   return (
     <>
       <section className="hero-section" aria-labelledby="hero-title">
-        <img
-          src="/images/hero-dog-window.png"
-          alt=""
-          aria-hidden="true"
-          fetchPriority="high"
-          className="hero-image"
-        />
+        {heroSlides.map((slide, index) =>
+          slide.src ? (
+            <img
+              key={slide.id}
+              src={slide.src}
+              alt=""
+              aria-hidden="true"
+              fetchPriority={index === 0 ? "high" : "auto"}
+              className={`hero-slide hero-image${index === heroIndex ? " is-active" : ""}`}
+            />
+          ) : (
+            <div
+              key={slide.id}
+              className={`hero-slide hero-placeholder hero-placeholder-${index}${index === heroIndex ? " is-active" : ""}`}
+              aria-hidden="true"
+            >
+              <div className="hero-placeholder-card">
+                <PawPrint size={28} strokeWidth={1.4} aria-hidden="true" />
+                <span>0{index + 1}</span>
+                <p>{slide.label}</p>
+              </div>
+            </div>
+          ),
+        )}
         <Container className="hero-content">
           <div className="max-w-3xl">
             <p className="hero-kicker">
@@ -29,15 +63,29 @@ export default function Home() {
             </h1>
             <p className="hero-lede">{site.lede}</p>
             <div className="mt-7 flex flex-wrap gap-3 sm:mt-9">
-              <a href="#profiles" className="theme-primary-button rounded-full px-5 py-3 text-sm font-semibold">
+              <a href="#profiles" className="theme-primary-button inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold">
+                <Bone size={16} aria-hidden="true" />
                 Meet our voices
               </a>
               <Link
                 to="/get-involved"
-                className="rounded-full border border-white/45 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+                className="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
               >
+                <Heart size={16} aria-hidden="true" />
                 Get involved
               </Link>
+            </div>
+            <div className="hero-dots" role="tablist" aria-label="Hero photos">
+              {heroSlides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === heroIndex}
+                  aria-label={slide.src ? `Photo ${index + 1}` : `Photo ${index + 1}, placeholder`}
+                  onClick={() => setHeroIndex(index)}
+                />
+              ))}
             </div>
           </div>
         </Container>
@@ -81,6 +129,8 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      <PetGallery />
 
       <section className="home-paper-section home-bottom-cta py-10 sm:py-14 lg:py-16">
         <Reveal>

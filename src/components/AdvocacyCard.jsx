@@ -1,9 +1,16 @@
-import { ArrowUpRight, PawPrint } from "lucide-react"
+import { ArrowUpRight, Cat, Dog, Heart, PawPrint } from "lucide-react"
 import { motion, useReducedMotion } from "motion/react"
 import { Link } from "react-router-dom"
 
+const memberIcons = {
+  charles: Dog,
+  sharmaine: Cat,
+  ia: Heart,
+}
+
 export default function AdvocacyCard({ item, index = 0 }) {
   const reduce = useReducedMotion()
+  const MemberIcon = memberIcons[item.slug] ?? PawPrint
 
   return (
     <motion.div
@@ -46,7 +53,8 @@ export default function AdvocacyCard({ item, index = 0 }) {
         </span>
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <p className="text-[11px] font-semibold tracking-[0.16em] text-[color:var(--accent)] uppercase sm:text-xs sm:tracking-[0.22em]">
+        <MemberIcon size={20} className="text-[color:var(--accent)]" aria-hidden="true" />
+        <p className="mt-3 text-[11px] font-semibold tracking-[0.16em] text-[color:var(--accent)] uppercase sm:text-xs sm:tracking-[0.22em]">
           ANIMAL ADVOCACY
         </p>
         <h3 className="mt-1.5 font-display text-xl text-ink sm:mt-2 sm:text-2xl">{item.name}</h3>

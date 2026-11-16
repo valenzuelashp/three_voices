@@ -1,3 +1,4 @@
+import { Bone, Heart } from "lucide-react"
 import { Link } from "react-router-dom"
 import ContactForm from "../components/ContactForm"
 import Container from "../components/Container"
@@ -14,7 +15,7 @@ export default function GetInvolved() {
           <p className="font-logo text-[10px] tracking-[0.14em] text-galaxy sm:text-[11px] sm:tracking-[0.28em]">
             TAKE PART
           </p>
-          <h1 className="mt-3 font-display text-[1.7rem] leading-[1.15] font-semibold text-balance text-ink sm:mt-4 sm:text-5xl sm:leading-tight lg:text-6xl">
+          <h1 className="mt-3 font-display text-[1.5rem] leading-[1.2] font-semibold text-balance text-ink sm:mt-4 sm:text-4xl sm:leading-tight lg:text-5xl">
             Get involved in animal welfare.
           </h1>
           <p className="mt-4 text-[15px] leading-6 text-mist sm:mt-6 sm:text-lg sm:leading-8">
@@ -32,7 +33,10 @@ export default function GetInvolved() {
               className="accent-card max-w-3xl rounded-2xl p-5 sm:rounded-3xl sm:p-8"
             >
               <p className="text-xs font-semibold tracking-[0.2em] text-[color:var(--accent)] uppercase">OUR CAUSE</p>
-              <h2 className="mt-2 font-display text-xl text-ink sm:text-2xl">One group, one animal advocacy</h2>
+              <h2 className="mt-2 flex items-center gap-2 font-display text-xl text-ink sm:text-2xl">
+                <Bone size={18} className="text-[color:var(--accent)]" aria-hidden="true" />
+                One group, one animal advocacy
+              </h2>
               <p className="mt-3 text-sm leading-7 text-mist sm:text-base">
                 We want to encourage compassion, responsible care, and protection for animals.
               </p>
@@ -50,7 +54,10 @@ export default function GetInvolved() {
             <p className="font-logo text-[10px] tracking-[0.14em] text-galaxy sm:text-[11px] sm:tracking-[0.28em]">
               CONTACT
             </p>
-            <h2 className="mt-2 font-display text-2xl text-ink sm:mt-3 sm:text-3xl lg:text-4xl">Leave a note</h2>
+            <h2 className="mt-2 flex items-center gap-2 font-display text-2xl text-ink sm:mt-3 sm:text-3xl lg:text-4xl">
+              <Heart size={22} className="text-animals" aria-hidden="true" />
+              Leave a note
+            </h2>
             <p className="mt-3 text-sm leading-6 text-mist sm:mt-4 sm:text-base sm:leading-7">
               Use this when you want to respond to our animal advocacy or to the site itself. Nothing is emailed. When the
               group connects a form service, this page can send notes for real.

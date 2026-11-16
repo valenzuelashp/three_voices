@@ -13,6 +13,7 @@ export default function Portfolio() {
   usePageTitle(profile ? `${profile.name} · Three Voices` : "Page not found · Three Voices")
 
   if (!profile) return <NotFound />
+  if (!profile.path) return <Navigate to="/#profiles" replace />
 
   return (
     <div className="profile-page" style={{ "--accent": profile.accent }}>

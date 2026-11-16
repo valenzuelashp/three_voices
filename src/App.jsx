@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Layout from "./components/Layout"
+import Developers from "./pages/Developers"
 import GetInvolved from "./pages/GetInvolved"
 import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
@@ -13,6 +14,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="profiles/:slug" element={<Portfolio />} />
           <Route path="get-involved" element={<GetInvolved />} />
+          <Route path="developers" element={<Developers />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
