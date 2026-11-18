@@ -81,17 +81,17 @@ export default function Developers() {
           DEVELOPERS
         </p>
         <h1 className="mt-3 font-display text-[1.5rem] leading-[1.2] font-semibold text-balance text-ink sm:mt-4 sm:text-4xl sm:leading-tight">
-          Approve pet photos.
+          Review pet submissions.
         </h1>
         <p className="mt-4 max-w-2xl text-[15px] leading-6 text-mist sm:mt-6 sm:text-lg sm:leading-8">
-          Photos sent from the circle stay here until you approve them. Approved photos are the ones visitors see.
+          Circle photos and missing-pet reports stay here until you approve them. Approved submissions appear in their respective sections.
         </p>
 
         {key && ready ? (
           <div className="mt-10 space-y-12">
             <Queue
               title="Waiting for approval"
-              empty="No photos are waiting."
+              empty="No submissions are waiting."
               posts={waiting}
               busyId={busyId}
               primary="Approve"
@@ -103,7 +103,7 @@ export default function Developers() {
             />
             <Queue
               title="On the site"
-              empty="No photos are in the circle yet."
+              empty="No approved submissions yet."
               posts={live}
               busyId={busyId}
               secondary="Remove"
@@ -151,7 +151,9 @@ function Queue({ title, empty, posts, busyId, primary, primaryIcon: PrimaryIcon,
             <div className="space-y-3 p-4">
               <div>
                 <p className="font-display text-xl text-ink">{post.petName}</p>
-                <p className="text-sm text-mist">Shared by {post.name}</p>
+                <p className="text-sm text-mist">
+                  {post.type === "lost" ? "Missing-pet report" : `Shared by ${post.name}`}
+                </p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {primary ? (

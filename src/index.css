@@ -1487,9 +1487,80 @@ body {
   line-height: 1.2;
 }
 
+.lost-pets-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.38fr);
+  align-items: start;
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.lost-pets-list {
+  min-width: 0;
+}
+
+.lost-pets-empty {
+  display: grid;
+  min-height: 13rem;
+  place-content: center;
+  justify-items: center;
+  gap: 0.4rem;
+  border: 1px dashed color-mix(in srgb, var(--palette-paper-ink) 18%, transparent);
+  border-radius: 1.25rem;
+  color: var(--palette-paper-muted);
+  text-align: center;
+}
+
+.lost-pets-empty svg {
+  margin-bottom: 0.4rem;
+  color: var(--palette-animals);
+}
+
+.lost-pets-empty p {
+  color: var(--palette-paper-ink);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.lost-pet-card {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--palette-paper) 78%, white);
+}
+
+.lost-pet-card > img {
+  width: 100%;
+  aspect-ratio: 1.1;
+  object-fit: cover;
+}
+
+.lost-pet-badge {
+  flex: none;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--palette-animals) 18%, transparent);
+  padding: 0.35rem 0.55rem;
+  color: var(--palette-animals);
+  font-family: var(--font-logo);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+}
+
+.lost-pet-form {
+  border: 1px solid color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--palette-paper) 80%, white);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
 @media (min-width: 640px) {
   .pet-dialog-title {
     font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .lost-pets-layout {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

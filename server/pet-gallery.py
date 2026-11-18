@@ -154,7 +154,21 @@ class GalleryHandler(BaseHTTPRequestHandler):
         if path == "/posts":
             with lock:
                 posts = load_posts()
-            visible = [public_view(post) for post in posts if post.get("status", "approved") == "approved"]
+            visible = [
+                public_view(post)
+                for post in posts
+                if post.get("status", "approved") == "approved" and post.get("type") != "lost"
+            ]
+            self.send_json(200, {"posts": visible})
+            return
+        if path == "/lost":
+            with lock:
+                posts = load_posts()
+            visible = [
+                public_view(post)
+                for post in posts
+                if post.get("status", "approved") == "approved" and post.get("type") == "lost"
+            ]
             self.send_json(200, {"posts": visible})
             return
         if path == "/review":
@@ -195,9 +209,10 @@ class GalleryHandler(BaseHTTPRequestHandler):
         if path == "/review":
             self.review_action()
             return
-        if path != "/posts":
+        if path not in ("/posts", "/lost"):
             self.send_json(404, {"error": "Not found."})
             return
+        is_lost = path == "/lost"
         length = int(self.headers.get("Content-Length", "0") or "0")
         if length <= 0 or length > MAX_BYTES + 200_000:
             self.send_json(413, {"error": "Use a photo smaller than 4 MB."})
@@ -212,7 +227,7 @@ class GalleryHandler(BaseHTTPRequestHandler):
         name = clean(fields.get("name", ""))
         pet_name = clean(fields.get("petName", ""))
         photo = fields.get("photo")
-        if len(name) < 2:
+        if not is_lost and len(name) < 2:
             self.send_json(400, {"error": "Enter your name."})
             return
         if len(pet_name) < 1:
@@ -236,22 +251,29 @@ class GalleryHandler(BaseHTTPRequestHandler):
         filename = f"{token}.{kind}"
         with lock:
             posts = load_posts()
-            if len(posts) >= MAX_POSTS:
-                self.send_json(507, {"error": "The circle is full for now."})
+            same_type_count = sum(
+                1 for post in posts if (post.get("type") == "lost") == is_lost
+            )
+            if same_type_count >= MAX_POSTS:
+                message = "The missing-pet board is full for now." if is_lost else "The circle is full for now."
+                self.send_json(507, {"error": message})
                 return
             os.makedirs(PHOTO_DIR, exist_ok=True)
             with open(os.path.join(PHOTO_DIR, filename), "wb") as handle:
                 handle.write(photo)
             post = {
                 "id": token,
-                "name": name,
                 "petName": pet_name,
                 "caption": pet_name,
                 "src": f"{self.public_base()}/photos/{filename}",
-                "alt": f"{pet_name} with {name}",
+                "alt": f"Missing pet: {pet_name}" if is_lost else f"{pet_name} with {name}",
                 "file": filename,
                 "status": "pending",
             }
+            if is_lost:
+                post["type"] = "lost"
+            else:
+                post["name"] = name
             posts.append(post)
             save_posts(posts)
         self.send_json(201, {"post": public_view(post), "status": "pending"})

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import AdvocacyCard from "../components/AdvocacyCard"
 import Container from "../components/Container"
+import LostPets from "../components/LostPets"
 import PetGallery from "../components/PetGallery"
 import Reveal from "../components/Reveal"
 import { profiles, site } from "../data/site"
@@ -198,6 +199,8 @@ export default function Home() {
           </article>
         </Container>
       </section>
+
+      <LostPets />
 
       <PetGallery />
 
