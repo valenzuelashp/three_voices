@@ -59,7 +59,7 @@ export default function AdvocacyCard({ item, index = 0 }) {
         )}
         <span className="absolute bottom-4 left-4 flex items-center gap-2 font-logo text-[9px] tracking-[0.14em] text-mist/70">
           <span className="size-1.5 rounded-full bg-animals/70" />
-          STORY PENDING
+          {item.slug === "ia" ? "STORY ADDED" : "STORY PENDING"}
         </span>
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-6">
@@ -68,7 +68,11 @@ export default function AdvocacyCard({ item, index = 0 }) {
           ANIMAL ADVOCACY
         </p>
         <h3 className="mt-1.5 font-display text-xl text-ink sm:mt-2 sm:text-2xl">{item.name}</h3>
-        <p className="mt-2 flex-1 text-sm leading-6 text-mist sm:mt-3">Personal story and experiences coming soon.</p>
+        <p className="mt-2 flex-1 text-sm leading-6 text-mist sm:mt-3">
+          {item.slug === "ia"
+            ? "A life shaped by twelve pets, Saturday baths, and the belief that every dog and cat deserves care."
+            : "Personal story and experiences coming soon."}
+        </p>
         <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ink sm:mt-6">
           View profile
           <ArrowUpRight

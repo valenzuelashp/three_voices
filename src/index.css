@@ -753,7 +753,79 @@ body {
   color: var(--profile-muted);
   font-size: 0.82rem;
   line-height: 1.7;
-  text-align: center;
+}
+
+.profile-story-copy {
+  margin-top: 1rem;
+  color: var(--profile-muted);
+  font-size: 0.82rem;
+  line-height: 1.75;
+}
+
+.profile-story-copy h3 {
+  margin: 0 0 1rem;
+  color: var(--profile-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.profile-story-copy h4 {
+  margin: 1.5rem 0 0.55rem;
+  color: var(--profile-ink);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.profile-story-copy p {
+  margin: 0 0 0.85rem;
+}
+
+.profile-story-chapters {
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+  margin-top: 1.7rem;
+}
+
+.profile-story-chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  border: 1px solid color-mix(in srgb, var(--palette-paper-ink) 10%, transparent);
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--profile-paper) 75%, white);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.profile-story-chapter .profile-story-copy {
+  margin-top: 0;
+}
+
+.profile-story-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.profile-story-photo {
+  position: relative;
+  aspect-ratio: 1.05;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--palette-animals) 12%, var(--profile-paper));
+}
+
+.profile-story-photo figcaption {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.7rem;
+  color: white;
+  font-family: var(--font-logo);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
 }
 
 .profile-card-index {
@@ -1115,6 +1187,21 @@ body {
     .profile-story-grid {
       grid-template-columns: minmax(0, 1fr);
       gap: 0.85rem;
+    }
+
+    .profile-story-chapter {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.85rem;
+      border-radius: 1rem;
+      padding: 1rem;
+    }
+
+    .profile-story-photos {
+      gap: 0.55rem;
+    }
+
+    .profile-story-photo {
+      border-radius: 0.75rem;
     }
 
     .profile-story-card {

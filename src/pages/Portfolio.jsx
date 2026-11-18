@@ -6,15 +6,19 @@ import usePageTitle from "../usePageTitle"
 import NotFound from "./NotFound"
 
 const storyPhotos = [
-  { number: "01", src: "/images/ia-cookie-birthday.jpg", alt: "Cookie celebrating a birthday in a party hat" },
-  { number: "02", src: "/images/ia-dogs-bath.jpg", alt: "Cookie and Bilog together during bath time" },
   {
-    number: "03",
-    src: "/images/ia-maliya-yeongtan.jpg",
-    alt: "Maliya and Yeongtan together",
-    objectPosition: "left center",
+    number: "01",
+    src: "/images/ia-cookie-birthday-story.jpg",
+    alt: "Cookie celebrating her birthday in a party hat",
+    objectPosition: "center 72%",
   },
-  { number: "04", src: "/images/ia-bilog-resting.jpg", alt: "Bilog resting on their back" },
+  { number: "02", src: "/images/ia-cookie-bilog-bath.jpg", alt: "Cookie and Bilog waiting for their bath" },
+  { number: "03", src: "/images/ia-cookie-2.jpg", alt: "Cookie resting underneath a chair" },
+  { number: "04", src: "/images/ia-cookie-3.jpg", alt: "Cookie smiling at the camera" },
+  { number: "05", src: "/images/ia-bilog-2.jpg", alt: "Bilog lying comfortably on a blanket" },
+  { number: "06", src: "/images/ia-bilog.jpg", alt: "Bilog sitting and looking at the camera" },
+  { number: "07", src: "/images/ia-yeongtan-maliya-story.jpg", alt: "Yeongtan and Maliya together as puppies" },
+  { number: "08", src: "/images/ia-cookies-puppies.jpg", alt: "Cookie's three puppies together" },
 ]
 const petPhotoSlots = ["01", "02", "03", "04", "05", "06", "07", "08"]
 const iaPetPhotos = [
@@ -147,57 +151,115 @@ export default function Portfolio() {
               </h2>
             </div>
             <p className="profile-section-lede">
-              A space for {profile.name} to share experiences, memories, and what this cause means to them.
+              {profile.slug === "ia"
+                ? "Saturday baths, fierce companions, and the lessons my dogs and cats teach me about care."
+                : `A space for ${profile.name} to share experiences, memories, and what this cause means to them.`}
             </p>
           </div>
 
-          <div className="profile-story-grid">
-            <article className="profile-story-card">
-              <span className="profile-card-label">MY EXPERIENCE</span>
-              <p className="profile-story-placeholder">Story placeholder — personal experiences coming soon.</p>
-              <span className="profile-card-index">STORY / 01</span>
-            </article>
+          {profile.slug === "ia" ? (
+            <div className="profile-story-chapters">
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>Saturdays Smell Like Dog Shampoo</h3>
+                  <p>
+                    I’m Ia Mary Sorio, 22, a fourth-year BSIT student, and every Saturday I turn into a full-time dog groomer.
+                    My family has nine dogs and three cats, and yes, we celebrate every one of their birthdays. Growing up in a house like this,
+                    caring for animals is just part of life.
+                  </p>
+                  <p>
+                    Every weekend I give the dogs their baths in a fixed lineup. Cookie, Bilog, and Yeongtan go in together.
+                    Maliya and Brownie are the second batch. Coffee gets a shower all to himself. Cookie’s three babies aren’t old enough for baths yet,
+                    so for now they just watch the chaos.
+                  </p>
+                </div>
+                <StoryPhotos photos={storyPhotos.slice(0, 2)} />
+              </article>
 
-            <div
-              className="profile-moments"
-              aria-label={profile.slug === "ia" ? "Ia's personal photos" : "Personal photo placeholders"}
-            >
-              {storyPhotos.map(({ number, src, alt, objectPosition }) => {
-                const photo = profile.slug === "ia" ? src : null
-                return (
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>Cookie, the Cute but Dangerous</h3>
+                  <p>
+                    Cookie is an aspin we got from Papa’s friend back when I was in high school, so she’s been with me through all of it.
+                    She is easily the smartest and most spoiled dog in the house. She can climb ladders, sit on chairs, and cry loudly the second she wants attention.
+                    She has even “mukbang-ed” our viand twice after climbing onto chairs and tables the moment we looked away.
+                  </p>
+                  <p>
+                    She looks like a cute sealion, but she’s fierce. She has bitten a lot of people, and my sister has taken responsibility and paid for it more than once.
+                    That’s why Cookie is on a leash whenever we have visitors. Cute, but dangerous.
+                  </p>
+                  <p>
+                    The thing I love most is how easily she gets rage-baited. Her patience is very short, and I tease her just to see her reaction.
+                    We love her anyway—spoiled and fierce and all.
+                  </p>
+                </div>
+                <StoryPhotos photos={storyPhotos.slice(2, 4)} />
+              </article>
+
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>Bilog, the One Who Reads the Room</h3>
+                  <p>
+                    Bilog is Cookie’s daughter, from her very first batch of puppies. She got her name because she was so chunky and round when she was young.
+                    My brother called her Bilog, she responded to it, and we never got the chance to change it.
+                  </p>
+                  <p>
+                    Bilog is quiet and well-behaved. She looks like a corgi—long, short, and cute—and she is just as smart as Cookie.
+                    What sets her apart is that she knows how to read the room. Whenever I’m sad, she comes to me and sits beside me while I figure things out.
+                    Bilog is my comfort, and I’m so grateful for her.
+                  </p>
+                </div>
+                <StoryPhotos photos={storyPhotos.slice(4, 6)} />
+              </article>
+
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>Why Dogs and Cats Are My Advocacy</h3>
+                  <p>
+                    Dogs are the first ones to greet you whenever you come home. They comfort you and stay with you when you’re feeling down.
+                    Every day feels special because they’re around. They are only a part of your life, but your dog’s whole life revolves around you.
+                  </p>
+                  <p>
+                    Living with twelve animals has taught me how much they depend on us. They can’t tell us when they’re hungry, hurting, or scared,
+                    so we have to pay attention for them. Every Saturday bath, every birthday, and every time Bilog sits beside me is a reminder that
+                    they give us so much more than we give them.
+                  </p>
+                  <p>
+                    That’s why my advocacy is about dogs and cats. Every one of them deserves to be fed, kept safe, and loved—whether they live in a house like ours
+                    or are strays looking for someone to take them in.
+                  </p>
+                  <p>
+                    If my dogs spend their whole lives trusting me, the least I can do is speak up for the ones who have no one to do it for them.
+                  </p>
+                </div>
+                <StoryPhotos photos={storyPhotos.slice(6, 8)} />
+              </article>
+            </div>
+          ) : (
+            <div className="profile-story-grid">
+              <article className="profile-story-card">
+                <span className="profile-card-label">MY EXPERIENCE</span>
+                <p className="profile-story-placeholder">Story placeholder — personal experiences coming soon.</p>
+                <span className="profile-card-index">STORY / 01</span>
+              </article>
+              <div className="profile-moments" aria-label="Personal photo placeholders">
+                {storyPhotos.slice(0, 4).map(({ number }) => (
                   <div
                     key={number}
-                    role={photo ? undefined : "img"}
-                    aria-label={photo ? undefined : `${profile.name}'s story photo placeholder ${number}`}
-                    className={`profile-moment${photo ? " relative overflow-hidden" : " profile-photo-placeholder"}`}
+                    role="img"
+                    aria-label={`${profile.name}'s story photo placeholder ${number}`}
+                    className="profile-moment profile-photo-placeholder"
                   >
-                    {photo ? (
-                      <img
-                        src={photo}
-                        alt={alt}
-                        className="absolute inset-0 size-full rounded-[inherit] object-cover"
-                        style={objectPosition ? { objectPosition } : undefined}
-                      />
-                    ) : null}
-                    <span
-                      className="profile-moment-number"
-                      style={photo ? { color: "white", textShadow: "0 1px 5px rgba(0, 0, 0, 0.9)" } : undefined}
-                    >
-                      {number}
+                    <span className="profile-moment-number">{number}</span>
+                    <span className="profile-moment-add">
+                      <Plus size={19} aria-hidden="true" />
                     </span>
-                    {photo ? null : (
-                      <>
-                        <span className="profile-moment-add">
-                          <Plus size={19} aria-hidden="true" />
-                        </span>
-                        <span className="sr-only">Story photo placeholder</span>
-                      </>
-                    )}
+                    <span className="sr-only">Story photo placeholder</span>
                   </div>
-                )
-              })}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
         </Container>
       </section>
@@ -254,6 +316,25 @@ export default function Portfolio() {
           </Link>
         </Container>
       </section>
+    </div>
+  )
+}
+
+function StoryPhotos({ photos }) {
+  return (
+    <div className="profile-story-photos" aria-label="Photos for this story section">
+      {photos.map(({ number, src, alt, objectPosition }) => (
+        <figure key={number} className="profile-story-photo">
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            className="size-full object-cover"
+            style={objectPosition ? { objectPosition } : undefined}
+          />
+          <figcaption>{number}</figcaption>
+        </figure>
+      ))}
     </div>
   )
 }
