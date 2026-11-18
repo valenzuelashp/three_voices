@@ -37,6 +37,16 @@ export default function AdvocacyCard({ item, index = 0 }) {
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" aria-hidden="true" />
           </>
+        ) : item.slug === "ia" ? (
+          <>
+            <img
+              src="/images/profile-ia.jpg"
+              alt="Ia with Bilog"
+              className="absolute inset-0 size-full object-cover"
+              style={{ objectPosition: "center" }}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" aria-hidden="true" />
+          </>
         ) : (
           <div className="profile-artwork-icon grid size-14 place-items-center rounded-full bg-space/80 text-[color:var(--accent)]">
             <PawPrint size={22} aria-hidden="true" />

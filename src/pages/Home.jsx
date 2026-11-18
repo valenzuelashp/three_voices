@@ -1,4 +1,4 @@
-import { Bone, Heart, PawPrint } from "lucide-react"
+import { ArrowUpRight, Bone, Heart, Newspaper, PawPrint } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import AdvocacyCard from "../components/AdvocacyCard"
@@ -13,6 +13,11 @@ const heroSlides = [
   { id: "placeholder-2", label: "Photo coming soon" },
   { id: "placeholder-3", label: "Photo coming soon" },
 ]
+
+const inquirerPostUrl =
+  "https://www.facebook.com/inquirerdotnet/posts/trigger-warning-sensitive-contentall-29-dogs-and-cats-dumped-in-san-jose-del-mon/1601376602173289/"
+const inquirerPreviewImageUrl =
+  "https://scontent.fmnl17-5.fna.fbcdn.net/v/t39.99422-6/877512484_1654189299431425_319350756179079831_n.png?stp=dst-jpg_tt6&cstp=mx1292x1569&ctp=p600x600&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=cae128&_nc_ohc=hlNJB2FEJ4AQ7kNvwGut-O-&_nc_oc=AdoAze_F7kkXQJFpM3MyoabOvH765rS4Gsy3YjXRIfulscAuVYllzbhl9fPKe2zMaXw&_nc_zt=14&_nc_ht=scontent.fmnl17-5.fna&_nc_gid=fAz6NFp1wXUa2LOn_wDYEQ&_nc_ss=7b20f&oh=00_AQTu1YZDpoF5l8QyoE1W1QMZYWYCL_w9EDcvFqjFQeUoyw&oe=6B0351F1"
 
 export default function Home() {
   usePageTitle("Three Voices · Animal Advocacy")
@@ -127,6 +132,70 @@ export default function Home() {
             ))}
             </div>
           </div>
+        </Container>
+      </section>
+
+      <section className="home-paper-section py-10 sm:py-14 lg:py-16" aria-labelledby="featured-issue-title">
+        <Container>
+          <div className="mb-5 text-center sm:mb-7">
+            <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
+              TRENDING ISSUE · PHILIPPINES
+            </p>
+            <h2 id="featured-issue-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl">
+              Dogs and cats dumped in Bulacan
+            </h2>
+          </div>
+          <p className="mx-auto mb-4 max-w-5xl font-logo text-[10px] font-semibold tracking-[0.16em] text-animals sm:mb-5 sm:text-[11px]">
+            TRIGGER WARNING · SENSITIVE CONTENT — THE IMAGE BELOW IS BLURRED
+          </p>
+          <article className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[0.8fr_1.2fr]">
+            <figure className="m-0 flex flex-col items-center justify-center gap-3 bg-animals/5 p-4 sm:p-6">
+              <a href={inquirerPostUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Inquirer Facebook post">
+                <img
+                  src={inquirerPreviewImageUrl}
+                  alt="Blurred image in an INQUIRER.net graphic about the Bulacan case"
+                  className="h-auto max-h-[36rem] w-auto max-w-full rounded-xl"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+              </a>
+              <figcaption className="text-center font-logo text-[9px] tracking-[0.12em] text-mist/70">
+                IMAGE: INQUIRER.NET · PHOTO: LUNA AND FURRY SIBLINGS ANIMAL RESCUE
+              </figcaption>
+            </figure>
+            <div className="p-5 sm:p-8">
+              <p className="flex items-center gap-2 font-logo text-[10px] tracking-[0.2em] text-animals sm:text-[11px]">
+                <Newspaper size={16} aria-hidden="true" />
+                ANIMAL WELFARE WATCH
+              </p>
+              <p className="mt-3 font-display text-lg text-ink sm:text-xl">San Jose del Monte, Bulacan</p>
+              <h3 className="mt-3 font-display text-xl text-ink sm:text-2xl">
+                29 dogs and cats claimed by their owners, rescue group says
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-mist sm:text-base sm:leading-7">
+                INQUIRER.net reports that all 29 dogs and cats dumped in San Jose del Monte, Bulacan, have been claimed
+                by their respective owners, according to an animal rescue group.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  href="https://newsinfo.inquirer.net/2334122/all-dead-pets-dumped-in-bulacan-claimed-by-owners-rescue-group"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="theme-primary-button inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold"
+                >
+                  Read the report <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+                <a
+                  href={inquirerPostUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-white/10"
+                >
+                  View Inquirer post <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </article>
         </Container>
       </section>
 
