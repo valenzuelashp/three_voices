@@ -156,8 +156,8 @@ export default function Portfolio() {
             <div className="profile-intro">
               <p className="profile-kicker">Animal welfare · Three Voices</p>
               <h1 id="profile-title" className="profile-title">
-                {profile.name}
-                <span>’s voice</span>
+                <span className="profile-title-name">{profile.name}</span>
+                <span className="profile-title-voice">’s voice</span>
               </h1>
               <p className="profile-intro-copy">A personal connection to a kinder world for animals.</p>
               <a href="#profile-story" className="profile-action">

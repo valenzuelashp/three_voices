@@ -518,6 +518,8 @@ body {
 .profile-intro {
   position: relative;
   z-index: 1;
+  min-width: 0;
+  container-type: inline-size;
 }
 
 .profile-kicker,
@@ -534,14 +536,18 @@ body {
   margin-top: 0.8rem;
   color: var(--profile-ink);
   font-family: var(--font-display);
-  font-size: clamp(2.7rem, 5.2vw, 5rem);
+  font-size: clamp(2.05rem, 15cqi, 4.4rem);
   font-weight: 600;
-  letter-spacing: -0.07em;
-  line-height: 0.92;
-  overflow-wrap: anywhere;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
 }
 
-.profile-title span {
+.profile-title-name {
+  display: block;
+  white-space: nowrap;
+}
+
+.profile-title-voice {
   display: block;
   margin-top: 0.25em;
   color: color-mix(in srgb, var(--profile-ink) 62%, var(--palette-animals));
@@ -1838,7 +1844,7 @@ body {
     }
 
     .profile-title {
-      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      font-size: clamp(1.7rem, 14cqi, 3.2rem);
     }
 
     .profile-intro-copy {
