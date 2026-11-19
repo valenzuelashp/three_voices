@@ -47,6 +47,16 @@ export default function AdvocacyCard({ item, index = 0 }) {
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" aria-hidden="true" />
           </>
+        ) : item.slug === "sharmaine" ? (
+          <>
+            <img
+              src="/images/maine-pet-tiny-2.jpg"
+              alt="Sharmaine with Tiny"
+              className="absolute inset-0 size-full object-cover"
+              style={{ objectPosition: "center 42%" }}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" aria-hidden="true" />
+          </>
         ) : (
           <div className="profile-artwork-icon grid size-14 place-items-center rounded-full bg-space/80 text-[color:var(--accent)]">
             <PawPrint size={22} aria-hidden="true" />
@@ -54,12 +64,12 @@ export default function AdvocacyCard({ item, index = 0 }) {
           </div>
         )}
         <span className="absolute top-4 right-4 font-logo text-[9px] tracking-[0.16em] text-mist/50">PROFILE / 0{index + 1}</span>
-        {item.slug !== "charles" && (
+        {item.slug !== "charles" && item.slug !== "sharmaine" && (
           <div className="absolute inset-5 rounded-2xl border border-dashed border-white/10" aria-hidden="true" />
         )}
         <span className="absolute bottom-4 left-4 flex items-center gap-2 font-logo text-[9px] tracking-[0.14em] text-mist/70">
           <span className="size-1.5 rounded-full bg-animals/70" />
-          {item.slug === "ia" ? "STORY ADDED" : "STORY PENDING"}
+          {item.slug === "ia" || item.slug === "sharmaine" ? "STORY ADDED" : "STORY PENDING"}
         </span>
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-6">
@@ -71,7 +81,9 @@ export default function AdvocacyCard({ item, index = 0 }) {
         <p className="mt-2 flex-1 text-sm leading-6 text-mist sm:mt-3">
           {item.slug === "ia"
             ? "A life shaped by twelve pets, Saturday baths, and the belief that every dog and cat deserves care."
-            : "Personal story and experiences coming soon."}
+            : item.slug === "sharmaine"
+              ? "From Tiny, my first dog, to a fur family of six, and the promise to love them while they are here."
+              : "Personal story and experiences coming soon."}
         </p>
         <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ink sm:mt-6">
           View profile

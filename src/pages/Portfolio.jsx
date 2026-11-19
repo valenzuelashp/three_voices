@@ -66,6 +66,44 @@ const iaPetPhotos = [
   { src: "/images/pet-mimo.jpg", name: "Mimo" },
   { src: "/images/pet-momo.jpg", name: "Momo" },
 ]
+const sharmaineTinyPhotos = [
+  { number: "01", src: "/images/maine-pet-tiny.jpg", alt: "Tiny looking up with a smile" },
+  { number: "02", src: "/images/maine-pet-tiny-2.jpg", alt: "Sharmaine with Tiny", objectPosition: "center 42%" },
+]
+const sharmaineCatPhotos = [
+  { number: "01", src: "/images/maine-pet-lany.png", alt: "Lany the white cat wearing a blue collar", objectPosition: "center 32%" },
+  { number: "02", src: "/images/maine-pet-mal-3.jpg", alt: "Mal the white cat with black ears" },
+]
+const sharmaineFamilyPhotos = [
+  { number: "Tiny", src: "/images/maine-pet-tiny.jpg", alt: "Tiny looking up with a smile" },
+  { number: "Maky", src: "/images/maine-pet-maky.jpg", alt: "Maky sitting up and looking at a treat", objectPosition: "center 28%" },
+  { number: "Snowy", src: "/images/maine-pet-snowy-3.jpg", alt: "Snowy smiling at the camera" },
+  { number: "Taytay", src: "/images/maine-pet-taytay-2.jpg", alt: "Taytay sitting on a tiled floor" },
+  { number: "Summer", src: "/images/maine-pet-summer-3.jpg", alt: "Summer the white puppy sitting on a blanket", objectPosition: "center 40%" },
+  { number: "Potchi", src: "/images/maine-pet-potchi.jpg", alt: "Potchi the puppy wearing a gray harness", objectPosition: "center 35%" },
+]
+const sharmaineBondPhotos = [
+  { number: "01", src: "/images/maine-pet-maky.jpg", alt: "Maky sitting up and looking at a treat", objectPosition: "center 28%" },
+  { number: "02", src: "/images/maine-pet-dogs.jpg", alt: "Sharmaine with her dogs beside a Christmas tree", objectPosition: "center 45%" },
+]
+const sharmaineHeavenPhotos = [
+  { number: "01", src: "/images/maine-pet-tiny-heaven.jpg", alt: "Tiny's memorial, with his photo among the flowers" },
+  { number: "02", src: "/images/maine-pet-tiny-heaven-2.jpg", alt: "Sharmaine at Tiny's memorial" },
+]
+const sharmainePromisePhotos = [
+  { number: "01", src: "/images/maine-pet-summer-3.jpg", alt: "Summer the white puppy sitting on a blanket", objectPosition: "center 40%" },
+  { number: "02", src: "/images/maine-pet-potchi.jpg", alt: "Potchi the puppy wearing a gray harness", objectPosition: "center 35%" },
+]
+const sharmainePetPhotos = [
+  { src: "/images/maine-pet-tiny.jpg", name: "Tiny", alt: "Tiny looking up with a smile" },
+  { src: "/images/maine-pet-lany.png", name: "Lany", alt: "Lany the white cat wearing a blue collar" },
+  { src: "/images/maine-pet-maky-2.jpg", name: "Maky", alt: "Maky smiling close to the camera", objectPosition: "center 42%" },
+  { src: "/images/maine-pet-snowy-3.jpg", name: "Snowy", alt: "Snowy smiling at the camera" },
+  { src: "/images/maine-pet-mal-3.jpg", name: "Mal", alt: "Mal the white cat with black ears" },
+  { src: "/images/maine-pet-taytay-2.jpg", name: "Taytay", alt: "Taytay sitting on a tiled floor" },
+  { src: "/images/maine-pet-summer-3.jpg", name: "Summer", alt: "Summer the white puppy sitting on a blanket", objectPosition: "center 40%" },
+  { src: "/images/maine-pet-potchi.jpg", name: "Potchi", alt: "Potchi the puppy wearing a gray harness", objectPosition: "center 35%" },
+]
 const charlesPetPhotos = [
   { src: "/images/charles-pet-queen.png", name: "Cupcake", alt: "Cupcake wearing a lavender hoodie" },
   { src: "/images/charles-pet-01.jpg", name: "Twinkle", alt: "Twinkle looking to the side" },
@@ -89,12 +127,16 @@ export default function Portfolio() {
     ? { src: "/images/charles-dog-main.png", alt: "Charles's dog wearing a lavender costume" }
     : profile?.slug === "ia"
       ? { src: "/images/profile-ia-main.jpg", alt: "Ia with Bilog" }
-      : null
+      : profile?.slug === "sharmaine"
+        ? { src: "/images/maine-pet-tiny-2.jpg", alt: "Sharmaine with Tiny", position: "center 42%" }
+        : null
   const petPhotos = profile?.slug === "ia"
     ? iaPetPhotos
     : profile?.slug === "charles"
       ? charlesPetPhotos
-      : null
+      : profile?.slug === "sharmaine"
+        ? sharmainePetPhotos
+        : null
   const featuredPetPhoto = profile?.slug === "charles" ? charlesPetPhotos[0] : null
   const galleryPetPhotos = profile?.slug === "charles" ? charlesPetPhotos.slice(1) : petPhotos
   usePageTitle(profile ? `${profile.name} · Three Voices` : "Page not found · Three Voices")
@@ -144,6 +186,7 @@ export default function Portfolio() {
                   src={mainPhoto.src}
                   alt={mainPhoto.alt}
                   className="size-full rounded-[inherit] object-cover"
+                  style={mainPhoto.position ? { objectPosition: mainPhoto.position } : undefined}
                 />
               ) : (
                 <>
@@ -173,6 +216,15 @@ export default function Portfolio() {
                     alt="Ia with Maui the cat"
                     className="absolute inset-0 size-full rounded-[inherit] object-cover"
                     style={{ objectPosition: "center 35%" }}
+                  />
+                </div>
+              ) : profile.slug === "sharmaine" ? (
+                <div className="profile-side-photo">
+                  <img
+                    src="/images/maine-pet-dogs.jpg"
+                    alt="Sharmaine with her dogs beside a Christmas tree"
+                    className="absolute inset-0 size-full rounded-[inherit] object-cover"
+                    style={{ objectPosition: "62% center" }}
                   />
                 </div>
               ) : (
@@ -205,7 +257,9 @@ export default function Portfolio() {
             <p className="profile-section-lede">
               {profile.slug === "ia"
                 ? "Saturday baths, fierce companions, and the lessons my dogs and cats teach me about care."
-                : `A space for ${profile.name} to share experiences, memories, and what this cause means to them.`}
+                : profile.slug === "sharmaine"
+                  ? "A first dog named Tiny, a fur family of six, and the promise I made after losing him."
+                  : `A space for ${profile.name} to share experiences, memories, and what this cause means to them.`}
             </p>
           </div>
 
@@ -285,6 +339,102 @@ export default function Portfolio() {
                   </p>
                 </div>
                 <StoryPhotos photos={storyPhotos.slice(6, 8)} />
+              </article>
+            </div>
+          ) : profile.slug === "sharmaine" ? (
+            <div className="profile-story-chapters">
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>Someone was waiting at the door</h3>
+                  <p>
+                    Ever since I was a little kid, I wanted a dog to take care of. Before the pandemic, that wish became Tiny.
+                    He was my very first dog, Tiny Bubbles, and he changed the way coming home felt.
+                  </p>
+                  <p>
+                    After school, I walked faster because I knew someone was waiting. He would wiggle his tail, cry, and get so
+                    excited that he had to lick my face. That welcome was the best part of the day.
+                  </p>
+                </div>
+                <StoryPhotos photos={sharmaineTinyPhotos} />
+              </article>
+
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>Lany came, and then Mal</h3>
+                  <p>
+                    Then the cats arrived. Lany showed up at our house out of nowhere. She became the mother of Mal, a cute little cat
+                    who grew up with us.
+                  </p>
+                  <p>
+                    Lany never found her way back home. Mal is in heaven now. They were only with us for a while, and I still carry both of them.
+                  </p>
+                </div>
+                <StoryPhotos photos={sharmaineCatPhotos} />
+              </article>
+
+              <article className="profile-story-chapter profile-sleepy-chapter">
+                <div className="profile-story-copy">
+                  <h3>Six dogs, one fur family</h3>
+                  <p>
+                    New dogs kept arriving, after months, and after more months, until our fur family grew to six.
+                  </p>
+                  <p>
+                    There is Tiny Bubbles. Then Macchiato, “Maky.” Princess “Snowy” Snow White. Queen Taylor Swift, “Taytay,”
+                    because she was born on December 13. Summer Ato, the son of Macchiato and Snowy. And Potchi.com, the son of
+                    Tiny and Snowy. We could not think of a last name for him, so Potchi.com stayed.
+                  </p>
+                </div>
+                <StoryPhotos photos={sharmaineFamilyPhotos} />
+              </article>
+
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>Tricks, tails, and goofy sleep</h3>
+                  <p>
+                    The pandemic and online classes gave me more time with them. I trained them and taught them tricks: sit, give me
+                    your hands, stand up, play dead, roll over, and even close the door.
+                  </p>
+                  <p>
+                    They made me feel loved. I am happier more often because of them, especially when I catch their goofy sleeping
+                    positions and those wiggling tails.
+                  </p>
+                </div>
+                <StoryPhotos photos={sharmaineBondPhotos} />
+              </article>
+
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>One last lap around Longos</h3>
+                  <p>
+                    In May 2025, I went through one of the most heartbreaking and frightening nights of my life. I lost my first dog.
+                    Tiny went missing, and we looked for him for almost six hours straight into the evening.
+                  </p>
+                  <p>
+                    We were close to stopping and continuing in the morning. Then we took one last lap around Longos. My sister found
+                    Tiny lying on the road. He was no longer breathing.
+                  </p>
+                  <p>
+                    I still have the should-haves. I wish I had played with him more, instead of staying buried in schoolwork. I wish
+                    we had searched that road sooner. Maybe we could still have saved him. It broke my heart.
+                  </p>
+                </div>
+                <StoryPhotos photos={sharmaineHeavenPhotos} />
+              </article>
+
+              <article className="profile-story-chapter">
+                <div className="profile-story-copy">
+                  <h3>They only have us</h3>
+                  <p>
+                    After that loss, I promised myself I would give all the love I have to my pets, and to other pets too. I want to
+                    spoil my dogs. We are the only ones they have, and they want to bond and play with us. I buy their food now.
+                    I put the phone down, play with them, walk with them, and feed them.
+                  </p>
+                  <p>
+                    Pets should be treated as someone you care for. We have so many places to go and so many people to talk to.
+                    Our pets only have us, and they will only go wherever we are.
+                  </p>
+                </div>
+                <StoryPhotos photos={sharmainePromisePhotos} />
               </article>
             </div>
           ) : (
@@ -551,13 +701,14 @@ export default function Portfolio() {
               </div>
             )}
             {galleryPetPhotos
-              ? galleryPetPhotos.map(({ src, name, alt }) => (
+              ? galleryPetPhotos.map(({ src, name, alt, objectPosition }) => (
                   <figure key={src} className="group relative aspect-square overflow-hidden rounded-2xl">
                     <img
                       src={src}
                       alt={alt || name}
                       loading="lazy"
                       className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      style={objectPosition ? { objectPosition } : undefined}
                     />
                     <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-sm font-semibold text-white">
                       {name}
