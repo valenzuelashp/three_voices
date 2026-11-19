@@ -1,6 +1,6 @@
 import { Link, Navigate, useParams } from "react-router-dom"
 import { ArrowDown, ArrowLeft, ArrowRight, Pause, PawPrint, Play, Plus } from "lucide-react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Container from "../components/Container"
 import { profiles } from "../data/site"
 import usePageTitle from "../usePageTitle"
@@ -67,39 +67,38 @@ const iaPetPhotos = [
   { src: "/images/pet-momo.jpg", name: "Momo" },
 ]
 const sharmaineTinyPhotos = [
-  { number: "01", src: "/images/maine-pet-tiny.jpg", alt: "Tiny looking up with a smile" },
-  { number: "02", src: "/images/maine-pet-tiny-2.jpg", alt: "Sharmaine with Tiny", objectPosition: "center 42%" },
+  { number: "01", src: "/images/maine-pet-tiny-2.jpg", alt: "Sharmaine with Tiny", objectPosition: "center 42%" },
 ]
 const sharmaineCatPhotos = [
   { number: "01", src: "/images/maine-pet-lany.png", alt: "Lany the white cat wearing a blue collar", objectPosition: "center 32%" },
-  { number: "02", src: "/images/maine-pet-mal-3.jpg", alt: "Mal the white cat with black ears" },
+  { number: "02", src: "/images/maine-pet-mal.jpg", alt: "Mal the white cat with black patches and a red bell", objectPosition: "center 40%" },
 ]
 const sharmaineFamilyPhotos = [
-  { number: "Tiny", src: "/images/maine-pet-tiny.jpg", alt: "Tiny looking up with a smile" },
+  { number: "Tiny", src: "/images/maine-pet-tiny-3.jpg", alt: "Tiny sitting behind a Happy Birthday Tiny sign", objectPosition: "center 32%" },
   { number: "Maky", src: "/images/maine-pet-maky.jpg", alt: "Maky sitting up and looking at a treat", objectPosition: "center 28%" },
-  { number: "Snowy", src: "/images/maine-pet-snowy-3.jpg", alt: "Snowy smiling at the camera" },
-  { number: "Taytay", src: "/images/maine-pet-taytay-2.jpg", alt: "Taytay sitting on a tiled floor" },
-  { number: "Summer", src: "/images/maine-pet-summer-3.jpg", alt: "Summer the white puppy sitting on a blanket", objectPosition: "center 40%" },
-  { number: "Potchi", src: "/images/maine-pet-potchi.jpg", alt: "Potchi the puppy wearing a gray harness", objectPosition: "center 35%" },
+  { number: "Snowy", src: "/images/maine-pet-snowy-2.jpg", alt: "Snowy sitting in the car and looking out the window", objectPosition: "center 40%" },
+  { number: "Taytay", src: "/images/maine-pet-taytay.jpg", alt: "Taytay walking on a leash", objectPosition: "center 55%" },
+  { number: "Summer", src: "/images/maine-pet-summer-2.jpg", alt: "Summer the puppy lying down with her tongue out", objectPosition: "center 45%" },
+  { number: "Potchi", src: "/images/maine-pet-potchi-2.jpg", alt: "Sharmaine holding Potchi on the couch", objectPosition: "62% center" },
 ]
 const sharmaineBondPhotos = [
-  { number: "01", src: "/images/maine-pet-maky.jpg", alt: "Maky sitting up and looking at a treat", objectPosition: "center 28%" },
-  { number: "02", src: "/images/maine-pet-dogs.jpg", alt: "Sharmaine with her dogs beside a Christmas tree", objectPosition: "center 45%" },
+  { number: "01", src: "/images/maine-pet-snowy.jpg", alt: "Sharmaine resting on the couch with Snowy", objectPosition: "center 42%" },
+  { number: "02", src: "/images/maine-pet-summer.jpg", alt: "Summer standing with her head in the refrigerator", objectPosition: "center 40%" },
 ]
 const sharmaineHeavenPhotos = [
   { number: "01", src: "/images/maine-pet-tiny-heaven.jpg", alt: "Tiny's memorial, with his photo among the flowers" },
   { number: "02", src: "/images/maine-pet-tiny-heaven-2.jpg", alt: "Sharmaine at Tiny's memorial" },
 ]
 const sharmainePromisePhotos = [
-  { number: "01", src: "/images/maine-pet-summer-3.jpg", alt: "Summer the white puppy sitting on a blanket", objectPosition: "center 40%" },
-  { number: "02", src: "/images/maine-pet-potchi.jpg", alt: "Potchi the puppy wearing a gray harness", objectPosition: "center 35%" },
+  { number: "01", src: "/images/maine-pet-taytay-3.jpg", alt: "Taytay lying on her back in someone's arms", objectPosition: "center 32%" },
+  { number: "02", src: "/images/maine-pet-mal-2.jpg", alt: "Mal lying on a green blanket with a red bell", objectPosition: "center 40%" },
 ]
 const sharmainePetPhotos = [
-  { src: "/images/maine-pet-tiny.jpg", name: "Tiny", alt: "Tiny looking up with a smile" },
-  { src: "/images/maine-pet-lany.png", name: "Lany", alt: "Lany the white cat wearing a blue collar" },
+  { src: "/images/maine-pet-tiny.jpg", name: "Tiny 😇", alt: "Tiny looking up with a smile" },
+  { src: "/images/maine-pet-lany.png", name: "Lany 😇", alt: "Lany the white cat wearing a blue collar" },
   { src: "/images/maine-pet-maky-2.jpg", name: "Maky", alt: "Maky smiling close to the camera", objectPosition: "center 42%" },
   { src: "/images/maine-pet-snowy-3.jpg", name: "Snowy", alt: "Snowy smiling at the camera" },
-  { src: "/images/maine-pet-mal-3.jpg", name: "Mal", alt: "Mal the white cat with black ears" },
+  { src: "/images/maine-pet-mal-3.jpg", name: "Mal 😇", alt: "Mal the white cat with black ears" },
   { src: "/images/maine-pet-taytay-2.jpg", name: "Taytay", alt: "Taytay sitting on a tiled floor" },
   { src: "/images/maine-pet-summer-3.jpg", name: "Summer", alt: "Summer the white puppy sitting on a blanket", objectPosition: "center 40%" },
   { src: "/images/maine-pet-potchi.jpg", name: "Potchi", alt: "Potchi the puppy wearing a gray harness", objectPosition: "center 35%" },
@@ -342,101 +341,7 @@ export default function Portfolio() {
               </article>
             </div>
           ) : profile.slug === "sharmaine" ? (
-            <div className="profile-story-chapters">
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>Someone was waiting at the door</h3>
-                  <p>
-                    Ever since I was a little kid, I wanted a dog to take care of. Before the pandemic, that wish became Tiny.
-                    He was my very first dog, Tiny Bubbles, and he changed the way coming home felt.
-                  </p>
-                  <p>
-                    After school, I walked faster because I knew someone was waiting. He would wiggle his tail, cry, and get so
-                    excited that he had to lick my face. That welcome was the best part of the day.
-                  </p>
-                </div>
-                <StoryPhotos photos={sharmaineTinyPhotos} />
-              </article>
-
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>Lany came, and then Mal</h3>
-                  <p>
-                    Then the cats arrived. Lany showed up at our house out of nowhere. She became the mother of Mal, a cute little cat
-                    who grew up with us.
-                  </p>
-                  <p>
-                    Lany never found her way back home. Mal is in heaven now. They were only with us for a while, and I still carry both of them.
-                  </p>
-                </div>
-                <StoryPhotos photos={sharmaineCatPhotos} />
-              </article>
-
-              <article className="profile-story-chapter profile-sleepy-chapter">
-                <div className="profile-story-copy">
-                  <h3>Six dogs, one fur family</h3>
-                  <p>
-                    New dogs kept arriving, after months, and after more months, until our fur family grew to six.
-                  </p>
-                  <p>
-                    There is Tiny Bubbles. Then Macchiato, “Maky.” Princess “Snowy” Snow White. Queen Taylor Swift, “Taytay,”
-                    because she was born on December 13. Summer Ato, the son of Macchiato and Snowy. And Potchi.com, the son of
-                    Tiny and Snowy. We could not think of a last name for him, so Potchi.com stayed.
-                  </p>
-                </div>
-                <StoryPhotos photos={sharmaineFamilyPhotos} />
-              </article>
-
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>Tricks, tails, and goofy sleep</h3>
-                  <p>
-                    The pandemic and online classes gave me more time with them. I trained them and taught them tricks: sit, give me
-                    your hands, stand up, play dead, roll over, and even close the door.
-                  </p>
-                  <p>
-                    They made me feel loved. I am happier more often because of them, especially when I catch their goofy sleeping
-                    positions and those wiggling tails.
-                  </p>
-                </div>
-                <StoryPhotos photos={sharmaineBondPhotos} />
-              </article>
-
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>One last lap around Longos</h3>
-                  <p>
-                    In May 2025, I went through one of the most heartbreaking and frightening nights of my life. I lost my first dog.
-                    Tiny went missing, and we looked for him for almost six hours straight into the evening.
-                  </p>
-                  <p>
-                    We were close to stopping and continuing in the morning. Then we took one last lap around Longos. My sister found
-                    Tiny lying on the road. He was no longer breathing.
-                  </p>
-                  <p>
-                    I still have the should-haves. I wish I had played with him more, instead of staying buried in schoolwork. I wish
-                    we had searched that road sooner. Maybe we could still have saved him. It broke my heart.
-                  </p>
-                </div>
-                <StoryPhotos photos={sharmaineHeavenPhotos} />
-              </article>
-
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>They only have us</h3>
-                  <p>
-                    After that loss, I promised myself I would give all the love I have to my pets, and to other pets too. I want to
-                    spoil my dogs. We are the only ones they have, and they want to bond and play with us. I buy their food now.
-                    I put the phone down, play with them, walk with them, and feed them.
-                  </p>
-                  <p>
-                    Pets should be treated as someone you care for. We have so many places to go and so many people to talk to.
-                    Our pets only have us, and they will only go wherever we are.
-                  </p>
-                </div>
-                <StoryPhotos photos={sharmainePromisePhotos} />
-              </article>
-            </div>
+            <MaineStory />
           ) : (
             <div className={`profile-story-grid${profile.slug === "charles" ? " profile-story-grid--charles" : ""}`}>
               <article className="profile-story-card">
@@ -741,9 +646,246 @@ export default function Portfolio() {
   )
 }
 
+const maineChapters = [
+  { id: "maine-waiting", label: "Tiny" },
+  { id: "maine-cats", label: "The cats" },
+  { id: "maine-family", label: "The six" },
+  { id: "maine-tricks", label: "Tricks" },
+  { id: "maine-longos", label: "Longos" },
+  { id: "maine-promise", label: "The promise" },
+]
+
+const sharmaineFamilyCast = [
+  { name: "Tiny Bubbles", note: "The first one at the door." },
+  { name: "Macchiato, “Maky”", note: "Maky, for short." },
+  { name: "Princess “Snowy” Snow White", note: "Mother of Summer and Potchi." },
+  { name: "Queen Taylor Swift, “Taytay”", note: "Born on December 13." },
+  { name: "Summer Ato", note: "Son of Macchiato and Snowy." },
+  { name: "Potchi.com", note: "Son of Tiny and Snowy. No last name ever came to mind, so Potchi.com stayed." },
+]
+
+function MaineStory() {
+  const pathRef = useRef(null)
+  const [active, setActive] = useState(maineChapters[0].id)
+  const activeIndex = Math.max(0, maineChapters.findIndex((chapter) => chapter.id === active))
+
+  useEffect(() => {
+    const nodes = maineChapters.map((chapter) => document.getElementById(chapter.id)).filter(Boolean)
+    if (!nodes.length) return undefined
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+      if (visible?.target?.id) setActive(visible.target.id)
+    }, { rootMargin: "-28% 0px -52% 0px", threshold: [0.15, 0.4, 0.7] })
+    nodes.forEach((node) => observer.observe(node))
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const nav = pathRef.current
+    const current = nav?.querySelector("[aria-current='true']")
+    if (!nav || !current) return
+    const navBox = nav.getBoundingClientRect()
+    const chip = current.getBoundingClientRect()
+    if (chip.left < navBox.left) nav.scrollLeft -= navBox.left - chip.left + 8
+    else if (chip.right > navBox.right) nav.scrollLeft += chip.right - navBox.right + 8
+  }, [active])
+
+  return (
+    <div className="profile-story-chapters profile-story-chapters--maine">
+      <div className="profile-story-path-wrap">
+        <nav ref={pathRef} className="profile-story-path" aria-label="Chapters in this story">
+          {maineChapters.map((chapter, chapterIndex) => (
+            <a key={chapter.id} href={`#${chapter.id}`} aria-current={active === chapter.id ? "true" : undefined}>
+              <span>{String(chapterIndex + 1).padStart(2, "0")}</span>
+              {chapter.label}
+            </a>
+          ))}
+        </nav>
+        <div className="profile-story-path-meter" style={{ "--step": activeIndex }} aria-hidden="true" />
+      </div>
+
+      <article id="maine-waiting" className="profile-story-chapter">
+        <div className="profile-story-copy">
+          <div className="profile-story-beat-mark">
+            <span className="profile-story-num">01</span>
+            <p className="profile-story-kicker">The first dog</p>
+          </div>
+          <h3>Someone was waiting at the door</h3>
+          <p className="profile-story-scene">After school, I walked faster. Someone was already waiting.</p>
+          <p>
+            Ever since I was a little kid, I wanted a dog to take care of. Before the pandemic, that wish became Tiny Bubbles,
+            my very first dog. He changed the way coming home felt.
+          </p>
+          <p>
+            He would wiggle his tail, cry, and get so excited that he had to lick my face. That welcome was the best part of the day.
+          </p>
+        </div>
+        <StoryPhotos photos={sharmaineTinyPhotos} />
+      </article>
+
+      <article id="maine-cats" className="profile-story-chapter profile-story-chapter--flip">
+        <div className="profile-story-copy">
+          <div className="profile-story-beat-mark">
+            <span className="profile-story-num">02</span>
+            <p className="profile-story-kicker">The cats</p>
+          </div>
+          <h3>Lany came, and then Mal</h3>
+          <p>
+            Lany showed up at our house out of nowhere. She became the mother of Mal, a cute little cat who grew up with us.
+          </p>
+          <p>
+            Lany never found her way back home. Mal is in heaven now. They were only with us for a while, and I still carry both of them.
+          </p>
+        </div>
+        <StoryPhotos photos={sharmaineCatPhotos} />
+      </article>
+
+      <FamilyChapter />
+
+      <article id="maine-tricks" className="profile-story-chapter profile-story-chapter--flip">
+        <div className="profile-story-copy">
+          <div className="profile-story-beat-mark">
+            <span className="profile-story-num">04</span>
+            <p className="profile-story-kicker">Pandemic days</p>
+          </div>
+          <h3>Tricks, tails, and goofy sleep</h3>
+          <p>Online classes gave me more time with them, so I taught them one trick at a time.</p>
+          <ul className="profile-story-tricks">
+            <li>Sit</li>
+            <li>Give me your hands</li>
+            <li>Stand up</li>
+            <li>Play dead</li>
+            <li>Roll over</li>
+            <li>Close the door</li>
+          </ul>
+          <p>
+            They made me feel loved. I am happier more often because of them, especially when I catch their goofy sleeping
+            positions and those wiggling tails.
+          </p>
+        </div>
+        <StoryPhotos photos={sharmaineBondPhotos} />
+      </article>
+
+      <article id="maine-longos" className="profile-story-chapter profile-story-chapter--quiet">
+        <div className="profile-story-copy">
+          <div className="profile-story-beat-mark">
+            <span className="profile-story-num">05</span>
+            <p className="profile-story-kicker">May 2025</p>
+          </div>
+          <h3>One last lap around Longos</h3>
+          <p className="profile-story-scene">We were about to stop for the night. Then we took one last lap.</p>
+          <p>
+            Tiny went missing. We looked for him for almost six hours, straight into the evening, around Longos. It was one of
+            the most heartbreaking and frightening nights of my life.
+          </p>
+          <p>My sister found him lying on the road. He was no longer breathing.</p>
+          <p>
+            I still have the should-haves. I wish I had played with him more, instead of staying buried in schoolwork. I wish
+            we had searched that road sooner. Maybe we could still have saved him.
+          </p>
+        </div>
+        <StoryPhotos photos={sharmaineHeavenPhotos} />
+      </article>
+
+      <article id="maine-promise" className="profile-story-chapter">
+        <div className="profile-story-copy">
+          <div className="profile-story-beat-mark">
+            <span className="profile-story-num">06</span>
+            <p className="profile-story-kicker">The promise</p>
+          </div>
+          <h3>They only have us</h3>
+          <p>
+            After that loss, I promised to give all the love I have to my pets, and to other pets too. I spoil my dogs now.
+            I buy their food. I put the phone down, play with them, walk with them, and feed them.
+          </p>
+          <p>Pets should be treated as someone you care for.</p>
+          <p className="profile-story-close">
+            We have so many places to go, and so many people to talk to. Our pets only have us, and they will only go wherever we are.
+          </p>
+        </div>
+        <StoryPhotos photos={sharmainePromisePhotos} />
+      </article>
+    </div>
+  )
+}
+
+function FamilyChapter() {
+  const [index, setIndex] = useState(0)
+
+  return (
+    <article id="maine-family" className="profile-story-chapter">
+      <div className="profile-story-copy">
+        <div className="profile-story-beat-mark">
+          <span className="profile-story-num">03</span>
+          <p className="profile-story-kicker">The fur family</p>
+        </div>
+        <h3>Six dogs, one fur family</h3>
+        <p>New dogs kept arriving, after months, and after more months, until the house held six.</p>
+        <ul className="profile-story-cast">
+          {sharmaineFamilyCast.map((dog, dogIndex) => (
+            <li key={dog.name}>
+              <button
+                type="button"
+                className={dogIndex === index ? "is-active" : undefined}
+                aria-current={dogIndex === index ? "true" : undefined}
+                onClick={() => setIndex(dogIndex)}
+              >
+                <strong>{dog.name}</strong>
+                <span>{dog.note}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <StoryPhotoReel photos={sharmaineFamilyPhotos} index={index} setIndex={setIndex} />
+    </article>
+  )
+}
+
+function StoryPhotoReel({ photos, index, setIndex }) {
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduce || paused || photos.length < 2) return undefined
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % photos.length)
+    }, 2800)
+    return () => window.clearInterval(timer)
+  }, [paused, photos.length, setIndex])
+
+  return (
+    <div
+      className="profile-story-reel"
+      aria-roledescription="carousel"
+      aria-label="The fur family"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {photos.map((photo, photoIndex) => (
+        <figure
+          key={photo.src}
+          className={`profile-story-photo profile-story-reel-photo${photoIndex === index ? " is-active" : ""}`}
+          aria-hidden={photoIndex === index ? undefined : true}
+        >
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            className="size-full object-cover"
+            style={photo.objectPosition ? { objectPosition: photo.objectPosition } : undefined}
+          />
+          <figcaption>{photo.number}</figcaption>
+        </figure>
+      ))}
+    </div>
+  )
+}
+
 function StoryPhotos({ photos }) {
   return (
-    <div className="profile-story-photos" aria-label="Photos for this story section">
+    <div className={`profile-story-photos${photos.length === 1 ? " profile-story-photos--single" : ""}`} aria-label="Photos for this story section">
       {photos.map((photo) => <StoryPhoto key={photo.number} photo={photo} />)}
     </div>
   )

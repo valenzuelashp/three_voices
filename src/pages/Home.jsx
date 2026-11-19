@@ -136,6 +136,8 @@ export default function Home() {
         </Container>
       </section>
 
+      <PetGallery />
+
       <section className="home-paper-section py-10 sm:py-14 lg:py-16" aria-labelledby="featured-issue-title">
         <Container>
           <div className="mb-5 text-center sm:mb-7">
