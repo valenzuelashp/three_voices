@@ -729,6 +729,18 @@ body {
   line-height: 1.7;
 }
 
+#profile-story .profile-section-lede {
+  max-width: none;
+  margin: 0.65rem 0 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  #profile-story .profile-section-lede {
+    white-space: normal;
+  }
+}
+
 .profile-story-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -788,6 +800,57 @@ body {
   margin: 0 0 0.85rem;
 }
 
+.profile-story-quote {
+  border-left: 2px solid var(--palette-animals);
+  padding-left: 0.85rem;
+  color: var(--profile-ink);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.profile-story-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+}
+
+.profile-story-filter {
+  display: inline-flex;
+  min-height: 2.45rem;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--palette-paper-ink) 14%, transparent);
+  border-radius: 9999px;
+  padding: 0.55rem 0.9rem;
+  color: var(--profile-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.profile-story-filter span {
+  color: color-mix(in srgb, var(--palette-animals) 72%, var(--profile-muted));
+  font-family: var(--font-logo);
+  font-size: 0.54rem;
+}
+
+.profile-story-filter:hover,
+.profile-story-filter[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--palette-animals) 62%, transparent);
+  background: color-mix(in srgb, var(--palette-animals) 18%, transparent);
+  color: var(--profile-ink);
+}
+
+.profile-story-filter:focus-visible {
+  outline: 2px solid var(--palette-animals);
+  outline-offset: 3px;
+}
+
 .profile-story-chapters {
   display: grid;
   gap: clamp(0.9rem, 2vw, 1.4rem);
@@ -831,6 +894,133 @@ body {
 
 .profile-story-chapter .profile-story-copy {
   margin-top: 0;
+}
+
+.profile-story-chapter--media-left {
+  align-items: start;
+}
+
+.profile-story-chapter--media-left .profile-story-copy {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.profile-story-chapter--media-left .profile-story-media {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.profile-story-chapter--media-center {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.profile-story-chapter--media-center .profile-story-copy {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.profile-story-chapter--media-center .profile-story-media {
+  width: 100%;
+  max-width: 54rem;
+  margin-inline: auto;
+}
+
+.profile-story-media {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.profile-story-chapters--ia .profile-story-chapter {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.profile-story-chapters--ia #story-growth {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.profile-story-chapters--ia .profile-story-media {
+  width: 100%;
+  max-width: none;
+  justify-self: end;
+  gap: 0.5rem;
+}
+
+.profile-story-chapters--ia .profile-story-chapter--media-left {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.profile-story-chapters--ia .profile-story-chapter--media-left .profile-story-media {
+  justify-self: end;
+}
+
+.profile-story-chapters--ia #story-holidays .profile-story-copy {
+  align-self: center;
+}
+
+.profile-story-chapters--ia .profile-story-chapter--media-center .profile-story-media {
+  max-width: 48rem;
+  justify-self: center;
+}
+
+.profile-story-chapters--ia #story-love .profile-story-media {
+  max-width: 32rem;
+}
+
+.profile-story-chapters--ia #story-growth .profile-story-media-item--wide {
+  grid-column: auto;
+}
+
+.profile-story-chapters--ia .profile-story-media-item {
+  border-radius: 0.75rem;
+}
+
+.profile-story-media-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--palette-animals) 12%, var(--profile-paper));
+}
+
+.profile-story-media-item--portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.profile-story-media-item--square {
+  aspect-ratio: 1;
+}
+
+.profile-story-media-item--landscape {
+  aspect-ratio: 4 / 3;
+}
+
+.profile-story-media-item--wide {
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+}
+
+.profile-story-media-item img,
+.profile-story-media-item video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-story-media-item--contain img {
+  object-fit: contain;
+}
+
+.profile-story-media-item figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 2.4rem 0.75rem 0.65rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 600;
 }
 
 .profile-story-copy p.profile-story-kicker {
@@ -941,6 +1131,42 @@ body {
 @media (min-width: 640px) {
   .profile-story-chapter--flip .profile-story-copy {
     order: 2;
+  }
+}
+
+@media (max-width: 639px) {
+  .profile-story-chapter--media-left .profile-story-copy,
+  .profile-story-chapter--media-left .profile-story-media {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .profile-story-chapters--ia .profile-story-chapter--media-left .profile-story-media {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-story-chapters--ia .profile-story-chapter {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .profile-story-chapters--ia .profile-story-chapter--media-left {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .profile-story-chapters--ia .profile-story-chapter--media-left .profile-story-copy,
+  .profile-story-chapters--ia .profile-story-chapter--media-left .profile-story-media {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .profile-story-chapters--ia .profile-story-chapter--media-left .profile-story-media {
+    justify-self: center;
+  }
+
+  .profile-story-chapters--ia .profile-story-media {
+    justify-self: center;
   }
 }
 
@@ -1215,6 +1441,16 @@ body {
   text-align: center;
 }
 
+.profile-pet-featured--parents {
+  max-width: 38rem;
+}
+
+.profile-pet-featured-parents {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
 .profile-story-chapter--vice .profile-story-photo {
   aspect-ratio: 2 / 3;
 }
@@ -1262,6 +1498,11 @@ body {
   overflow: hidden;
   border-radius: 0.85rem;
   background: #000;
+}
+
+.profile-story-mukbang .profile-story-video-wrap {
+  max-width: 48rem;
+  margin: 1rem auto 0;
 }
 
 .profile-story-video {

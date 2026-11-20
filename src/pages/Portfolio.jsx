@@ -1,6 +1,6 @@
 import { Link, Navigate, useParams } from "react-router-dom"
 import { ArrowDown, ArrowLeft, ArrowRight, Pause, PawPrint, Play, Plus } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 import Container from "../components/Container"
 import { profiles } from "../data/site"
 import usePageTitle from "../usePageTitle"
@@ -20,6 +20,109 @@ const storyPhotos = [
   { number: "06", src: "/images/ia-bilog.jpg", alt: "Bilog sitting and looking at the camera" },
   { number: "07", src: "/images/ia-yeongtan-maliya-story.jpg", alt: "Yeongtan and Maliya together as puppies" },
   { number: "08", src: "/images/ia-cookies-puppies.jpg", alt: "Cookie's three puppies together" },
+]
+const iaStoryFilters = [
+  { id: "routine", label: "Routine" },
+  { id: "keepsakes", label: "Keepsakes" },
+  { id: "holidays", label: "Holidays" },
+  { id: "memories", label: "Memories" },
+  { id: "growth", label: "Growth" },
+  { id: "love", label: "Love" },
+]
+const iaStorySections = [
+  {
+    id: "routine",
+    category: "routine",
+    title: "Every pet gets a birthday, and every Saturday gets a bath",
+    position: "right",
+    paragraphs: [
+      "In our house, no pet's birthday goes uncelebrated. Cookie, our oldest dog, turned eight last September 14, and we marked it the way we mark all of them: together.",
+      "On Saturdays, I turn into the family dog groomer. Cookie, Bilog, and Yeongtan shower together. Maliya and Brownie go next. Coffee gets his own turn. Cookie's three babies aren't old enough yet, so they just watch the chaos.",
+    ],
+    media: [
+      { type: "image", src: "/images/ia-story/cookie-birthday.jpg", alt: "Cookie's birthday celebration", caption: "Cookie's birthday", shape: "portrait" },
+      { type: "image", src: "/images/ia-story/cookie-bilog-bath.jpg", alt: "Cookie and Bilog on bath day", caption: "Saturday bath day", shape: "portrait" },
+    ],
+  },
+  {
+    id: "keepsakes",
+    category: "keepsakes",
+    title: "They Make Every Day Special",
+    position: "center",
+    paragraphs: [
+      "Nothing big has to happen for a day at our house to feel special. They take care of that on their own.",
+      "Cookie is an aspin we got from Papa's friend when I was in high school, so she has been with me through all of it. She climbs ladders, sits on chairs, and cries when she wants your attention. She has already \"mukbang-ed\" our viand twice, and we can't blame her, because we spoiled her. She looks like a cute sealion but she's fierce, so she's on a leash whenever we have visitors. I love teasing her because she gets rage-baited so easily.",
+      "Bilog is Cookie and Potpot's child, named for how chunky and round she was as a puppy. She's quiet, well-behaved, and looks like a corgi: long, short, and cute. Whenever I'm sad, she comes and sits beside me while I figure things out. Bilog is my comfort.",
+      "Our three cats are just as loved. Momo, 4, is sweet and gentle. Her son Mimo, 3, is brave and always out on an adventure. Maui, 2, is half Siamese and half orange, and loves being petted. All three love doing biscuits, which is my favorite thing to watch. Between them all, there's always something to laugh at or find calm in, and that's why every day feels special.",
+    ],
+    media: [
+      { type: "image", src: "/images/ia-story/cookie-3.jpg", alt: "Cookie looking at the camera", caption: "Cookie", shape: "portrait" },
+      { type: "image", src: "/images/ia-story/bilog-6.jpg", alt: "Bilog sitting on the floor and looking up at the camera", caption: "Bilog", shape: "portrait" },
+      { type: "video", src: "/videos/ia-story/momo-biscuits.mp4", alt: "Momo kneading her biscuits", caption: "Momo doing biscuits", shape: "portrait" },
+      { type: "image", src: "/images/ia-story/maui-1.jpg", alt: "Maui playing with a toy", caption: "Maui", shape: "portrait" },
+    ],
+  },
+  {
+    id: "holidays",
+    category: "holidays",
+    title: "Holidays Look Better with Fur",
+    position: "left",
+    paragraphs: [
+      "Holidays at our house aren’t complete without the dogs. When a special day comes around, they get dressed up in cute clothes, and we prepare their favorite food so they have something to celebrate too. My sister and I get as excited as they do, and it usually turns into a photo session, with everyone trying to get the dogs to sit still at the same time.",
+      "There’s one part of the holidays they don’t enjoy, and that’s the fireworks. The noise makes them very nervous, so we keep them in our room where it’s calmer, and they even have their own ear muffs. We stay with them until it quiets down. It’s a small thing, but it reminds me that they trust us to look after them even when they’re scared.",
+      "I’ve always thought holidays are about being with the people you love. In our family, that includes the ones with four legs. A holiday is already special, and spending it with them makes it even more so.",
+    ],
+    media: [
+      { type: "video", src: "/videos/ia-story/holidays-1.mp4", alt: "The pets celebrating the holidays", caption: "Holiday moments", shape: "portrait" },
+      { type: "video", src: "/videos/ia-story/holidays-2.mp4", alt: "A second holiday celebration with the pets", caption: "More holiday joy", shape: "portrait" },
+      { type: "image", src: "/images/ia-story/holidays.jpg", alt: "Ia's family celebrating with their pets", caption: "All together for the holidays", shape: "landscape", wide: true },
+    ],
+  },
+  {
+    id: "memories",
+    category: "memories",
+    title: "What We Miss When They’re Gone",
+    position: "right",
+    paragraphs: [
+      "Not everyone who has been part of our family is still here. Potpot lived from 2017 to 2023, and he was the eldest before Cookie. He was brave and cute, and he had his own routine. Every morning and night he was out in the neighborhood, meeting the other dogs, and he could wander five streets away and always come home safe. He was calm but careful, and he was always alert whenever people were around. He could even smell his favorite human from far away. Sadly, he passed away because of parvo.",
+      "Yoshi was one of Bilog’s first puppies, and he was only 5 months old when he passed away this September. He was cute, energetic, and very hard-headed, and he followed us all around the house. He learned to climb the stairs, and he liked to eat his dog food lying down. When he got bored, he played with the older dogs, and when none of them wanted to play, he scattered his food around his bowl and played with that instead. We said goodbye to both of them with a wake, because they were family.",
+      "What we miss most are the small everyday things: Potpot coming home from his rounds, Yoshi following us from room to room. The house feels quieter without them. Their lives were much shorter than ours, and that’s the lesson they’ve left us. Pets won’t be with us forever, so we should love them fully while they’re here, and not wait for a special day to show it.",
+    ],
+    media: [
+      { type: "image", src: "/images/ia-story/potpot-wake.jpg", alt: "Family gathered to remember Potpot", caption: "Remembering Potpot", shape: "landscape", wide: true },
+      { type: "image", src: "/images/ia-story/potpot.jpg", alt: "Potpot resting at home", caption: "Potpot, 2017–2023", shape: "portrait" },
+      { type: "image", src: "/images/ia-story/yoshi.jpg", alt: "Yoshi sitting beside a family member", caption: "Yoshi", shape: "portrait" },
+    ],
+  },
+  {
+    id: "growth",
+    category: "growth",
+    title: "The Little Moments I Keep",
+    position: "center",
+    paragraphs: [
+      "When I think back on them growing up, it’s the small things that stay with me. I remember Bilog as a round, chunky puppy who answered to the name my brother gave her, and I remember Yoshi learning to climb the stairs and scattering his food around his bowl when nobody wanted to play. None of those moments seemed important when they happened, but they’re the ones I replay now.",
+      "Watching them grow up has changed me too. They taught me to be patient, to notice when someone needs company, and to stay close without having to say anything. A simple game can still fix a bad day, and I learned that from them.",
+    ],
+    media: [
+      { type: "video", src: "/videos/ia-story/cookielog.mp4", alt: "A little everyday moment with Cookie", caption: "A day with Cookie", shape: "wide" },
+      { type: "video", src: "/videos/ia-story/yoshi-run.mp4", alt: "Yoshi running around and playing", caption: "Yoshi on the move", shape: "wide" },
+    ],
+  },
+  {
+    id: "love",
+    category: "love",
+    title: "Why They Deserve Our Love",
+    position: "center",
+    paragraphs: [
+      "Dogs and cats can’t tell us when they’re hungry, hurting, or scared. They depend on us for food and a safe place to sleep, and they give us everything they have in return. Every one of them deserves that care, whether they live in a house like ours or on the street.",
+      "Every pet starts out as a tiny baby who needs someone to take care of them. Looking at their baby pictures reminds me how small and trusting they were when they first came into our lives.",
+    ],
+    media: [
+      { type: "image", src: "/images/ia-story/yeongtan-maliya-new.jpg", alt: "Yeongtan and Maliya sitting together as puppies", caption: "Yeongtan and Maliya", shape: "portrait" },
+      { type: "image", src: "/images/ia-story/cookie-puppies.jpg", alt: "Cookie's puppies together", caption: "Cookie's babies", shape: "portrait" },
+    ],
+    quote: "They are only a part of your life, but a dog’s whole life revolves around you.",
+  },
 ]
 const charlesStoryPhotos = [
   { number: "01", src: "/images/charles-dog-story-02.jpg", alt: "Charles's puppy looking at the camera" },
@@ -53,8 +156,9 @@ const charlesSleepyPhotos = [
 ]
 const petPhotoSlots = ["01", "02", "03", "04", "05", "06", "07", "08"]
 const iaPetPhotos = [
+  { src: "/images/pet-sealion-cookie.jpg", name: "Cookie · Mother", alt: "Cookie, mother of Bilog" },
+  { src: "/images/pet-potpot.jpg", name: "Potpot · Father", alt: "Potpot, father of Bilog" },
   { src: "/images/pet-bilog-cute.webp", name: "Bilog" },
-  { src: "/images/pet-sealion-cookie.jpg", name: "Cookie" },
   { src: "/images/pet-yeongtan.jpg", name: "Yeongtan" },
   { src: "/images/pet-brownie.jpg", name: "Brownie" },
   { src: "/images/pet-maliya.jpg", name: "Maliya" },
@@ -65,6 +169,7 @@ const iaPetPhotos = [
   { src: "/images/pet-maui.jpg", name: "Maui" },
   { src: "/images/pet-mimo.jpg", name: "Mimo" },
   { src: "/images/pet-momo.jpg", name: "Momo" },
+  { src: "/images/pet-yoshi.jpg", name: "Yoshi" },
 ]
 const sharmaineTinyPhotos = [
   { number: "01", src: "/images/maine-pet-tiny-2.jpg", alt: "Sharmaine with Tiny", objectPosition: "center 42%" },
@@ -115,8 +220,26 @@ const charlesPetPhotos = [
   { src: "/images/charles-pet-08.jpg", name: "Almond", alt: "Almond sitting on a tiled floor" },
 ]
 
+function StoryMediaItem({ item }) {
+  return (
+    <figure
+      className={`profile-story-media-item profile-story-media-item--${item.shape}${item.wide ? " profile-story-media-item--wide" : ""}${item.fit === "contain" ? " profile-story-media-item--contain" : ""}`}
+    >
+      {item.type === "video" ? (
+        <video autoPlay loop muted playsInline preload="metadata" aria-label={item.alt}>
+          <source src={item.src} type="video/mp4" />
+        </video>
+      ) : (
+        <img src={item.src} alt={item.alt} loading="lazy" />
+      )}
+      <figcaption>{item.caption}</figcaption>
+    </figure>
+  )
+}
+
 export default function Portfolio() {
   const { slug } = useParams()
+  const [activeStoryFilter, setActiveStoryFilter] = useState("all")
   const profile = profiles.find((entry) => entry.slug === slug)
   const experienceVideoRef = useRef(null)
   const [experienceVideoPlaying, setExperienceVideoPlaying] = useState(true)
@@ -137,7 +260,14 @@ export default function Portfolio() {
         ? sharmainePetPhotos
         : null
   const featuredPetPhoto = profile?.slug === "charles" ? charlesPetPhotos[0] : null
-  const galleryPetPhotos = profile?.slug === "charles" ? charlesPetPhotos.slice(1) : petPhotos
+  const galleryPetPhotos = profile?.slug === "charles"
+    ? charlesPetPhotos.slice(1)
+    : profile?.slug === "ia"
+      ? iaPetPhotos.slice(2)
+      : petPhotos
+  const visibleStorySections = activeStoryFilter === "all"
+    ? iaStorySections
+    : iaStorySections.filter((section) => section.category === activeStoryFilter)
   usePageTitle(profile ? `${profile.name} · Three Voices` : "Page not found · Three Voices")
 
   if (!profile) return <NotFound />
@@ -159,7 +289,11 @@ export default function Portfolio() {
                 <span className="profile-title-name">{profile.name}</span>
                 <span className="profile-title-voice">’s voice</span>
               </h1>
-              <p className="profile-intro-copy">A personal connection to a kinder world for animals.</p>
+              <p className="profile-intro-copy">
+                {profile.slug === "ia"
+                  ? "Twelve pets, twelve birthdays, one family—and a life shaped by caring for them."
+                  : "A personal connection to a kinder world for animals."}
+              </p>
               <a href="#profile-story" className="profile-action">
                 Read my story
                 <ArrowDown size={16} aria-hidden="true" />
@@ -238,7 +372,7 @@ export default function Portfolio() {
                   </span>
                 </div>
               )}
-              <p className="profile-caption">A little more about me, coming soon.</p>
+              {profile.slug !== "ia" && <p className="profile-caption">A little more about me, coming soon.</p>}
             </div>
           </div>
         </Container>
@@ -250,96 +384,85 @@ export default function Portfolio() {
             <div>
               <p className="profile-kicker">PERSONAL STORY</p>
               <h2 id="story-title" className="profile-section-title">
-                My story with animals
+                {profile.slug === "ia" ? "One Big Family" : "My story with animals"}
               </h2>
+              <p className="profile-section-lede">
+                {profile.slug === "ia"
+                  ? "A collection of the routines, memories, and little moments that make life with my pets special."
+                  : profile.slug === "sharmaine"
+                    ? "A first dog named Tiny, a fur family of six, and the promise I made after losing him."
+                    : `A space for ${profile.name} to share experiences, memories, and what this cause means to them.`}
+              </p>
             </div>
-            <p className="profile-section-lede">
-              {profile.slug === "ia"
-                ? "Saturday baths, fierce companions, and the lessons my dogs and cats teach me about care."
-                : profile.slug === "sharmaine"
-                  ? "A first dog named Tiny, a fur family of six, and the promise I made after losing him."
-                  : `A space for ${profile.name} to share experiences, memories, and what this cause means to them.`}
-            </p>
           </div>
 
           {profile.slug === "ia" ? (
-            <div className="profile-story-chapters">
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>Saturdays Smell Like Dog Shampoo</h3>
-                  <p>
-                    I’m Ia Mary Sorio, 22, a fourth-year BSIT student, and every Saturday I turn into a full-time dog groomer.
-                    My family has nine dogs and three cats, and yes, we celebrate every one of their birthdays. Growing up in a house like this,
-                    caring for animals is just part of life.
-                  </p>
-                  <p>
-                    Every weekend I give the dogs their baths in a fixed lineup. Cookie, Bilog, and Yeongtan go in together.
-                    Maliya and Brownie are the second batch. Coffee gets a shower all to himself. Cookie’s three babies aren’t old enough for baths yet,
-                    so for now they just watch the chaos.
-                  </p>
-                </div>
-                <StoryPhotos photos={storyPhotos.slice(0, 2)} />
-              </article>
-
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>Cookie, the Cute but Dangerous</h3>
-                  <p>
-                    Cookie is an aspin we got from Papa’s friend back when I was in high school, so she’s been with me through all of it.
-                    She is easily the smartest and most spoiled dog in the house. She can climb ladders, sit on chairs, and cry loudly the second she wants attention.
-                    She has even “mukbang-ed” our viand twice after climbing onto chairs and tables the moment we looked away.
-                  </p>
-                  <p>
-                    She looks like a cute sealion, but she’s fierce. She has bitten a lot of people, and my sister has taken responsibility and paid for it more than once.
-                    That’s why Cookie is on a leash whenever we have visitors. Cute, but dangerous.
-                  </p>
-                  <p>
-                    The thing I love most is how easily she gets rage-baited. Her patience is very short, and I tease her just to see her reaction.
-                    We love her anyway—spoiled and fierce and all.
-                  </p>
-                </div>
-                <StoryPhotos photos={storyPhotos.slice(2, 4)} />
-              </article>
-
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>Bilog, the One Who Reads the Room</h3>
-                  <p>
-                    Bilog is Cookie’s daughter, from her very first batch of puppies. She got her name because she was so chunky and round when she was young.
-                    My brother called her Bilog, she responded to it, and we never got the chance to change it.
-                  </p>
-                  <p>
-                    Bilog is quiet and well-behaved. She looks like a corgi—long, short, and cute—and she is just as smart as Cookie.
-                    What sets her apart is that she knows how to read the room. Whenever I’m sad, she comes to me and sits beside me while I figure things out.
-                    Bilog is my comfort, and I’m so grateful for her.
-                  </p>
-                </div>
-                <StoryPhotos photos={storyPhotos.slice(4, 6)} />
-              </article>
-
-              <article className="profile-story-chapter">
-                <div className="profile-story-copy">
-                  <h3>Why Dogs and Cats Are My Advocacy</h3>
-                  <p>
-                    Dogs are the first ones to greet you whenever you come home. They comfort you and stay with you when you’re feeling down.
-                    Every day feels special because they’re around. They are only a part of your life, but your dog’s whole life revolves around you.
-                  </p>
-                  <p>
-                    Living with twelve animals has taught me how much they depend on us. They can’t tell us when they’re hungry, hurting, or scared,
-                    so we have to pay attention for them. Every Saturday bath, every birthday, and every time Bilog sits beside me is a reminder that
-                    they give us so much more than we give them.
-                  </p>
-                  <p>
-                    That’s why my advocacy is about dogs and cats. Every one of them deserves to be fed, kept safe, and loved—whether they live in a house like ours
-                    or are strays looking for someone to take them in.
-                  </p>
-                  <p>
-                    If my dogs spend their whole lives trusting me, the least I can do is speak up for the ones who have no one to do it for them.
-                  </p>
-                </div>
-                <StoryPhotos photos={storyPhotos.slice(6, 8)} />
-              </article>
-            </div>
+            <>
+              <nav className="profile-story-filters" aria-label="Filter story sections">
+                <button
+                  type="button"
+                  className="profile-story-filter"
+                  aria-pressed={activeStoryFilter === "all"}
+                  onClick={() => setActiveStoryFilter("all")}
+                >
+                  All stories
+                </button>
+                {iaStoryFilters.map(({ id, label }, index) => (
+                  <button
+                    key={id}
+                    type="button"
+                    className="profile-story-filter"
+                    aria-pressed={activeStoryFilter === id}
+                    onClick={() => setActiveStoryFilter(id)}
+                  >
+                    <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                    {label}
+                  </button>
+                ))}
+              </nav>
+              <div className="profile-story-chapters profile-story-chapters--ia">
+                {visibleStorySections.map((section) => (
+                  <Fragment key={section.id}>
+                    {section.id === "keepsakes" ? (
+                      <article className="profile-story-card profile-story-mukbang">
+                        <span className="profile-card-label">COOKIE / MUKBANG</span>
+                        <div className="profile-story-video-wrap">
+                          <video
+                            className="profile-story-video"
+                            src="/videos/ia-story/cookie-mukbang.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="metadata"
+                            aria-label="Cookie enjoying a snack"
+                          />
+                        </div>
+                      </article>
+                    ) : null}
+                    <article
+                      id={`story-${section.id}`}
+                      className={`profile-story-chapter profile-story-chapter--media-${section.position}`}
+                    >
+                      <div className="profile-story-copy">
+                        <div className="profile-story-beat-mark">
+                          <span className="profile-story-num">
+                            {String(iaStoryFilters.findIndex((filter) => filter.id === section.category) + 1).padStart(2, "0")}
+                          </span>
+                          <p className="profile-story-kicker">{section.category}</p>
+                        </div>
+                        <h3>{section.title}</h3>
+                        {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                        {section.quote ? <p className="profile-story-quote">{section.quote}</p> : null}
+                      </div>
+                      <div className="profile-story-media">
+                        {section.media.map((item) => <StoryMediaItem key={item.src} item={item} />)}
+                      </div>
+                    </article>
+                  </Fragment>
+                ))}
+              </div>
+            </>
           ) : profile.slug === "sharmaine" ? (
             <MaineStory />
           ) : (
@@ -580,7 +703,7 @@ export default function Portfolio() {
           </div>
 
           <div
-            className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4"
+            className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4"
             aria-label={
               petPhotos
                 ? `${profile.name}'s pet gallery`
@@ -603,6 +726,26 @@ export default function Portfolio() {
                     {featuredPetPhoto.name}
                   </figcaption>
                 </figure>
+              </div>
+            )}
+            {profile.slug === "ia" && (
+              <div className="profile-pet-featured profile-pet-featured--parents">
+                <h3 className="profile-pet-featured-title">The Parents</h3>
+                <div className="profile-pet-featured-parents">
+                  {iaPetPhotos.slice(0, 2).map(({ src, name, alt }) => (
+                    <figure key={src} className="group relative aspect-square overflow-hidden rounded-2xl">
+                      <img
+                        src={src}
+                        alt={alt || name}
+                        loading="lazy"
+                        className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-center text-sm font-semibold text-white">
+                        {name}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
               </div>
             )}
             {galleryPetPhotos
