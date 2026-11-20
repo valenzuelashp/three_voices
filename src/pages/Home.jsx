@@ -1,5 +1,6 @@
+import { useEffect } from "react"
 import { ArrowUpRight, Bone, Heart, Newspaper } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import AdvocacyCard from "../components/AdvocacyCard"
 import Container from "../components/Container"
 import LostPets from "../components/LostPets"
@@ -14,7 +15,13 @@ const inquirerPreviewImageUrl =
   "https://scontent.fmnl17-5.fna.fbcdn.net/v/t39.99422-6/877512484_1654189299431425_319350756179079831_n.png?stp=dst-jpg_tt6&cstp=mx1292x1569&ctp=p600x600&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=cae128&_nc_ohc=hlNJB2FEJ4AQ7kNvwGut-O-&_nc_oc=AdoAze_F7kkXQJFpM3MyoabOvH765rS4Gsy3YjXRIfulscAuVYllzbhl9fPKe2zMaXw&_nc_zt=14&_nc_ht=scontent.fmnl17-5.fna&_nc_gid=fAz6NFp1wXUa2LOn_wDYEQ&_nc_ss=7b20f&oh=00_AQTu1YZDpoF5l8QyoE1W1QMZYWYCL_w9EDcvFqjFQeUoyw&oe=6B0351F1"
 
 export default function Home() {
-  usePageTitle("Three Voices · Animal Advocacy")
+  const { hash } = useLocation()
+  usePageTitle("One Kind · Animal Advocacy")
+
+  useEffect(() => {
+    if (!hash) return
+    document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth" })
+  }, [hash])
 
   return (
     <>
@@ -30,7 +37,7 @@ export default function Home() {
           <div className="max-w-3xl">
             <p className="hero-kicker">
               <span className="signal-dot size-1.5 rounded-full bg-animals" aria-hidden="true" />
-              ONE CAUSE <span className="text-white/60">/</span> THREE VOICES
+              ONE KIND <span className="text-white/60">/</span> ONE CAUSE
             </p>
             <h1 id="hero-title" className="hero-heading">
               A kinder world for animals <span>starts with us.</span>
@@ -71,10 +78,22 @@ export default function Home() {
               OUR SHARED ADVOCACY
             </p>
             <h2 className="mt-2 font-display text-2xl text-ink sm:mt-3 sm:text-3xl lg:text-4xl">Animal welfare</h2>
-            <p className="mt-3 text-sm leading-6 text-mist sm:mt-4 sm:text-base sm:leading-7">
-              From beloved pets to wildlife, every animal deserves care, respect, and protection. We share one cause
-              and bring our own voices to it.
-            </p>
+            <div className="mt-3 space-y-3 text-sm leading-6 text-mist sm:mt-4 sm:space-y-4 sm:text-base sm:leading-7">
+              <p>
+                Pets bring loyalty, comfort, and joy into our lives—dogs are called man’s best friend for a reason. In
+                return, they deserve loving homes, thoughtful care, and protection throughout their lives. Join us in
+                making that kindness a promise to every animal.
+              </p>
+              <p>
+                Caring for a pet is a lifelong promise: provide healthy food, clean water, medical care, patience, and
+                a safe place to call home. Adoption, spaying or neutering, and never abandoning a pet can help prevent
+                suffering.
+              </p>
+              <p>
+                Not everyone can adopt, but everyone can make a difference. Support local shelters, share responsible
+                care, and speak up when an animal needs help. Small acts of compassion add up to a kinder world.
+              </p>
+            </div>
           </div>
           <div id="profiles" className="mt-8 sm:mt-12">
             <div className="mb-5 text-center sm:mb-7">
@@ -98,10 +117,10 @@ export default function Home() {
         <Container>
           <div className="mb-5 text-center sm:mb-7">
             <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
-              TRENDING ISSUE · PHILIPPINES
+              ANIMAL WELFARE WATCH · PHILIPPINES
             </p>
             <h2 id="featured-issue-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl">
-              Dogs and cats dumped in Bulacan
+              Stories that need our attention
             </h2>
           </div>
           <p className="mx-auto mb-4 max-w-5xl font-logo text-[10px] font-semibold tracking-[0.16em] text-animals sm:mb-5 sm:text-[11px]">
@@ -154,6 +173,57 @@ export default function Home() {
                 </a>
               </div>
             </div>
+          </article>
+          <article className="mx-auto mt-6 grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[1.2fr_0.8fr]">
+            <div className="p-5 sm:p-8">
+              <p className="font-logo text-[10px] tracking-[0.2em] text-animals sm:text-[11px]">
+                PAWS RESCUE · TAYTAY, RIZAL
+              </p>
+              <h3 className="mt-3 font-display text-xl text-ink sm:text-2xl">
+                34 animals rescued from neglect
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-mist sm:text-base sm:leading-7">
+                PAWS reports rescuing 29 dogs and 5 cats found in filthy, unsanitary conditions. Many were severely
+                underweight, and some were confined in cages. PAWS urges spaying and neutering and adopting pets that
+                have already been spayed or neutered.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  href="https://www.facebook.com/share/v/1CQUrzKddi/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="theme-primary-button inline-flex w-fit items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold"
+                >
+                  Watch the PAWS update <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+                <a
+                  href="https://mb.com.ph/2026/11/16/child-34-neglected-animals-rescued-from-filthy-rizal-home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-white/10"
+                >
+                  Read a report <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+            <figure className="m-0 flex flex-col items-center justify-center gap-3 bg-animals/5 p-4 sm:p-6">
+              <a
+                href="https://www.facebook.com/share/v/1CQUrzKddi/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open the PAWS rescue video on Facebook"
+              >
+                <img
+                  src="/images/paws-taytay-rescue.jpg"
+                  alt="PAWS alert about 29 dogs and 5 cats left in neglect in Taytay, Rizal"
+                  className="h-auto max-h-[36rem] w-auto max-w-full rounded-xl"
+                  loading="lazy"
+                />
+              </a>
+              <figcaption className="text-center font-logo text-[9px] tracking-[0.12em] text-mist/70">
+                PAWS PHILIPPINES · TAYTAY, RIZAL
+              </figcaption>
+            </figure>
           </article>
         </Container>
       </section>

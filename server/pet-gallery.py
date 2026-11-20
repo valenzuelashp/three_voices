@@ -39,6 +39,13 @@ def clean(value):
     return text[:MAX_TEXT]
 
 
+def valid_contact_number(value):
+    if not re.fullmatch(r"[+0-9(). -]{7,30}", value):
+        return False
+    digits = re.sub(r"[^0-9]", "", value)
+    return 7 <= len(digits) <= 15
+
+
 def detect_image(data):
     if data.startswith(b"\xff\xd8\xff"):
         return "jpg"
@@ -64,8 +71,11 @@ def save_posts(posts):
     os.replace(temporary, POSTS_PATH)
 
 
-def public_view(post):
-    return {key: post[key] for key in ("id", "name", "petName", "caption", "src", "alt") if key in post}
+def public_view(post, include_lost_contact=False):
+    keys = ("id", "name", "petName", "caption", "src", "alt")
+    if include_lost_contact and post.get("type") == "lost":
+        keys += ("reporterName", "contactNumber")
+    return {key: post[key] for key in keys if key in post}
 
 
 def allow_upload(ip):
@@ -165,7 +175,7 @@ class GalleryHandler(BaseHTTPRequestHandler):
             with lock:
                 posts = load_posts()
             visible = [
-                public_view(post)
+                public_view(post, include_lost_contact=True)
                 for post in posts
                 if post.get("status", "approved") == "approved" and post.get("type") == "lost"
             ]
@@ -226,12 +236,23 @@ class GalleryHandler(BaseHTTPRequestHandler):
 
         name = clean(fields.get("name", ""))
         pet_name = clean(fields.get("petName", ""))
+        reporter_name = clean(fields.get("reporterName", ""))
+        contact_number = clean(fields.get("contactNumber", ""))
         photo = fields.get("photo")
         if not is_lost and len(name) < 2:
             self.send_json(400, {"error": "Enter your name."})
             return
         if len(pet_name) < 1:
             self.send_json(400, {"error": "Enter your pet's name."})
+            return
+        if is_lost and len(reporter_name) < 2:
+            self.send_json(400, {"error": "Enter your name."})
+            return
+        if is_lost and not valid_contact_number(contact_number):
+            self.send_json(400, {"error": "Enter a valid contact number."})
+            return
+        if is_lost and fields.get("publicContactConsent") != "yes":
+            self.send_json(400, {"error": "Consent is required to publish your name and contact number."})
             return
         if not isinstance(photo, bytes) or len(photo) < 32:
             self.send_json(400, {"error": "Choose a photo to share."})
@@ -272,6 +293,9 @@ class GalleryHandler(BaseHTTPRequestHandler):
             }
             if is_lost:
                 post["type"] = "lost"
+                post["reporterName"] = reporter_name
+                post["contactNumber"] = contact_number
+                post["publicContactConsent"] = True
             else:
                 post["name"] = name
             posts.append(post)

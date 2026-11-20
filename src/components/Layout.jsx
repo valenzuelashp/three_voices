@@ -8,13 +8,13 @@ import Starfield from "./Starfield"
 const ease = [0.22, 1, 0.36, 1]
 
 export default function Layout() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const outlet = useOutlet()
   const reduce = useReducedMotion()
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [pathname])
+    if (!hash) window.scrollTo(0, 0)
+  }, [pathname, hash])
 
   return (
     <>

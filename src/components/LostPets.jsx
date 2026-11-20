@@ -9,6 +9,9 @@ const MAX_BYTES = 4 * 1024 * 1024
 export default function LostPets() {
   const [lostPets, setLostPets] = useState([])
   const [petName, setPetName] = useState("")
+  const [reporterName, setReporterName] = useState("")
+  const [contactNumber, setContactNumber] = useState("")
+  const [contactConsent, setContactConsent] = useState(false)
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState("")
   const [loading, setLoading] = useState(true)
@@ -79,6 +82,20 @@ export default function LostPets() {
       setError("Enter the missing pet's name.")
       return
     }
+    if (reporterName.trim().length < 2) {
+      setError("Enter your name.")
+      return
+    }
+    const contact = contactNumber.trim()
+    const contactDigits = contact.replace(/[^0-9]/g, "")
+    if (!/^[+0-9(). -]{7,30}$/.test(contact) || contactDigits.length < 7 || contactDigits.length > 15) {
+      setError("Enter a valid contact number.")
+      return
+    }
+    if (!contactConsent) {
+      setError("Please agree to publish your name and contact number if the report is approved.")
+      return
+    }
     if (!file) {
       setError("Choose a photo of the missing pet.")
       return
@@ -89,6 +106,9 @@ export default function LostPets() {
     setNotice("")
     const body = new FormData()
     body.set("petName", name)
+    body.set("reporterName", reporterName.trim())
+    body.set("contactNumber", contact)
+    body.set("publicContactConsent", "yes")
     body.set("photo", file)
     try {
       const response = await fetch(`${petGalleryApi}/lost`, { method: "POST", body })
@@ -101,6 +121,9 @@ export default function LostPets() {
       }
       setNotice(`${name} was submitted. The report will appear here after review.`)
       setPetName("")
+      setReporterName("")
+      setContactNumber("")
+      setContactConsent(false)
       setFile(null)
       if (fileRef.current) fileRef.current.value = ""
     } catch (reason) {
@@ -141,22 +164,35 @@ export default function LostPets() {
             ) : null}
             {lostPets.length > 0 ? (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {lostPets.map((pet) => (
-                  <article key={pet.id} className="lost-pet-card">
-                    <img src={pet.src} alt={pet.alt || `Photo of missing pet ${pet.petName}`} loading="lazy" />
-                    <div className="flex items-center justify-between gap-3 p-4">
-                      <h3 className="truncate font-display text-lg text-ink">{pet.petName}</h3>
-                      <span className="lost-pet-badge">MISSING</span>
-                    </div>
-                  </article>
-                ))}
+                {lostPets.map((pet) => {
+                  const contactHref = pet.contactNumber?.replace(/[^\d+]/g, "")
+                  return (
+                    <article key={pet.id} className="lost-pet-card">
+                      <p className="lost-pet-poster-heading">HAVE YOU SEEN ME?</p>
+                      <img src={pet.src} alt={pet.alt || `Photo of missing pet ${pet.petName}`} loading="lazy" />
+                      <div className="lost-pet-card-details">
+                        <h3 className="lost-pet-name">My name is {pet.petName}!</h3>
+                        {pet.reporterName ? <p className="lost-pet-reporter">Reported by {pet.reporterName}</p> : null}
+                        <p className="lost-pet-contact-label">If found, please contact:</p>
+                        {pet.contactNumber && contactHref ? (
+                          <a className="lost-pet-contact" href={`tel:${contactHref}`}>
+                            {pet.contactNumber}
+                          </a>
+                        ) : (
+                          <p className="lost-pet-contact">Contact details unavailable.</p>
+                        )}
+                        <span className="lost-pet-badge">MISSING</span>
+                      </div>
+                    </article>
+                  )
+                })}
               </div>
             ) : null}
           </div>
 
           <form className="lost-pet-form" onSubmit={submit}>
             <h3 className="font-display text-xl text-ink">Add a missing pet</h3>
-            <p className="mt-1 text-sm leading-6 text-mist">Add their name and a clear photo.</p>
+            <p className="mt-1 text-sm leading-6 text-mist">Add your contact details and a clear photo.</p>
             <label className="pet-label mt-5" htmlFor="lost-pet-name">
               Pet’s name
               <input
@@ -165,6 +201,31 @@ export default function LostPets() {
                 value={petName}
                 onChange={(event) => setPetName(event.target.value)}
                 maxLength={40}
+                required
+              />
+            </label>
+            <label className="pet-label mt-4" htmlFor="lost-pet-reporter-name">
+              Your name
+              <input
+                id="lost-pet-reporter-name"
+                className="pet-field mt-2"
+                value={reporterName}
+                onChange={(event) => setReporterName(event.target.value)}
+                autoComplete="name"
+                maxLength={40}
+                required
+              />
+            </label>
+            <label className="pet-label mt-4" htmlFor="lost-pet-contact-number">
+              Contact number
+              <input
+                id="lost-pet-contact-number"
+                className="pet-field mt-2"
+                type="tel"
+                value={contactNumber}
+                onChange={(event) => setContactNumber(event.target.value)}
+                autoComplete="tel"
+                maxLength={30}
                 required
               />
             </label>
@@ -187,10 +248,25 @@ export default function LostPets() {
               />
               {preview ? <img src={preview} alt="Preview of the missing pet photo" className="pet-preview" /> : null}
             </div>
+            <label className="mt-4 flex items-start gap-2 text-sm leading-5 text-mist">
+              <input
+                type="checkbox"
+                className="mt-1 size-4 accent-animals"
+                checked={contactConsent}
+                onChange={(event) => setContactConsent(event.target.checked)}
+                required
+              />
+              <span>
+                I agree that my name and contact number will be shown publicly if this report is approved.
+              </span>
+            </label>
             {error ? <p className="mt-4 text-sm text-[#9f1239]" role="alert">{error}</p> : null}
             {notice ? <p className="mt-4 text-sm leading-6 text-mist" role="status">{notice}</p> : null}
             {!error && !notice ? (
-              <p className="pet-hint mt-4">Photos must be under 4 MB. Reports are checked before being shown on the board.</p>
+              <p className="pet-hint mt-4">
+                Photos must be under 4 MB. Reports are checked before being shown on the board. Your contact details
+                stay private until approval.
+              </p>
             ) : null}
             <button
               type="submit"

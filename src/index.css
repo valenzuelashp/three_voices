@@ -167,7 +167,25 @@ body {
 
 .site-header {
   border-bottom: 1px solid color-mix(in srgb, var(--palette-animals) 15%, transparent);
-  background: color-mix(in srgb, var(--palette-page-bg) 82%, transparent);
+  background: var(--palette-page-bg);
+}
+
+.mobile-nav-panel {
+  position: absolute;
+  inset: 100% 0 auto;
+  border-top: 1px solid color-mix(in srgb, var(--palette-ink) 12%, transparent);
+  background: color-mix(in srgb, var(--palette-page-bg) 96%, transparent);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(20px);
+}
+
+.mobile-nav-link {
+  color: var(--palette-ink);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link[aria-current="page"] {
+  background: color-mix(in srgb, var(--palette-ink) 8%, transparent);
 }
 
 .theme-primary-button {
@@ -217,8 +235,8 @@ body {
 .hero-site-header {
   position: absolute;
   inset: 0 0 auto;
-  border-color: transparent;
-  background: linear-gradient(rgba(18, 19, 17, 0.62), transparent);
+  border-color: color-mix(in srgb, var(--palette-animals) 15%, transparent);
+  background: var(--palette-page-bg);
   box-shadow: none;
   backdrop-filter: none;
 }
@@ -395,6 +413,35 @@ body {
   color: var(--palette-paper-ink);
 }
 
+.get-involved-page {
+  color-scheme: light;
+}
+
+.get-involved-page .contact-form-panel {
+  border-color: color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
+  background: color-mix(in srgb, var(--palette-paper) 90%, white);
+  box-shadow: 0 12px 35px rgba(44, 35, 44, 0.06);
+}
+
+.get-involved-page .contact-form-input {
+  border-color: color-mix(in srgb, var(--palette-paper-ink) 18%, transparent);
+  background: color-mix(in srgb, var(--palette-paper) 94%, var(--palette-paper-ink));
+  color: var(--palette-paper-ink);
+}
+
+.get-involved-page .contact-form-input::placeholder {
+  color: var(--palette-paper-muted);
+}
+
+.get-involved-page .contact-form-panel button[type="submit"] {
+  background: var(--palette-paper-ink);
+  color: var(--palette-paper);
+}
+
+.get-involved-page .contact-form-panel button:not([type="submit"]) {
+  border-color: color-mix(in srgb, var(--palette-paper-ink) 20%, transparent);
+}
+
 .home-paper-section .text-ink {
   color: var(--palette-paper-ink);
 }
@@ -446,9 +493,23 @@ body {
 .profile-site-header {
   position: relative;
   border-color: color-mix(in srgb, var(--palette-paper-ink) 10%, transparent);
-  background: color-mix(in srgb, var(--palette-paper) 94%, transparent);
+  background: var(--palette-paper);
   box-shadow: 0 4px 24px rgba(38, 31, 40, 0.06);
   backdrop-filter: blur(18px);
+}
+
+.profile-site-header .mobile-nav-panel {
+  border-color: color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
+  background: color-mix(in srgb, var(--palette-paper) 97%, transparent);
+}
+
+.profile-site-header .mobile-nav-link {
+  color: var(--palette-paper-ink);
+}
+
+.profile-site-header .mobile-nav-link:hover,
+.profile-site-header .mobile-nav-link[aria-current="page"] {
+  background: color-mix(in srgb, var(--palette-paper-ink) 7%, transparent);
 }
 
 .profile-site-header > div > a {
@@ -2333,20 +2394,64 @@ body {
   border: 1px solid color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
   border-radius: 1.25rem;
   background: color-mix(in srgb, var(--palette-paper) 78%, white);
+  padding: clamp(0.75rem, 2vw, 1.1rem);
+}
+
+.lost-pet-poster-heading {
+  margin-bottom: 0.75rem;
+  color: var(--palette-paper-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
 }
 
 .lost-pet-card > img {
   width: 100%;
   aspect-ratio: 1.1;
   object-fit: cover;
+  border-radius: 0.85rem;
+}
+
+.lost-pet-card-details {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  padding: 1rem 0 0.2rem;
+  text-align: center;
+}
+
+.lost-pet-name {
+  color: var(--palette-paper-ink);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.lost-pet-reporter,
+.lost-pet-contact-label {
+  color: var(--palette-paper-muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.lost-pet-contact {
+  color: var(--palette-paper-ink);
+  font-size: 0.95rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .lost-pet-badge {
   flex: none;
+  margin-top: 0.25rem;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--palette-animals) 18%, transparent);
+  background: color-mix(in srgb, var(--palette-animals) 30%, var(--palette-paper));
   padding: 0.35rem 0.55rem;
-  color: var(--palette-animals);
+  color: color-mix(in srgb, var(--palette-paper-ink) 72%, var(--palette-animals));
   font-family: var(--font-logo);
   font-size: 0.55rem;
   letter-spacing: 0.12em;

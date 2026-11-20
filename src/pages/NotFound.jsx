@@ -4,7 +4,7 @@ import { profiles } from "../data/site"
 import usePageTitle from "../usePageTitle"
 
 export default function NotFound() {
-  usePageTitle("Page not found · Three Voices")
+  usePageTitle("Page not found · One Kind")
 
   return (
     <section className="py-14 sm:py-24">

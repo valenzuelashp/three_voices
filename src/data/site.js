@@ -1,5 +1,5 @@
 export const site = {
-  name: "Three Voices",
+  name: "One Kind",
   tagline: "One shared voice for animals.",
   lede: "We are united by one advocacy: building a kinder, safer world for animals. Each of our three members will share a personal story and experiences that connect to this cause.",
 }

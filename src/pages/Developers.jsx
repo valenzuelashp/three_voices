@@ -7,7 +7,7 @@ import usePageTitle from "../usePageTitle"
 const storageKey = "pet-developer-key"
 
 export default function Developers() {
-  usePageTitle("Developers · Three Voices")
+  usePageTitle("Developers · One Kind")
   const [key, setKey] = useState(() => sessionStorage.getItem(storageKey) || "")
   const [draft, setDraft] = useState("")
   const [posts, setPosts] = useState([])
@@ -152,8 +152,18 @@ function Queue({ title, empty, posts, busyId, primary, primaryIcon: PrimaryIcon,
               <div>
                 <p className="font-display text-xl text-ink">{post.petName}</p>
                 <p className="text-sm text-mist">
-                  {post.type === "lost" ? "Missing-pet report" : `Shared by ${post.name}`}
+                  {post.type === "lost"
+                    ? `Missing-pet report${post.reporterName ? ` from ${post.reporterName}` : ""}`
+                    : `Shared by ${post.name}`}
                 </p>
+                {post.type === "lost" && post.contactNumber ? (
+                  <a
+                    href={`tel:${post.contactNumber.replace(/[^\d+]/g, "")}`}
+                    className="mt-1 inline-block text-sm text-ink underline underline-offset-2"
+                  >
+                    {post.contactNumber}
+                  </a>
+                ) : null}
               </div>
               <div className="flex flex-wrap gap-2">
                 {primary ? (

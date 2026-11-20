@@ -69,7 +69,7 @@ export default function AdvocacyCard({ item, index = 0 }) {
         )}
         <span className="absolute bottom-4 left-4 flex items-center gap-2 font-logo text-[9px] tracking-[0.14em] text-mist/70">
           <span className="size-1.5 rounded-full bg-animals/70" />
-          {item.slug === "ia" || item.slug === "sharmaine" ? "STORY ADDED" : "STORY PENDING"}
+          {item.slug === "ia" || item.slug === "sharmaine" || item.slug === "charles" ? "STORY ADDED" : "STORY PENDING"}
         </span>
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-6">
@@ -83,7 +83,9 @@ export default function AdvocacyCard({ item, index = 0 }) {
             ? "A life shaped by twelve pets, Saturday baths, and the belief that every dog and cat deserves care."
             : item.slug === "sharmaine"
               ? "From Tiny, my first dog, to a fur family of six, and the promise to love them while they are here."
-              : "Personal story and experiences coming soon."}
+              : item.slug === "charles"
+                ? "From the queen of our house to surprise photo shoots in Cavite, my dogs turn every homecoming into a memory."
+                : "Personal story and experiences coming soon."}
         </p>
         <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ink sm:mt-6">
           View profile

@@ -19,7 +19,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setOpen(false)
-  }, [pathname])
+  }, [hash, pathname])
 
   return (
     <header className={`site-header ${isHome ? "hero-site-header" : isProfile ? "profile-site-header" : "sticky top-0"} z-40 shadow-[0_8px_32px_rgba(0,0,0,0.16)] backdrop-blur-xl`}>
@@ -66,14 +66,14 @@ export default function Navbar() {
       </div>
 
       {open ? (
-        <nav id="mobile-nav" className="border-t border-white/10 px-4 py-3 md:hidden" aria-label="Mobile">
+        <nav id="mobile-nav" className="mobile-nav-panel px-4 py-3 md:hidden" aria-label="Mobile">
           <ul className="space-y-1">
             {navLinks.map((link) => (
               <li key={link.to}>
                 <Link
                   to={link.to}
                   aria-current={isActive(pathname, hash, link.to) ? "page" : undefined}
-                  className="block rounded-xl px-3 py-3 text-base text-ink hover:bg-white/5"
+                  className="mobile-nav-link block rounded-xl px-3 py-3 text-base"
                 >
                   {link.label}
                 </Link>

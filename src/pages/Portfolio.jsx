@@ -268,7 +268,7 @@ export default function Portfolio() {
   const visibleStorySections = activeStoryFilter === "all"
     ? iaStorySections
     : iaStorySections.filter((section) => section.category === activeStoryFilter)
-  usePageTitle(profile ? `${profile.name} · Three Voices` : "Page not found · Three Voices")
+  usePageTitle(profile ? `${profile.name} · One Kind` : "Page not found · One Kind")
 
   if (!profile) return <NotFound />
   if (!profile.path) return <Navigate to="/#profiles" replace />
@@ -284,14 +284,18 @@ export default function Portfolio() {
 
           <div className="profile-hero-grid">
             <div className="profile-intro">
-              <p className="profile-kicker">Animal welfare · Three Voices</p>
+              <p className="profile-kicker">Animal welfare · One Kind</p>
               <h1 id="profile-title" className="profile-title">
-                <span className="profile-title-name">{profile.name}</span>
-                <span className="profile-title-voice">’s voice</span>
+                <span className="profile-title-name">
+                  {profile.name}{profile.name.endsWith("s") ? "’" : "’s"}
+                </span>
+                <span className="profile-title-voice">voice</span>
               </h1>
               <p className="profile-intro-copy">
                 {profile.slug === "ia"
                   ? "Twelve pets, twelve birthdays, one family—and a life shaped by caring for them."
+                  : profile.slug === "charles"
+                    ? "Home in Cavite means time with his dogs—and a camera roll full of their personalities, family moments, and spontaneous photo shoots."
                   : "A personal connection to a kinder world for animals."}
               </p>
               <a href="#profile-story" className="profile-action">
@@ -372,7 +376,13 @@ export default function Portfolio() {
                   </span>
                 </div>
               )}
-              {profile.slug !== "ia" && <p className="profile-caption">A little more about me, coming soon.</p>}
+              {profile.slug !== "ia" && (
+                <p className="profile-caption">
+                  {profile.slug === "charles"
+                    ? "Charles’s dogs, from their family’s queen to the stars of his spontaneous photo shoots."
+                    : "A little more about me, coming soon."}
+                </p>
+              )}
             </div>
           </div>
         </Container>
