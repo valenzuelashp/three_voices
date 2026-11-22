@@ -48,9 +48,13 @@ export default function GetInvolved() {
         </Container>
       </section>
 
-      <section id="note" className="border-t border-white/10 py-12 sm:py-16 lg:py-20">
-        <Container className="grid gap-6 sm:gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
+      <section id="note" className="get-involved-contact-section border-t border-white/10 py-12 sm:py-16 lg:py-20">
+        <div className="get-involved-contact-scene" aria-hidden="true">
+          <img className="get-involved-contact-blur" src="/images/tiny-birthday-background.png" alt="" />
+          <img className="get-involved-contact-focus" src="/images/tiny-birthday-background.png" alt="" />
+        </div>
+        <Container className="get-involved-contact-layout grid gap-6 sm:gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="get-involved-contact-copy">
             <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
               CONTACT
             </p>

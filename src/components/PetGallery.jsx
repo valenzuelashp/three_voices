@@ -1,4 +1,4 @@
-import { Bone, Camera, ChevronLeft, ChevronRight, Heart, Pause, Play, X } from "lucide-react"
+import { Bone, Camera, ChevronLeft, ChevronRight, Heart, Pause, Play, Upload, X } from "lucide-react"
 import { useReducedMotion } from "motion/react"
 import { useEffect, useId, useRef, useState } from "react"
 import { createPortal } from "react-dom"
@@ -116,7 +116,7 @@ export default function PetGallery() {
   }
 
   return (
-    <section id="pets" className="home-paper-section overflow-hidden pb-12 pt-2 sm:pb-16 sm:pt-4" aria-labelledby="pets-title">
+    <section id="pets" className="home-paper-section pet-gallery-section overflow-hidden pb-10 pt-8 sm:pb-14 sm:pt-10" aria-labelledby="pets-title">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
@@ -125,9 +125,12 @@ export default function PetGallery() {
           <h2 id="pets-title" className="mt-2 font-display text-2xl text-ink sm:mt-3 sm:text-3xl lg:text-4xl">
             Bring your pet into the picture.
           </h2>
+          <p className="pet-gallery-lede mt-3 text-sm leading-6 text-mist sm:text-base">
+            A little collection of the pets who make our days brighter.
+          </p>
           <button
             type="button"
-            className="theme-primary-button mt-6 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
+            className="theme-primary-button mt-5 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
             onClick={() => setOpen(true)}
           >
             <Camera size={16} aria-hidden="true" />
@@ -185,7 +188,7 @@ export default function PetGallery() {
 
       {count > 0 ? (
       <Container>
-        <div className="mx-auto mt-2 flex max-w-xl items-center justify-center gap-3 sm:gap-5">
+        <div className="pet-gallery-controls mx-auto mt-5 flex max-w-xl items-center justify-center gap-3 sm:gap-5">
           <button type="button" className="pet-nav" aria-label="Previous photo" onClick={() => step(-1)}>
             <ChevronLeft size={18} aria-hidden="true" />
           </button>
@@ -225,6 +228,7 @@ function SharePetDialog({ onClose, onSent }) {
   const [preview, setPreview] = useState("")
   const [error, setError] = useState("")
   const [sending, setSending] = useState(false)
+  const [dragging, setDragging] = useState(false)
   const closeRef = useRef(null)
 
   useEffect(() => {
@@ -246,6 +250,12 @@ function SharePetDialog({ onClose, onSent }) {
       if (preview) URL.revokeObjectURL(preview)
     }
   }, [preview])
+
+  function openFilePicker() {
+    if (!fileRef.current) return
+    fileRef.current.value = ""
+    fileRef.current.click()
+  }
 
   function chooseFile(nextFile) {
     if (!nextFile) return
@@ -313,34 +323,66 @@ function SharePetDialog({ onClose, onSent }) {
             <X size={16} aria-hidden="true" />
           </button>
         </div>
-        <form className="mt-5 space-y-4" onSubmit={submit}>
-          <label className="pet-label" htmlFor="pet-owner">
-            Your name
-            <input
-              id="pet-owner"
-              className="pet-field mt-2"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              autoComplete="name"
-              maxLength={40}
-            />
-          </label>
-          <label className="pet-label" htmlFor="pet-name">
-            Your pet's name
-            <input
-              id="pet-name"
-              className="pet-field mt-2"
-              value={petName}
-              onChange={(event) => setPetName(event.target.value)}
-              maxLength={40}
-            />
-          </label>
-          <div>
+        <form className="pet-share-form" onSubmit={submit}>
+          <div className="pet-share-fields">
+            <label className="pet-label" htmlFor="pet-owner">
+              Your name
+              <input
+                id="pet-owner"
+                className="pet-field mt-2"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                autoComplete="name"
+                maxLength={40}
+              />
+            </label>
+            <label className="pet-label" htmlFor="pet-name">
+              Your pet's name
+              <input
+                id="pet-name"
+                className="pet-field mt-2"
+                value={petName}
+                onChange={(event) => setPetName(event.target.value)}
+                maxLength={40}
+              />
+            </label>
+          </div>
+          <div className="pet-upload-section">
             <span className="pet-label">Photo</span>
-            <button type="button" className="pet-file mt-2 inline-flex items-center gap-2" onClick={() => fileRef.current?.click()}>
-              <Camera size={16} aria-hidden="true" />
-              {file ? file.name : "Choose a JPG, PNG, or WEBP"}
-            </button>
+            <div
+              className={`pet-upload-zone${dragging ? " is-dragging" : ""}${preview ? " has-preview" : ""}`}
+              role="group"
+              aria-label="Pet photo upload"
+              onDragOver={(event) => {
+                event.preventDefault()
+                setDragging(true)
+              }}
+              onDragLeave={() => setDragging(false)}
+              onDrop={(event) => {
+                event.preventDefault()
+                setDragging(false)
+                chooseFile(event.dataTransfer.files?.[0])
+              }}
+            >
+              {preview ? (
+                <div className="pet-upload-preview">
+                  <img src={preview} alt={`Preview of ${petName || "your pet"} photo`} />
+                  <button type="button" className="pet-upload-again" onClick={openFilePicker}>
+                    <Upload size={15} aria-hidden="true" />
+                    Upload another photo
+                  </button>
+                </div>
+              ) : (
+                <div className="pet-upload-prompt">
+                  <Upload size={28} aria-hidden="true" />
+                  <p>Drag and drop your photo here</p>
+                  <span>or</span>
+                  <button type="button" className="pet-upload-choose" onClick={openFilePicker}>
+                    Choose a photo
+                  </button>
+                </div>
+              )}
+            </div>
             <input
               ref={fileRef}
               className="sr-only"
@@ -348,7 +390,7 @@ function SharePetDialog({ onClose, onSent }) {
               accept={ACCEPT}
               onChange={(event) => chooseFile(event.target.files?.[0])}
             />
-            {preview ? <img src={preview} alt="" className="pet-preview" /> : null}
+            <p className="pet-hint">JPG, PNG, or WEBP · Under 4 MB</p>
           </div>
           {error ? (
             <p className="text-sm text-[#9f1239]" role="alert">
