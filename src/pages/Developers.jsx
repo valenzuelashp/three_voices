@@ -70,9 +70,6 @@ export default function Developers() {
     }
   }
 
-  const waiting = posts.filter((post) => post.status === "pending")
-  const live = posts.filter((post) => post.status !== "pending")
-
   return (
     <section className="py-10 sm:py-16 lg:py-24">
       <Container className="max-w-5xl">
@@ -84,30 +81,31 @@ export default function Developers() {
           Review pet submissions.
         </h1>
         <p className="mt-4 max-w-2xl text-[15px] leading-6 text-mist sm:mt-6 sm:text-lg sm:leading-8">
-          Circle photos and missing-pet reports stay here until you approve them. Approved submissions appear in their respective sections.
+          Shared pet photos and missing-pet reports are reviewed separately. Each one appears in its own section after you approve it.
         </p>
 
         {key && ready ? (
-          <div className="mt-10 space-y-12">
-            <Queue
-              title="Waiting for approval"
-              empty="No submissions are waiting."
-              posts={waiting}
+          <div className="mt-10 space-y-16">
+            <ReviewGroup
+              kicker="Pet photos"
+              title="Shared pictures"
+              description="Approved photos appear in the circle."
+              posts={posts.filter((post) => post.type !== "lost")}
+              waitingEmpty="No pet photos are waiting."
+              liveTitle="On the circle"
+              liveEmpty="No pet photos are on the circle."
               busyId={busyId}
-              primary="Approve"
-              primaryIcon={Check}
-              primaryAction="approve"
-              secondary="Decline"
-              secondaryIcon={X}
               onReview={review}
             />
-            <Queue
-              title="On the site"
-              empty="No approved submissions yet."
-              posts={live}
+            <ReviewGroup
+              kicker="Missing pets"
+              title="Missing-pet reports"
+              description="Approved reports appear on the lost-pet board."
+              posts={posts.filter((post) => post.type === "lost")}
+              waitingEmpty="No missing-pet reports are waiting."
+              liveTitle="On the board"
+              liveEmpty="No missing-pet reports are on the board."
               busyId={busyId}
-              secondary="Remove"
-              secondaryIcon={Trash}
               onReview={review}
             />
           </div>
@@ -139,10 +137,46 @@ export default function Developers() {
   )
 }
 
+function ReviewGroup({ kicker, title, description, posts, waitingEmpty, liveTitle, liveEmpty, busyId, onReview }) {
+  const waiting = posts.filter((post) => post.status === "pending")
+  const live = posts.filter((post) => post.status !== "pending")
+
+  return (
+    <section className="border-t border-white/10 pt-8">
+      <p className="font-logo text-[10px] tracking-[0.16em] text-animals uppercase">{kicker}</p>
+      <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">{title}</h2>
+      <p className="mt-2 max-w-2xl text-sm leading-6 text-mist">{description}</p>
+      <div className="mt-8 space-y-10">
+        <Queue
+          title="Waiting for approval"
+          empty={waitingEmpty}
+          posts={waiting}
+          busyId={busyId}
+          primary="Approve"
+          primaryIcon={Check}
+          primaryAction="approve"
+          secondary="Decline"
+          secondaryIcon={X}
+          onReview={onReview}
+        />
+        <Queue
+          title={liveTitle}
+          empty={liveEmpty}
+          posts={live}
+          busyId={busyId}
+          secondary="Remove"
+          secondaryIcon={Trash}
+          onReview={onReview}
+        />
+      </div>
+    </section>
+  )
+}
+
 function Queue({ title, empty, posts, busyId, primary, primaryIcon: PrimaryIcon, primaryAction, secondary, secondaryIcon: SecondaryIcon, onReview }) {
   return (
     <div>
-      <h2 className="font-display text-2xl text-ink">{title}</h2>
+      <h3 className="font-display text-lg text-ink">{title}</h3>
       {posts.length === 0 ? <p className="mt-3 text-sm text-mist">{empty}</p> : null}
       <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
