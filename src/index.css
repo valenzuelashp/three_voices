@@ -417,6 +417,60 @@ body {
   color-scheme: light;
 }
 
+.get-involved-contact-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-top-color: color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
+}
+
+.get-involved-contact-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--palette-paper) 72%, var(--palette-animals));
+  pointer-events: none;
+}
+
+.get-involved-contact-scene img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 20% center;
+}
+
+.get-involved-contact-blur {
+  filter: blur(9px) saturate(0.78);
+  opacity: 0.58;
+  transform: scale(1.04);
+}
+
+.get-involved-contact-focus {
+  opacity: 0.94;
+  -webkit-mask-image: radial-gradient(ellipse 17% 48% at 20% 66%, #000 52%, transparent 100%);
+  mask-image: radial-gradient(ellipse 17% 48% at 20% 66%, #000 52%, transparent 100%);
+}
+
+.get-involved-contact-layout {
+  position: relative;
+  z-index: 1;
+  align-items: start;
+}
+
+.get-involved-contact-copy {
+  align-self: start;
+  border: 1px solid color-mix(in srgb, var(--palette-paper-ink) 10%, transparent);
+  border-radius: 1.35rem;
+  background: color-mix(in srgb, var(--palette-paper) 93%, white);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
+  backdrop-filter: blur(12px);
+}
+
 .get-involved-page .contact-form-panel {
   border-color: color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
   background: color-mix(in srgb, var(--palette-paper) 90%, white);
@@ -440,6 +494,18 @@ body {
 
 .get-involved-page .contact-form-panel button:not([type="submit"]) {
   border-color: color-mix(in srgb, var(--palette-paper-ink) 20%, transparent);
+}
+
+@media (max-width: 639px) {
+  .get-involved-contact-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .get-involved-contact-focus {
+    -webkit-mask-image: radial-gradient(ellipse 34% 42% at 24% 66%, #000 48%, transparent 100%);
+    mask-image: radial-gradient(ellipse 34% 42% at 24% 66%, #000 48%, transparent 100%);
+  }
 }
 
 .home-paper-section .text-ink {
