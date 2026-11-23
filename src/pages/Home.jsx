@@ -67,6 +67,32 @@ export default function Home() {
     }
   }, [])
 
+  useEffect(() => {
+    const section = document.querySelector(".home-sheet-advocacy")
+    const field = section?.querySelector(".pattern-field")
+    if (!section || !field) return undefined
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (!finePointer || reduce) return undefined
+
+    function onMove(event) {
+      const rect = section.getBoundingClientRect()
+      field.style.setProperty("--spot-x", `${event.clientX - rect.left}px`)
+      field.style.setProperty("--spot-y", `${event.clientY - rect.top}px`)
+      field.classList.add("is-lit")
+    }
+    function onLeave() {
+      field.classList.remove("is-lit")
+    }
+
+    section.addEventListener("pointermove", onMove)
+    section.addEventListener("pointerleave", onLeave)
+    return () => {
+      section.removeEventListener("pointermove", onMove)
+      section.removeEventListener("pointerleave", onLeave)
+    }
+  }, [])
+
   return (
     <>
       <section className="hero-section" aria-labelledby="hero-title">
@@ -124,6 +150,7 @@ export default function Home() {
       </section>
 
       <section id="advocacy" className="home-paper-section home-sheet home-sheet-advocacy pet-reveal pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pb-20 lg:pt-20">
+        <div className="pattern-field" aria-hidden="true" />
         <PetAssets variant="stamps" />
         <Container>
           <div className="home-split">
@@ -197,7 +224,7 @@ export default function Home() {
           <p className="mx-auto mb-4 max-w-5xl font-logo text-[10px] font-semibold tracking-[0.16em] text-animals sm:mb-5 sm:text-[11px]">
             TRIGGER WARNING · SENSITIVE CONTENT — THE IMAGE BELOW IS BLURRED
           </p>
-          <article className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[0.8fr_1.2fr]">
+          <article className="hover-lift mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[0.8fr_1.2fr]">
             <figure className="m-0 flex flex-col items-center justify-center gap-3 bg-animals/5 p-4 sm:p-6">
               <a href={inquirerPostUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Inquirer Facebook post">
                 <img
@@ -245,7 +272,7 @@ export default function Home() {
               </div>
             </div>
           </article>
-          <article className="mx-auto mt-6 grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[1.2fr_0.8fr]">
+          <article className="hover-lift mx-auto mt-6 grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[1.2fr_0.8fr]">
             <div className="p-5 sm:p-8">
               <p className="font-logo text-[10px] tracking-[0.2em] text-animals sm:text-[11px]">
                 PAWS RESCUE · TAYTAY, RIZAL

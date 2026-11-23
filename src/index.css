@@ -294,11 +294,14 @@ body {
   background: var(--palette-animals);
   color: var(--palette-space);
   box-shadow: 0 0 20px color-mix(in srgb, var(--palette-animals) 16%, transparent);
-  transition: box-shadow 180ms ease;
+  transition:
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 .theme-primary-button:hover {
   box-shadow: 0 0 28px color-mix(in srgb, var(--palette-animals) 30%, transparent);
+  transform: translateY(-2px);
 }
 
 .theme-secondary-button {
@@ -1174,6 +1177,78 @@ body {
 .home-paper-section .accent-card:hover {
   border-color: color-mix(in srgb, var(--palette-animals) 82%, #b8aebd);
   box-shadow: 0 16px 38px color-mix(in srgb, var(--palette-animals) 20%, transparent);
+}
+
+.voice-card .profile-artwork img {
+  transition: transform 0.55s ease;
+}
+
+.voice-card:hover .profile-artwork img {
+  transform: scale(1.08);
+}
+
+.hover-lift {
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--palette-animals) 55%, transparent);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--palette-paper-ink) 12%, transparent);
+}
+
+.site-header .hero-nav-link {
+  position: relative;
+}
+
+.site-header .hero-nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.28rem;
+  left: 0;
+  height: 1.5px;
+  background: var(--palette-animals);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.site-header .hero-nav-link:hover::after,
+.site-header .hero-nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.pattern-field {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  --spot-x: -20rem;
+  --spot-y: -20rem;
+  opacity: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 12px 10px, color-mix(in srgb, var(--palette-paper-ink) 34%, transparent) 2.4px, transparent 2.8px),
+    radial-gradient(circle at 22px 6px, color-mix(in srgb, var(--palette-paper-ink) 34%, transparent) 2.1px, transparent 2.5px),
+    radial-gradient(circle at 31px 11px, color-mix(in srgb, var(--palette-paper-ink) 34%, transparent) 2.2px, transparent 2.6px),
+    radial-gradient(circle at 8px 18px, color-mix(in srgb, var(--palette-paper-ink) 34%, transparent) 1.8px, transparent 2.2px),
+    radial-gradient(ellipse at 20px 24px, color-mix(in srgb, var(--palette-animals) 78%, var(--palette-paper-ink)) 5.2px 3.8px, transparent 5.6px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(circle 10.5rem at var(--spot-x) var(--spot-y), #000 0%, #000 34%, transparent 74%);
+  mask-image: radial-gradient(circle 10.5rem at var(--spot-x) var(--spot-y), #000 0%, #000 34%, transparent 74%);
+  transition: opacity 0.2s ease;
+}
+
+.pattern-field.is-lit {
+  opacity: 1;
+}
+
+.home-sheet > .pattern-field {
+  position: absolute;
+  z-index: 0;
 }
 
 .home-paper-section .border-white\/10,
@@ -3188,6 +3263,14 @@ body {
   background: linear-gradient(155deg, color-mix(in srgb, var(--palette-paper) 94%, white), color-mix(in srgb, var(--palette-paper) 88%, var(--palette-animals)));
   padding: 1.1rem clamp(0.75rem, 2vw, 1.1rem) clamp(0.75rem, 2vw, 1.1rem);
   box-shadow: 0 5px 12px color-mix(in srgb, var(--palette-paper-ink) 14%, transparent);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.lost-pet-card:hover {
+  transform: translateY(-4px) rotate(-0.4deg);
+  box-shadow: 0 14px 28px color-mix(in srgb, var(--palette-paper-ink) 16%, transparent);
 }
 
 .lost-pet-card::before {
