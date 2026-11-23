@@ -1,6 +1,7 @@
 import { Bone, Heart } from "lucide-react"
 import { Link } from "react-router-dom"
 import ContactForm from "../components/ContactForm"
+import PetAssets from "../components/PetAssets"
 import Container from "../components/Container"
 import Reveal from "../components/Reveal"
 import usePageTitle from "../usePageTitle"
@@ -9,12 +10,13 @@ export default function GetInvolved() {
   usePageTitle("Get involved · One Kind")
 
   return (
-    <div className="get-involved-page home-paper-section">
+    <div className="get-involved-page home-paper-section home-sheet home-sheet-close">
       <section className="py-10 sm:py-16 lg:py-24">
         <Container className="max-w-3xl">
           <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
             TAKE PART
           </p>
+          <PetAssets />
           <h1 className="mt-3 font-display text-[1.5rem] leading-[1.2] font-semibold text-balance text-ink sm:mt-4 sm:text-4xl sm:leading-tight lg:text-5xl">
             Get involved in animal welfare.
           </h1>

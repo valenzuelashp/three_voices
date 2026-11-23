@@ -24,7 +24,7 @@ export default function AdvocacyCard({ item, index = 0 }) {
     <Link
       to={item.path}
       style={{ "--accent": item.accent }}
-      className="accent-card group flex h-full flex-col overflow-hidden rounded-3xl"
+      className={`accent-card voice-card voice-${item.slug} group flex h-full flex-col overflow-hidden rounded-3xl`}
     >
       <div className="profile-artwork relative grid h-44 place-items-center overflow-hidden border-b border-white/10 sm:h-56">
         {item.slug === "charles" ? (

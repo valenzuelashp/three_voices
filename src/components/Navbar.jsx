@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Menu, PawPrint, X } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 import { navLinks, site } from "../data/site"
@@ -13,16 +13,37 @@ function isActive(pathname, hash, to) {
 
 export default function Navbar() {
   const { pathname, hash } = useLocation()
-  const isHome = pathname === "/"
-  const isProfile = pathname.startsWith("/profiles/")
   const [open, setOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const openRef = useRef(open)
+  openRef.current = open
 
   useEffect(() => {
     setOpen(false)
+    setHidden(false)
   }, [hash, pathname])
 
+  useEffect(() => {
+    let last = window.scrollY
+
+    function onScroll() {
+      const next = window.scrollY
+      const delta = next - last
+      last = next
+      if (openRef.current || next < 32) {
+        setHidden(false)
+        return
+      }
+      if (delta > 8) setHidden(true)
+      else if (delta < -8) setHidden(false)
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   return (
-    <header className={`site-header ${isHome ? "hero-site-header" : isProfile ? "profile-site-header" : "sticky top-0"} z-40 shadow-[0_8px_32px_rgba(0,0,0,0.16)] backdrop-blur-xl`}>
+    <header className={`site-header${hidden ? " is-hidden" : ""}`}>
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 font-logo text-[10px] tracking-[0.16em] text-ink sm:text-xs sm:tracking-[0.22em]">
           <PawPrint size={18} className="text-animals theme-accent-glow" aria-hidden="true" />

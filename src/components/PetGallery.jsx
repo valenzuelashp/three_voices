@@ -3,6 +3,7 @@ import { useReducedMotion } from "motion/react"
 import { useEffect, useId, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import Container from "./Container"
+import PetAssets from "./PetAssets"
 import { petGalleryApi } from "../data/pets"
 
 const ACCEPT = "image/jpeg,image/png,image/webp"
@@ -116,11 +117,13 @@ export default function PetGallery() {
   }
 
   return (
-    <section id="pets" className="home-paper-section pet-gallery-section overflow-hidden pb-10 pt-8 sm:pb-14 sm:pt-10" aria-labelledby="pets-title">
+    <section id="pets" className="home-paper-section home-sheet home-sheet-circle pet-gallery-section pet-reveal overflow-hidden pb-12 pt-12 sm:pb-16 sm:pt-16" aria-labelledby="pets-title">
+      <PetAssets variant="stamps" />
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
-            THE CIRCLE
+          <p className="home-index home-index-center">
+            <span>04</span>
+            The circle
           </p>
           <h2 id="pets-title" className="mt-2 font-display text-2xl text-ink sm:mt-3 sm:text-3xl lg:text-4xl">
             Bring your pet into the picture.

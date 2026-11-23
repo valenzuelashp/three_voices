@@ -1,10 +1,13 @@
 import { useEffect } from "react"
-import { ArrowUpRight, Bone, Heart, Newspaper } from "lucide-react"
+import { ArrowUpRight, Bone, Heart, Newspaper, PawPrint } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 import AdvocacyCard from "../components/AdvocacyCard"
 import Container from "../components/Container"
 import LostPets from "../components/LostPets"
+import PetAssets from "../components/PetAssets"
+import PetIcon from "../components/PetIcon"
 import PetGallery from "../components/PetGallery"
+import PetMarquee from "../components/PetMarquee"
 import Reveal from "../components/Reveal"
 import { profiles, site } from "../data/site"
 import usePageTitle from "../usePageTitle"
@@ -23,27 +26,71 @@ export default function Home() {
     document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth" })
   }, [hash])
 
+  useEffect(() => {
+    const nodes = document.querySelectorAll(".pet-reveal")
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduce) {
+      nodes.forEach((node) => node.classList.add("is-visible"))
+      return undefined
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          entry.target.classList.add("is-visible")
+          observer.unobserve(entry.target)
+        })
+      },
+      { threshold: 0.08 },
+    )
+    nodes.forEach((node) => observer.observe(node))
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const layer = document.querySelector(".hero-parallax")
+    if (!layer) return undefined
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined
+    let frame = 0
+    function onScroll() {
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        layer.style.transform = `translate3d(0, ${window.scrollY * 0.28}px, 0)`
+        frame = 0
+      })
+    }
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.cancelAnimationFrame(frame)
+    }
+  }, [])
+
   return (
     <>
       <section className="hero-section" aria-labelledby="hero-title">
-        <img
-          src="/images/hero-dog-window.png"
-          alt=""
-          aria-hidden="true"
-          fetchPriority="high"
-          className="hero-slide hero-image is-active"
-        />
+        <div className="hero-parallax">
+          <img
+            src="/images/hero-dog-window.png"
+            alt=""
+            aria-hidden="true"
+            fetchPriority="high"
+            className="hero-slide hero-image is-active"
+          />
+        </div>
         <Container className="hero-content">
           <div className="max-w-3xl">
             <p className="hero-kicker">
               <span className="signal-dot size-1.5 rounded-full bg-animals" aria-hidden="true" />
               ONE KIND <span className="text-white/60">/</span> ONE CAUSE
             </p>
+            <PetAssets />
             <h1 id="hero-title" className="hero-heading">
               A kinder world for animals <span>starts with us.</span>
             </h1>
             <p className="hero-lede">{site.lede}</p>
-            <div className="mt-7 flex flex-wrap gap-3 sm:mt-9">
+            <div className="hero-actions mt-7 flex flex-wrap gap-3 sm:mt-9">
               <a href="#profiles" className="theme-primary-button inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold">
                 <Bone size={16} aria-hidden="true" />
                 Meet our voices
@@ -71,14 +118,24 @@ export default function Home() {
         </svg>
       </section>
 
-      <section id="advocacy" className="home-paper-section pb-10 pt-8 sm:pb-14 sm:pt-10 lg:pb-16 lg:pt-12">
+      <section className="pet-creed pet-reveal" aria-label="Our shared line">
+        <PawPrint className="pet-creed-mark" size={28} aria-hidden="true" />
+        <p>{site.tagline}</p>
+      </section>
+
+      <section id="advocacy" className="home-paper-section home-sheet home-sheet-advocacy pet-reveal pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pb-20 lg:pt-20">
+        <PetAssets variant="stamps" />
         <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
-              OUR SHARED ADVOCACY
-            </p>
-            <h2 className="mt-2 font-display text-2xl text-ink sm:mt-3 sm:text-3xl lg:text-4xl">Animal welfare</h2>
-            <div className="mt-3 space-y-3 text-sm leading-6 text-mist sm:mt-4 sm:space-y-4 sm:text-base sm:leading-7">
+          <div className="home-split">
+            <div>
+              <p className="home-index">
+                <span>01</span>
+                Our shared advocacy
+              </p>
+              <h2 className="home-display">Animal welfare</h2>
+              <PetAssets />
+            </div>
+            <div className="home-copy-stack">
               <p>
                 Pets bring loyalty, comfort, and joy into our lives—dogs are called man’s best friend for a reason. In
                 return, they deserve loving homes, thoughtful care, and protection throughout their lives. Join us in
@@ -95,12 +152,22 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div id="profiles" className="mt-8 sm:mt-12">
-            <div className="mb-5 text-center sm:mb-7">
-              <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
-                THE PEOPLE BEHIND THE CAUSE
+          <div id="profiles" className="home-voices">
+            <div className="home-voices-heading">
+              <p className="home-index">
+                <span>02</span>
+                The people behind the cause
               </p>
-              <h2 className="mt-2 font-display text-xl text-ink sm:text-2xl">Three voices, one advocacy.</h2>
+              <h2 className="home-display home-display-small">Three voices, one advocacy.</h2>
+            </div>
+            <div className="home-voice-rule" aria-hidden="true">
+              <span />
+              <i className="pet-badge pet-badge-dog"><PetIcon name="dog" /></i>
+              <span />
+              <i className="pet-badge pet-badge-cat"><PetIcon name="cat" /></i>
+              <span />
+              <i className="pet-badge pet-badge-hamster"><PetIcon name="hamster" /></i>
+              <span />
             </div>
             <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
             {profiles.map((profile, index) => (
@@ -111,13 +178,17 @@ export default function Home() {
         </Container>
       </section>
 
+      <PetMarquee />
+
       <PetGallery />
 
-      <section className="home-paper-section py-10 sm:py-14 lg:py-16" aria-labelledby="featured-issue-title">
+      <section className="home-paper-section home-sheet home-sheet-watch pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="featured-issue-title">
+        <PetAssets variant="stamps" />
         <Container>
           <div className="mb-5 text-center sm:mb-7">
-            <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
-              ANIMAL WELFARE WATCH · PHILIPPINES
+            <p className="home-index home-index-center">
+              <span>03</span>
+              Animal welfare watch · Philippines
             </p>
             <h2 id="featured-issue-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl">
               Stories that need our attention
@@ -230,11 +301,12 @@ export default function Home() {
 
       <LostPets />
 
-      <section className="home-paper-section home-bottom-cta py-10 sm:py-14 lg:py-16">
+      <section className="home-paper-section home-sheet home-sheet-close home-bottom-cta pet-reveal py-12 sm:py-16 lg:py-20">
         <Reveal>
           <Container className="flex flex-col items-start justify-between gap-5 sm:gap-8 md:flex-row md:items-center">
             <div className="max-w-xl">
-              <h2 className="font-display text-2xl text-ink sm:text-3xl lg:text-4xl">Stand with animals.</h2>
+              <PetAssets />
+              <h2 className="mt-4 font-display text-2xl text-ink sm:text-3xl lg:text-4xl">Stand with animals.</h2>
               <p className="mt-3 text-sm leading-6 text-mist sm:mt-4 sm:text-base sm:leading-7">
                 Learn more about our group and leave us a note.
               </p>

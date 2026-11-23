@@ -2,6 +2,7 @@ import { Camera, PawPrint, Upload, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import Container from "./Container"
+import PetAssets from "./PetAssets"
 import { petGalleryApi } from "../data/pets"
 
 const ACCEPT = "image/jpeg,image/png,image/webp"
@@ -174,11 +175,13 @@ export default function LostPets() {
 
   return (
     <>
-      <section className="home-paper-section py-10 sm:py-14 lg:py-16" aria-labelledby="lost-pets-title">
+      <section className="home-paper-section home-sheet home-sheet-board pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="lost-pets-title">
+        <PetAssets variant="stamps" />
         <Container>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
-              COMMUNITY LOST-PET BOARD
+            <p className="home-index home-index-center">
+              <span>05</span>
+              Community lost-pet board
             </p>
             <h2 id="lost-pets-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl lg:text-4xl">
               Help bring missing pets home.

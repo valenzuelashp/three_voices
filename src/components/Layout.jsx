@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useLocation, useOutlet } from "react-router-dom"
 import Footer from "./Footer"
 import Navbar from "./Navbar"
+import PetCursor from "./PetCursor"
 import Starfield from "./Starfield"
 
 const ease = [0.22, 1, 0.36, 1]
@@ -25,8 +26,9 @@ export default function Layout() {
         Skip to content
       </a>
       <Starfield />
+      <PetCursor />
       <Navbar />
-      <main id="content" tabIndex={-1} className="outline-none">
+      <main id="content" tabIndex={-1} className={pathname === "/" ? "outline-none" : "page-under-header outline-none"}>
         <AnimatePresence mode="wait">
           <motion.div
             key={pathname}
