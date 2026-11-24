@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-logo: "Space Grotesk", ui-sans-serif, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-logo: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --color-space: var(--palette-space);
   --color-ink: var(--palette-ink);
   --color-mist: var(--palette-mist);
@@ -12,26 +12,27 @@
   --color-lilac: var(--palette-lilac);
 }
 
-:root {
+:root,
+:root[data-palette="kindred-journal"] {
   color-scheme: dark;
-  --palette-page-bg: #211c29;
-  --palette-page-glow: #3b3046;
-  --palette-space: #292333;
-  --palette-ink: #f5eff6;
-  --palette-mist: #c9bed0;
-  --palette-galaxy: #c4b8e3;
-  --palette-animals: #ddbcd0;
-  --palette-lilac: #c4b8e3;
-  --palette-panel-start: #392e43;
-  --palette-panel-end: #1f1a28;
-  --palette-grid: rgba(214, 197, 226, 0.035);
-  --palette-paper: #f8f5f2;
-  --palette-paper-ink: #332b36;
-  --palette-paper-muted: #746b77;
-  --palette-pastel-mint: #afe8d6;
-  --palette-pastel-green: #ddefc8;
-  --palette-pastel-peach: #ffd8bd;
-  --palette-pastel-rose: #ffb7b7;
+  --palette-page-bg: #3e362f;
+  --palette-page-glow: #5c4e43;
+  --palette-space: #51483e;
+  --palette-ink: #f5f0e6;
+  --palette-mist: #d4c9bb;
+  --palette-galaxy: #879b7b;
+  --palette-animals: #c77e5b;
+  --palette-lilac: #879b7b;
+  --palette-panel-start: #5c5146;
+  --palette-panel-end: #322c27;
+  --palette-grid: rgba(245, 240, 230, 0.045);
+  --palette-paper: #f5f0e6;
+  --palette-paper-ink: #51483e;
+  --palette-paper-muted: #74685c;
+  --palette-pastel-mint: #c5d2bb;
+  --palette-pastel-green: #d7e0cc;
+  --palette-pastel-peach: #e7c2ae;
+  --palette-pastel-rose: #e4b5a4;
 }
 
 :root[data-palette="sage-cream"] {
@@ -520,10 +521,10 @@ body {
   margin-top: 1.25rem;
   color: #fff;
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  font-size: clamp(2.7rem, 7vw, 5.6rem);
   font-weight: 600;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
   text-wrap: balance;
   text-shadow: 0 3px 28px rgba(0, 0, 0, 0.25);
 }
@@ -552,8 +553,50 @@ body {
 }
 
 .home-paper-section {
-  background: var(--palette-paper);
+  background-color: var(--palette-paper);
+  background-image: radial-gradient(color-mix(in srgb, var(--palette-paper-ink) 16%, transparent) 0.65px, transparent 0.7px);
+  background-size: 5px 5px;
   color: var(--palette-paper-ink);
+}
+
+.journal-pages {
+  position: relative;
+}
+
+.journal-leash {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: max(0.4rem, calc(50% - 38.5rem));
+  width: 3.25rem;
+  height: 100%;
+  color: color-mix(in srgb, var(--palette-animals) 78%, var(--palette-paper-ink));
+  pointer-events: none;
+}
+
+.journal-leash path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+}
+
+.journal-chapter {
+  margin: 0 0 0.2rem;
+  color: var(--palette-animals);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+@media (max-width: 1199px) {
+  .journal-leash {
+    display: none;
+  }
 }
 
 .home-sheet {
@@ -629,6 +672,10 @@ body {
   height: 9rem;
   border-radius: 999px;
   background: color-mix(in srgb, var(--palette-pastel-rose) 42%, white);
+}
+
+.home-sheet-board {
+  background-color: color-mix(in srgb, var(--palette-animals) 12%, var(--palette-paper));
 }
 
 .home-sheet-board::before {
@@ -1330,7 +1377,9 @@ body {
   --profile-paper: var(--palette-paper);
   --profile-ink: var(--palette-paper-ink);
   --profile-muted: var(--palette-paper-muted);
-  background: var(--profile-paper);
+  background-color: var(--profile-paper);
+  background-image: radial-gradient(color-mix(in srgb, var(--palette-paper-ink) 16%, transparent) 0.65px, transparent 0.7px);
+  background-size: 5px 5px;
   color: var(--profile-ink);
 }
 
@@ -3076,6 +3125,11 @@ body {
   border-radius: inherit;
   background: color-mix(in srgb, var(--palette-paper) 75%, white);
   box-shadow: 0 16px 40px color-mix(in srgb, var(--palette-paper-ink) 16%, transparent);
+  transition: transform 0.45s ease;
+}
+
+.pet-slide[aria-current="true"]:hover img {
+  transform: scale(1.045);
 }
 
 .pet-slide[aria-current="true"] img {
@@ -3258,7 +3312,7 @@ body {
 .lost-pet-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--palette-paper-ink) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--palette-animals) 62%, var(--palette-paper-ink));
   border-radius: 0.9rem;
   background: linear-gradient(155deg, color-mix(in srgb, var(--palette-paper) 94%, white), color-mix(in srgb, var(--palette-paper) 88%, var(--palette-animals)));
   padding: 1.1rem clamp(0.75rem, 2vw, 1.1rem) clamp(0.75rem, 2vw, 1.1rem);
@@ -3339,12 +3393,13 @@ body {
   flex: none;
   margin-top: 0.25rem;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--palette-animals) 30%, var(--palette-paper));
-  padding: 0.35rem 0.55rem;
-  color: color-mix(in srgb, var(--palette-paper-ink) 72%, var(--palette-animals));
+  background: var(--palette-animals);
+  padding: 0.4rem 0.7rem;
+  color: var(--palette-space);
   font-family: var(--font-logo);
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
 }
 
 .lost-pet-modal-backdrop {

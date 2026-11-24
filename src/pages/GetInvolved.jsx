@@ -13,6 +13,7 @@ export default function GetInvolved() {
     <div className="get-involved-page home-paper-section home-sheet home-sheet-close">
       <section className="py-10 sm:py-16 lg:py-24">
         <Container className="max-w-3xl">
+          <p className="journal-chapter">The Next Chapter</p>
           <p className="font-logo text-[10px] tracking-[0.14em] text-animals sm:text-[11px] sm:tracking-[0.28em]">
             TAKE PART
           </p>

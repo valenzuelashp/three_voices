@@ -6,8 +6,11 @@ export const site = {
 
 export const navLinks = [
   { label: "Home", to: "/" },
-  { label: "Our cause", to: "/#advocacy" },
-  { label: "Our voices", to: "/#profiles" },
+  { label: "Advocacy", to: "/#advocacy" },
+  { label: "Stories", to: "/#profiles" },
+  { label: "Gallery", to: "/#pets" },
+  { label: "Lost Pets", to: "/#lost-pets" },
+  { label: "News", to: "/#news" },
   { label: "Get involved", to: "/get-involved" },
 ]
 

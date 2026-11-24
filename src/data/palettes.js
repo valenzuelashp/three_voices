@@ -1,5 +1,11 @@
 export const palettes = [
   {
+    id: "kindred-journal",
+    name: "Kindred journal",
+    description: "Warm cream, sage, terracotta, and earth brown",
+    swatches: ["#F5F0E6", "#879B7B", "#C77E5B", "#51483E"],
+  },
+  {
     id: "sage-cream",
     name: "Sage & cream",
     description: "Muted sage, warm ivory, and soft moss",
@@ -31,8 +37,10 @@ export const palettes = [
   },
 ]
 
-export const defaultPalette = "blush-lilac"
+export const defaultPalette = "kindred-journal"
 export const paletteStorageKey = "three-voices-palette"
+export const paletteVersionKey = "three-voices-palette-version"
+export const paletteVersion = "journal-1"
 
 export function isPaletteId(value) {
   return palettes.some((palette) => palette.id === value)

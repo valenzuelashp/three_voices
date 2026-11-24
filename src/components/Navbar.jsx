@@ -50,7 +50,7 @@ export default function Navbar() {
           {site.name.toUpperCase()}
         </Link>
 
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-3 xl:gap-5 lg:flex" aria-label="Primary">
           {navLinks.map((link) => {
             const active = isActive(pathname, hash, link.to)
             const cta = link.to === "/get-involved"
@@ -62,7 +62,7 @@ export default function Navbar() {
                 className={`${
                   cta
                     ? "theme-primary-button rounded-full px-4 py-2 text-sm font-semibold"
-                    : `hero-nav-link text-sm font-medium ${active ? "text-ink" : "text-mist hover:text-ink"}`
+                    : `hero-nav-link text-[13px] font-medium xl:text-sm ${active ? "text-ink" : "text-mist hover:text-ink"}`
                 }`}
               >
                 {link.label}
@@ -75,7 +75,7 @@ export default function Navbar() {
           <PalettePreferences />
           <button
             type="button"
-            className="grid size-11 place-items-center rounded-full border border-white/15 text-ink md:hidden"
+            className="grid size-11 place-items-center rounded-full border border-white/15 text-ink lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((value) => !value)}
@@ -87,7 +87,7 @@ export default function Navbar() {
       </div>
 
       {open ? (
-        <nav id="mobile-nav" className="mobile-nav-panel px-4 py-3 md:hidden" aria-label="Mobile">
+        <nav id="mobile-nav" className="mobile-nav-panel px-4 py-3 lg:hidden" aria-label="Mobile">
           <ul className="space-y-1">
             {navLinks.map((link) => (
               <li key={link.to}>

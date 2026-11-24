@@ -175,12 +175,13 @@ export default function LostPets() {
 
   return (
     <>
-      <section className="home-paper-section home-sheet home-sheet-board pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="lost-pets-title">
+      <section id="lost-pets" className="home-paper-section home-sheet home-sheet-board pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="lost-pets-title">
         <PetAssets variant="stamps" />
         <Container>
           <div className="mx-auto max-w-2xl text-center">
+            <p className="journal-chapter">The Missing Pages</p>
             <p className="home-index home-index-center">
-              <span>05</span>
+              <span>04</span>
               Community lost-pet board
             </p>
             <h2 id="lost-pets-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl lg:text-4xl">

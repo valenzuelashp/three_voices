@@ -144,6 +144,15 @@ export default function Home() {
         </svg>
       </section>
 
+      <div className="journal-pages">
+        <svg className="journal-leash" aria-hidden="true">
+          <defs>
+            <pattern id="journal-leash-wave" width="52" height="148" patternUnits="userSpaceOnUse">
+              <path d="M26 0 C 48 38, 48 74, 26 74 C 4 74, 4 110, 26 148" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#journal-leash-wave)" />
+        </svg>
       <section className="pet-creed pet-reveal" aria-label="Our shared line">
         <PawPrint className="pet-creed-mark" size={28} aria-hidden="true" />
         <p>{site.tagline}</p>
@@ -155,6 +164,7 @@ export default function Home() {
         <Container>
           <div className="home-split">
             <div>
+              <p className="journal-chapter">The Promise</p>
               <p className="home-index">
                 <span>01</span>
                 Our shared advocacy
@@ -181,6 +191,7 @@ export default function Home() {
           </div>
           <div id="profiles" className="home-voices">
             <div className="home-voices-heading">
+              <p className="journal-chapter">The People</p>
               <p className="home-index">
                 <span>02</span>
                 The people behind the cause
@@ -209,12 +220,15 @@ export default function Home() {
 
       <PetGallery />
 
-      <section className="home-paper-section home-sheet home-sheet-watch pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="featured-issue-title">
+      <LostPets />
+
+      <section id="news" className="home-paper-section home-sheet home-sheet-watch pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="featured-issue-title">
         <PetAssets variant="stamps" />
         <Container>
           <div className="mb-5 text-center sm:mb-7">
+            <p className="journal-chapter">The Stories That Matter</p>
             <p className="home-index home-index-center">
-              <span>03</span>
+              <span>05</span>
               Animal welfare watch · Philippines
             </p>
             <h2 id="featured-issue-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl">
@@ -326,12 +340,11 @@ export default function Home() {
         </Container>
       </section>
 
-      <LostPets />
-
       <section className="home-paper-section home-sheet home-sheet-close home-bottom-cta pet-reveal py-12 sm:py-16 lg:py-20">
         <Reveal>
           <Container className="flex flex-col items-start justify-between gap-5 sm:gap-8 md:flex-row md:items-center">
             <div className="max-w-xl">
+              <p className="journal-chapter">The Next Chapter</p>
               <PetAssets />
               <h2 className="mt-4 font-display text-2xl text-ink sm:text-3xl lg:text-4xl">Stand with animals.</h2>
               <p className="mt-3 text-sm leading-6 text-mist sm:mt-4 sm:text-base sm:leading-7">
@@ -344,6 +357,7 @@ export default function Home() {
           </Container>
         </Reveal>
       </section>
+      </div>
     </>
   )
 }

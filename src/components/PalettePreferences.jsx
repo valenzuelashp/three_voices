@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from "react"
 import { Check, Palette } from "lucide-react"
-import { defaultPalette, isPaletteId, paletteStorageKey, palettes } from "../data/palettes"
+import { defaultPalette, isPaletteId, paletteStorageKey, paletteVersion, paletteVersionKey, palettes } from "../data/palettes"
 
 function getSavedPalette() {
   try {
+    const version = window.localStorage.getItem(paletteVersionKey)
     const saved = window.localStorage.getItem(paletteStorageKey)
+    if (version !== paletteVersion) {
+      window.localStorage.setItem(paletteVersionKey, paletteVersion)
+      window.localStorage.setItem(paletteStorageKey, defaultPalette)
+      return defaultPalette
+    }
     return isPaletteId(saved) ? saved : defaultPalette
   } catch {
     return defaultPalette

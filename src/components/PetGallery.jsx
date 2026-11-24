@@ -121,8 +121,9 @@ export default function PetGallery() {
       <PetAssets variant="stamps" />
       <Container>
         <div className="mx-auto max-w-2xl text-center">
+          <p className="journal-chapter">The Memories</p>
           <p className="home-index home-index-center">
-            <span>04</span>
+            <span>03</span>
             The circle
           </p>
           <h2 id="pets-title" className="mt-2 font-display text-2xl text-ink sm:mt-3 sm:text-3xl lg:text-4xl">
