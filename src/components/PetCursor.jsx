@@ -79,22 +79,22 @@ export default function PetCursor() {
     <div className="pet-cursor" aria-hidden="true">
       <span ref={ringRef} className="pet-cursor-ring" />
       <span ref={pawRef} className="pet-cursor-paw">
-        <svg viewBox="0 0 48 48" fill="currentColor">
-          <ellipse cx="16" cy="14" rx="5" ry="6.5" />
-          <ellipse cx="26" cy="10" rx="4.5" ry="6" />
-          <ellipse cx="35" cy="14" rx="4.2" ry="5.6" />
-          <ellipse cx="11" cy="23" rx="4" ry="5" />
-          <path d="M24 27c-7 0-12 5-12 10 0 4 3.2 7 8 7 2.2 0 3.6-1 4-2.4.4 1.4 1.8 2.4 4 2.4 4.8 0 8-3 8-7 0-5-5-10-12-10z" />
+        <svg viewBox="0 0 100 100" fill="currentColor">
+          <ellipse cx="28" cy="36" rx="11" ry="14" transform="rotate(-24 28 36)" />
+          <ellipse cx="45" cy="22" rx="10" ry="13" transform="rotate(-6 45 22)" />
+          <ellipse cx="64" cy="21" rx="10" ry="13" transform="rotate(8 64 21)" />
+          <ellipse cx="81" cy="35" rx="11" ry="14" transform="rotate(24 81 35)" />
+          <path d="M36 52C22 54 14 68 20 82C26 94 42 100 54 96C66 100 82 94 88 82C94 68 86 54 72 52C66 60 60 64 54 62C48 64 42 60 36 52Z" />
         </svg>
       </span>
       {stamps.map((stamp) => (
         <span key={stamp.id} className="pet-cursor-stamp" style={{ left: stamp.x, top: stamp.y }}>
-          <svg viewBox="0 0 48 48" fill="currentColor">
-            <ellipse cx="16" cy="14" rx="5" ry="6.5" />
-            <ellipse cx="26" cy="10" rx="4.5" ry="6" />
-            <ellipse cx="35" cy="14" rx="4.2" ry="5.6" />
-            <ellipse cx="11" cy="23" rx="4" ry="5" />
-            <path d="M24 27c-7 0-12 5-12 10 0 4 3.2 7 8 7 2.2 0 3.6-1 4-2.4.4 1.4 1.8 2.4 4 2.4 4.8 0 8-3 8-7 0-5-5-10-12-10z" />
+          <svg viewBox="0 0 100 100" fill="currentColor">
+            <ellipse cx="28" cy="36" rx="11" ry="14" transform="rotate(-24 28 36)" />
+            <ellipse cx="45" cy="22" rx="10" ry="13" transform="rotate(-6 45 22)" />
+            <ellipse cx="64" cy="21" rx="10" ry="13" transform="rotate(8 64 21)" />
+            <ellipse cx="81" cy="35" rx="11" ry="14" transform="rotate(24 81 35)" />
+            <path d="M36 52C22 54 14 68 20 82C26 94 42 100 54 96C66 100 82 94 88 82C94 68 86 54 72 52C66 60 60 64 54 62C48 64 42 60 36 52Z" />
           </svg>
         </span>
       ))}

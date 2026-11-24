@@ -1,25 +1,266 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { ArrowUpRight, Bone, Heart, Newspaper, PawPrint } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 import AdvocacyCard from "../components/AdvocacyCard"
 import Container from "../components/Container"
 import LostPets from "../components/LostPets"
 import PetAssets from "../components/PetAssets"
-import PetIcon from "../components/PetIcon"
 import PetGallery from "../components/PetGallery"
 import PetMarquee from "../components/PetMarquee"
 import Reveal from "../components/Reveal"
 import { profiles, site } from "../data/site"
 import usePageTitle from "../usePageTitle"
 
+const aquariumPets = [
+  ["clown", "4%", "1.22rem", "40s", "-2s", "a", "3.1s", "8%"],
+  ["seahorse", "46%", "1.05rem", "54s", "-18s", "b", "4.4s", "22%"],
+  ["shrimp", "18%", "1rem", "33s", "-9s", "c", "2.2s", "41%"],
+  ["snail", "38%", "1.12rem", "62s", "-27s", "a", "5.2s", "63%"],
+  ["clown", "28%", "1.08rem", "47s", "-36s", "b", "3.6s", "15%"],
+  ["shrimp", "52%", "0.92rem", "29s", "-6s", "a", "1.9s", "74%"],
+  ["seahorse", "8%", "1.16rem", "58s", "-41s", "c", "4.8s", "33%"],
+  ["snail", "22%", "0.98rem", "66s", "-14s", "b", "5.6s", "52%"],
+  ["clown", "42%", "1.28rem", "36s", "-21s", "c", "2.8s", "6%"],
+  ["shrimp", "10%", "1.02rem", "31s", "-24s", "b", "2.1s", "68%"],
+  ["seahorse", "34%", "0.96rem", "50s", "-33s", "a", "4.1s", "27%"],
+  ["clown", "16%", "1.05rem", "44s", "-12s", "a", "3.4s", "81%"],
+  ["snail", "50%", "1.08rem", "70s", "-48s", "c", "6s", "44%"],
+  ["shrimp", "30%", "0.9rem", "27s", "-4s", "c", "1.7s", "17%"],
+  ["seahorse", "20%", "1.2rem", "61s", "-52s", "b", "5s", "59%"],
+  ["clown", "48%", "1.1rem", "39s", "-29s", "b", "3s", "36%"],
+  ["snail", "6%", "1.02rem", "64s", "-19s", "a", "5.4s", "72%"],
+  ["shrimp", "40%", "1.06rem", "34s", "-16s", "a", "2.3s", "11%"],
+  ["clown", "24%", "1.18rem", "43s", "-38s", "c", "3.3s", "49%"],
+  ["seahorse", "54%", "1rem", "56s", "-8s", "c", "4.6s", "25%"],
+  ["snail", "14%", "1.14rem", "68s", "-44s", "b", "5.8s", "78%"],
+  ["shrimp", "36%", "0.94rem", "30s", "-22s", "b", "2s", "55%"],
+  ["clown", "8%", "1.14rem", "45s", "-31s", "a", "3.5s", "19%"],
+  ["seahorse", "44%", "1.1rem", "52s", "-46s", "a", "4.2s", "66%"],
+  ["clown", "12%", "1.16rem", "42s", "-7s", "a", "3.2s", "12%"],
+  ["clown", "26%", "1.24rem", "38s", "-15s", "c", "2.6s", "28%"],
+  ["clown", "33%", "1.1rem", "49s", "-26s", "b", "3.8s", "57%"],
+  ["clown", "18%", "1.2rem", "35s", "-11s", "a", "2.9s", "70%"],
+  ["clown", "21%", "1.08rem", "41s", "-19s", "c", "3.1s", "84%"],
+  ["turtle", "40%", "1.42rem", "78s", "-20s", "b", "6.4s", "46%"],
+  ["dory", "22%", "1.26rem", "46s", "-9s", "c", "3.4s", "33%"],
+]
+
+function AquariumGlyph({ kind }) {
+  if (kind === "seahorse") {
+    return (
+      <svg className="aquarium-glyph" viewBox="0 0 58 46">
+        <path fill="#f0b429" d="M18 10c6-8 16-6 16 2 0 4-4 6-8 5 6 2 12 1 14 5 2 5-2 8-7 7 2 8-2 14-8 16-8 3-14-2-12-8 2-6-2-10-6-14-4-4-2-12 5-13 2 0 4 0 6 0z" />
+        <path fill="#ffe08a" d="M22 16c4 1 6 4 5 8-2 5-2 8 0 12-3-1-5-5-4-9 1-4 0-8-1-11z" />
+        <path fill="#f0b429" d="M30 8h14c1 2-2 5-6 5h-7c-1 0-2-2-1-5z" />
+        <circle cx="20" cy="12" r="1.7" fill="#1d2430" />
+        <circle cx="20.6" cy="11.5" r="0.55" fill="#fff" />
+        <path fill="#f0b429" d="M16 34c6 1 9 6 5 9-4 3-9 1-10-3-1-3 2-5 5-4" />
+      </svg>
+    )
+  }
+  if (kind === "snail") {
+    return (
+      <svg className="aquarium-glyph" viewBox="0 0 58 34">
+        <ellipse cx="22" cy="16" rx="13" ry="11" fill="#3db7e8" />
+        <ellipse cx="22" cy="16" rx="8" ry="7" fill="#b6ecff" />
+        <circle cx="22" cy="16" r="3.2" fill="#1d6f99" />
+        <path fill="#f4c7a8" d="M18 22c10 1 22 2 30 6 2 1 2 4-1 5-12 2-24 1-32-3-3-2-2-7 3-8z" />
+        <path stroke="#e7b08a" strokeWidth="1.4" fill="none" d="M40 24 44 16M46 26l6-6" />
+        <circle cx="44" cy="15.2" r="1.3" fill="#1d2430" />
+        <circle cx="52" cy="19.2" r="1.3" fill="#1d2430" />
+      </svg>
+    )
+  }
+  if (kind === "turtle") {
+    return (
+      <svg className="aquarium-glyph" viewBox="0 0 74 40">
+        <path fill="#7d9a62" d="M10 18c5 0 8 3 7 6-5 1-10-1-7-6z" />
+        <ellipse cx="24" cy="27" rx="8" ry="3.6" fill="#6f8f5c" transform="rotate(-24 24 27)" />
+        <ellipse cx="36" cy="18" rx="16" ry="12" fill="#5f7d4e" />
+        <ellipse cx="36" cy="18" rx="11" ry="8" fill="#c4b48a" />
+        <path fill="#8f7a52" d="M30 12h7l-1 7h-7zM37 13l6 2-1 7-6-1z" />
+        <ellipse cx="48" cy="26" rx="9" ry="3.8" fill="#7d9a62" transform="rotate(16 48 26)" />
+        <ellipse cx="56" cy="16" rx="9" ry="5.4" fill="#8aaa72" />
+        <circle cx="62" cy="15" r="1.5" fill="#1d2430" />
+        <circle cx="62.5" cy="14.5" r="0.5" fill="#fff" />
+      </svg>
+    )
+  }
+  if (kind === "dory") {
+    return (
+      <svg className="aquarium-glyph" viewBox="0 0 70 36">
+        <path fill="#f0d48a" d="M6 18 20 8v20z" />
+        <ellipse cx="40" cy="18" rx="20" ry="12" fill="#f6ead0" />
+        <path fill="#efe0bc" d="M28 8c8-6 18-4 20 2-8 1-16 0-20-2z" />
+        <path fill="#efe0bc" d="M30 28c8 5 16 3 18-1-8-1-14 0-18 1z" />
+        <path fill="#c4a27a" d="M46 9c5 2 8 7 5 12-5-1-10-5-10-10 1-1 3-2 5-2z" />
+        <path fill="#fff8ea" d="M36 17c7 2 9 8 2 10-5-2-9-6-2-10z" />
+        <circle cx="54" cy="16" r="2.2" fill="#1d2430" />
+        <circle cx="54.7" cy="15.4" r="0.7" fill="#fff" />
+      </svg>
+    )
+  }
+  if (kind === "shrimp") {
+    return (
+      <svg className="aquarium-glyph" viewBox="0 0 64 30">
+        <path fill="#ff6b8a" d="M10 15 2 8v14z" />
+        <path fill="#ff8fa3" d="M12 15c6-7 16-8 24-4 8 4 14 3 20 6-4 5-10 6-18 4-8-1-16 0-22 4-3 2-6-4-4-10z" />
+        <path fill="#ffd0da" d="M22 13c6 1 12 2 18 5" />
+        <circle cx="46" cy="13" r="1.5" fill="#1d2430" />
+        <path stroke="#ffd0da" strokeWidth="1.1" fill="none" d="M50 14 60 8M50 16l11 2" />
+        <path stroke="#ff6b8a" strokeWidth="1" fill="none" d="M24 18 22 24M32 18l-1 6M40 17l1 6" />
+      </svg>
+    )
+  }
+  return (
+    <svg className="aquarium-glyph" viewBox="0 0 68 34">
+      <path fill="#ff7a1a" d="M6 17 18 7v20z" />
+      <ellipse cx="38" cy="17" rx="18" ry="12" fill="#ff7a1a" />
+      <path fill="#fff7ef" d="M28 7c1 6 1 14 0 20h7c1-6 1-14 0-20z" />
+      <path fill="#fff7ef" d="M40 8c1 5 1 12 0 17h6c1-5 1-12 0-17z" />
+      <path fill="#f25c12" d="M34 22c6 7 14 6 16 1-6 1-12-1-16-1z" />
+      <circle cx="50" cy="14" r="2.1" fill="#1d2430" />
+      <circle cx="50.7" cy="13.4" r="0.7" fill="#fff" />
+    </svg>
+  )
+}
+
 const inquirerPostUrl =
   "https://www.facebook.com/inquirerdotnet/posts/trigger-warning-sensitive-contentall-29-dogs-and-cats-dumped-in-san-jose-del-mon/1601376602173289/"
 const inquirerPreviewImageUrl =
   "https://scontent.fmnl17-5.fna.fbcdn.net/v/t39.99422-6/877512484_1654189299431425_319350756179079831_n.png?stp=dst-jpg_tt6&cstp=mx1292x1569&ctp=p600x600&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=cae128&_nc_ohc=hlNJB2FEJ4AQ7kNvwGut-O-&_nc_oc=AdoAze_F7kkXQJFpM3MyoabOvH765rS4Gsy3YjXRIfulscAuVYllzbhl9fPKe2zMaXw&_nc_zt=14&_nc_ht=scontent.fmnl17-5.fna&_nc_gid=fAz6NFp1wXUa2LOn_wDYEQ&_nc_ss=7b20f&oh=00_AQTu1YZDpoF5l8QyoE1W1QMZYWYCL_w9EDcvFqjFQeUoyw&oe=6B0351F1"
 
+function NewsLeaf({ index, turning = false, onTurned, onTurnNext }) {
+  return (
+    <article
+      className={turning ? "news-leaf is-turning" : "news-leaf"}
+      aria-hidden={turning || undefined}
+      inert={turning || undefined}
+      onAnimationEnd={turning ? onTurned : undefined}
+    >
+      <header className="news-folio">
+        <p>One Kind</p>
+        <p>Page {index + 1} of 2</p>
+      </header>
+      <div className="news-folio-rule" aria-hidden="true" />
+      {index === 0 ? (
+        <>
+          <p className="news-warning">TRIGGER WARNING · SENSITIVE CONTENT — THE IMAGE BELOW IS BLURRED</p>
+          <div className="news-story">
+            <figure>
+              <a href={inquirerPostUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Inquirer Facebook post">
+                <img
+                  src={inquirerPreviewImageUrl}
+                  alt="Blurred image in an INQUIRER.net graphic about the Bulacan case"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+              </a>
+              <figcaption>IMAGE: INQUIRER.NET · PHOTO: LUNA AND FURRY SIBLINGS ANIMAL RESCUE</figcaption>
+            </figure>
+            <div>
+              <p className="news-kicker">
+                <Newspaper size={16} aria-hidden="true" />
+                ANIMAL WELFARE WATCH
+              </p>
+              <p className="news-dateline">San Jose del Monte, Bulacan</p>
+              <h3>29 dogs and cats claimed by their owners, rescue group says</h3>
+              <p>
+                INQUIRER.net reports that all 29 dogs and cats dumped in San Jose del Monte, Bulacan, have been claimed
+                by their respective owners, according to an animal rescue group.
+              </p>
+              <div className="news-actions">
+                <a
+                  href="https://newsinfo.inquirer.net/2334122/all-dead-pets-dumped-in-bulacan-claimed-by-owners-rescue-group"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="theme-primary-button"
+                >
+                  Read the report <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+                <a href={inquirerPostUrl} target="_blank" rel="noopener noreferrer" className="news-text-link">
+                  View Inquirer post <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="news-story news-story-flip">
+          <div>
+            <p className="news-kicker">PAWS RESCUE · TAYTAY, RIZAL</p>
+            <h3>34 animals rescued from neglect</h3>
+            <p>
+              PAWS reports rescuing 29 dogs and 5 cats found in filthy, unsanitary conditions. Many were severely
+              underweight, and some were confined in cages. PAWS urges spaying and neutering and adopting pets that
+              have already been spayed or neutered.
+            </p>
+            <div className="news-actions">
+              <a
+                href="https://www.facebook.com/share/v/1CQUrzKddi/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="theme-primary-button"
+              >
+                Watch the PAWS update <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+              <a
+                href="https://mb.com.ph/2026/11/16/child-34-neglected-animals-rescued-from-filthy-rizal-home"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="news-text-link"
+              >
+                Read a report <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+          <figure>
+            <a
+              href="https://www.facebook.com/share/v/1CQUrzKddi/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open the PAWS rescue video on Facebook"
+            >
+              <img
+                src="/images/paws-taytay-rescue.jpg"
+                alt="PAWS alert about 29 dogs and 5 cats left in neglect in Taytay, Rizal"
+                loading="lazy"
+              />
+            </a>
+            <figcaption>PAWS PHILIPPINES · TAYTAY, RIZAL</figcaption>
+          </figure>
+        </div>
+      )}
+      {index === 0 && onTurnNext ? (
+        <button type="button" className="news-corner" onClick={onTurnNext}>
+          Turn the page
+        </button>
+      ) : null}
+    </article>
+  )
+}
+
 export default function Home() {
   const { hash } = useLocation()
+  const [newsPage, setNewsPage] = useState(0)
+  const [newsFrom, setNewsFrom] = useState(null)
   usePageTitle("One Kind · Animal Advocacy")
+
+  useEffect(() => {
+    if (newsFrom === null) return undefined
+    const timer = window.setTimeout(() => setNewsFrom(null), 1000)
+    return () => window.clearTimeout(timer)
+  }, [newsFrom])
+
+  function turnNews(next) {
+    if (newsFrom !== null || next === newsPage || next < 0 || next > 1) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setNewsPage(next)
+      return
+    }
+    setNewsFrom(newsPage)
+    setNewsPage(next)
+  }
 
   useEffect(() => {
     if (!hash) return
@@ -68,29 +309,41 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    const section = document.querySelector(".home-sheet-advocacy")
-    const field = section?.querySelector(".pattern-field")
-    if (!section || !field) return undefined
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (!finePointer || reduce) return undefined
 
-    function onMove(event) {
-      const rect = section.getBoundingClientRect()
-      field.style.setProperty("--spot-x", `${event.clientX - rect.left}px`)
-      field.style.setProperty("--spot-y", `${event.clientY - rect.top}px`)
-      field.classList.add("is-lit")
-    }
-    function onLeave() {
-      field.classList.remove("is-lit")
+    const pairs = [
+      ["#advocacy", ".pattern-field"],
+      ["#pets", ".circle-paws"],
+    ]
+      .map(([sectionSelector, fieldSelector]) => {
+        const section = document.querySelector(sectionSelector)
+        const field = section?.querySelector(fieldSelector)
+        return section && field ? { section, field } : null
+      })
+      .filter(Boolean)
+
+    function watch({ section, field }) {
+      function onMove(event) {
+        const rect = section.getBoundingClientRect()
+        field.style.setProperty("--spot-x", `${event.clientX - rect.left}px`)
+        field.style.setProperty("--spot-y", `${event.clientY - rect.top}px`)
+        field.classList.add("is-lit")
+      }
+      function onLeave() {
+        field.classList.remove("is-lit")
+      }
+      section.addEventListener("pointermove", onMove)
+      section.addEventListener("pointerleave", onLeave)
+      return () => {
+        section.removeEventListener("pointermove", onMove)
+        section.removeEventListener("pointerleave", onLeave)
+      }
     }
 
-    section.addEventListener("pointermove", onMove)
-    section.addEventListener("pointerleave", onLeave)
-    return () => {
-      section.removeEventListener("pointermove", onMove)
-      section.removeEventListener("pointerleave", onLeave)
-    }
+    const stop = pairs.map(watch)
+    return () => stop.forEach((cleanup) => cleanup())
   }, [])
 
   return (
@@ -139,27 +392,64 @@ export default function Home() {
         >
           <path
             d="M0 43 C160 72 260 91 430 84 C620 76 694 48 850 55 C1035 64 1155 86 1300 62 C1365 52 1410 37 1440 30 L1440 100 L0 100 Z"
-            fill="var(--palette-paper)"
+            fill="currentColor"
           />
         </svg>
       </section>
 
       <div className="journal-pages">
-        <svg className="journal-leash" aria-hidden="true">
-          <defs>
-            <pattern id="journal-leash-wave" width="52" height="148" patternUnits="userSpaceOnUse">
-              <path d="M26 0 C 48 38, 48 74, 26 74 C 4 74, 4 110, 26 148" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#journal-leash-wave)" />
-        </svg>
+        <div className="journal-aquarium" aria-hidden="true">
+          <div className="aquarium-cylinder">
+            <div className="aquarium-rim" />
+            <div className="aquarium-water">
+              <div className="aquarium-grass" />
+              <div className="aquarium-flower aquarium-flower-pink" />
+              <div className="aquarium-flower aquarium-flower-white" />
+              <div className="aquarium-flower aquarium-flower-yellow" />
+              {aquariumPets.flatMap((pet, index) => {
+                const seconds = parseFloat(pet[3])
+                const shifted = `-${(Math.abs(parseFloat(pet[4])) + seconds / 2) % seconds}s`
+                return [pet, [pet[0], pet[1], pet[2], pet[3], shifted, pet[5] === "a" ? "b" : "c", pet[6], pet[7]]]
+              }).map(([kind, , size, dive, delay, weave, weaveTime, rest], index) => (
+                <span
+                  key={`${kind}-${index}`}
+                  className={`aquarium-pet aquarium-kind-${kind}${weave === "b" ? " is-reverse" : ""}`}
+                  style={{
+                    width: `${(parseFloat(size) * 2.45).toFixed(2)}rem`,
+                    top: rest,
+                    "--dive": dive,
+                    "--dive-delay": delay,
+                    "--lap": `${(parseFloat(weaveTime) * 1.8).toFixed(2)}s`,
+                    "--lap-delay": `${(index % 6) * 0.45}s`,
+                  }}
+                >
+                  <span className={`aquarium-pet-path aquarium-swim-${weave}`} style={{ animationDuration: `${(parseFloat(weaveTime) * 1.8).toFixed(2)}s`, animationDelay: `${(index % 6) * 0.45}s` }}>
+                    <AquariumGlyph kind={kind} />
+                  </span>
+                </span>
+              ))}
+              <span className="aquarium-bubble" />
+              <span className="aquarium-bubble aquarium-bubble-b" />
+              <span className="aquarium-bubble aquarium-bubble-c" />
+              <span className="aquarium-bubble aquarium-bubble-d" />
+              <span className="aquarium-bubble aquarium-bubble-e" />
+              <span className="aquarium-bubble aquarium-bubble-f" />
+              <span className="aquarium-bubble aquarium-bubble-g" />
+              <span className="aquarium-bubble aquarium-bubble-h" />
+            </div>
+            <div className="aquarium-base" />
+          </div>
+        </div>
       <section className="pet-creed pet-reveal" aria-label="Our shared line">
         <PawPrint className="pet-creed-mark" size={28} aria-hidden="true" />
         <p>{site.tagline}</p>
       </section>
 
       <section id="advocacy" className="home-paper-section home-sheet home-sheet-advocacy pet-reveal pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pb-20 lg:pt-20">
-        <div className="pattern-field" aria-hidden="true" />
+        <div className="pattern-field" aria-hidden="true">
+          <span className="pattern-dogs" />
+          <span className="pattern-cats" />
+        </div>
         <PetAssets variant="stamps" />
         <Container>
           <div className="home-split">
@@ -198,15 +488,6 @@ export default function Home() {
               </p>
               <h2 className="home-display home-display-small">Three voices, one advocacy.</h2>
             </div>
-            <div className="home-voice-rule" aria-hidden="true">
-              <span />
-              <i className="pet-badge pet-badge-dog"><PetIcon name="dog" /></i>
-              <span />
-              <i className="pet-badge pet-badge-cat"><PetIcon name="cat" /></i>
-              <span />
-              <i className="pet-badge pet-badge-hamster"><PetIcon name="hamster" /></i>
-              <span />
-            </div>
             <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
             {profiles.map((profile, index) => (
               <AdvocacyCard key={profile.slug} item={profile} index={index} />
@@ -223,120 +504,32 @@ export default function Home() {
       <LostPets />
 
       <section id="news" className="home-paper-section home-sheet home-sheet-watch pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="featured-issue-title">
+        <div className="news-spots" aria-hidden="true" />
         <PetAssets variant="stamps" />
         <Container>
-          <div className="mb-5 text-center sm:mb-7">
+          <div className="news-masthead">
             <p className="journal-chapter">The Stories That Matter</p>
             <p className="home-index home-index-center">
               <span>05</span>
               Animal welfare watch · Philippines
             </p>
-            <h2 id="featured-issue-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl">
-              Stories that need our attention
-            </h2>
+            <h2 id="featured-issue-title">Stories that need our attention</h2>
           </div>
-          <p className="mx-auto mb-4 max-w-5xl font-logo text-[10px] font-semibold tracking-[0.16em] text-animals sm:mb-5 sm:text-[11px]">
-            TRIGGER WARNING · SENSITIVE CONTENT — THE IMAGE BELOW IS BLURRED
-          </p>
-          <article className="hover-lift mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[0.8fr_1.2fr]">
-            <figure className="m-0 flex flex-col items-center justify-center gap-3 bg-animals/5 p-4 sm:p-6">
-              <a href={inquirerPostUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Inquirer Facebook post">
-                <img
-                  src={inquirerPreviewImageUrl}
-                  alt="Blurred image in an INQUIRER.net graphic about the Bulacan case"
-                  className="h-auto max-h-[36rem] w-auto max-w-full rounded-xl"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-              </a>
-              <figcaption className="text-center font-logo text-[9px] tracking-[0.12em] text-mist/70">
-                IMAGE: INQUIRER.NET · PHOTO: LUNA AND FURRY SIBLINGS ANIMAL RESCUE
-              </figcaption>
-            </figure>
-            <div className="p-5 sm:p-8">
-              <p className="flex items-center gap-2 font-logo text-[10px] tracking-[0.2em] text-animals sm:text-[11px]">
-                <Newspaper size={16} aria-hidden="true" />
-                ANIMAL WELFARE WATCH
-              </p>
-              <p className="mt-3 font-display text-lg text-ink sm:text-xl">San Jose del Monte, Bulacan</p>
-              <h3 className="mt-3 font-display text-xl text-ink sm:text-2xl">
-                29 dogs and cats claimed by their owners, rescue group says
-              </h3>
-              <p className="mt-3 text-sm leading-6 text-mist sm:text-base sm:leading-7">
-                INQUIRER.net reports that all 29 dogs and cats dumped in San Jose del Monte, Bulacan, have been claimed
-                by their respective owners, according to an animal rescue group.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <a
-                  href="https://newsinfo.inquirer.net/2334122/all-dead-pets-dumped-in-bulacan-claimed-by-owners-rescue-group"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="theme-primary-button inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold"
-                >
-                  Read the report <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-                <a
-                  href={inquirerPostUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-white/10"
-                >
-                  View Inquirer post <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-          </article>
-          <article className="hover-lift mx-auto mt-6 grid max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] md:grid-cols-[1.2fr_0.8fr]">
-            <div className="p-5 sm:p-8">
-              <p className="font-logo text-[10px] tracking-[0.2em] text-animals sm:text-[11px]">
-                PAWS RESCUE · TAYTAY, RIZAL
-              </p>
-              <h3 className="mt-3 font-display text-xl text-ink sm:text-2xl">
-                34 animals rescued from neglect
-              </h3>
-              <p className="mt-3 text-sm leading-6 text-mist sm:text-base sm:leading-7">
-                PAWS reports rescuing 29 dogs and 5 cats found in filthy, unsanitary conditions. Many were severely
-                underweight, and some were confined in cages. PAWS urges spaying and neutering and adopting pets that
-                have already been spayed or neutered.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <a
-                  href="https://www.facebook.com/share/v/1CQUrzKddi/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="theme-primary-button inline-flex w-fit items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold"
-                >
-                  Watch the PAWS update <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-                <a
-                  href="https://mb.com.ph/2026/11/16/child-34-neglected-animals-rescued-from-filthy-rizal-home"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-white/10"
-                >
-                  Read a report <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-            <figure className="m-0 flex flex-col items-center justify-center gap-3 bg-animals/5 p-4 sm:p-6">
-              <a
-                href="https://www.facebook.com/share/v/1CQUrzKddi/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open the PAWS rescue video on Facebook"
-              >
-                <img
-                  src="/images/paws-taytay-rescue.jpg"
-                  alt="PAWS alert about 29 dogs and 5 cats left in neglect in Taytay, Rizal"
-                  className="h-auto max-h-[36rem] w-auto max-w-full rounded-xl"
-                  loading="lazy"
-                />
-              </a>
-              <figcaption className="text-center font-logo text-[9px] tracking-[0.12em] text-mist/70">
-                PAWS PHILIPPINES · TAYTAY, RIZAL
-              </figcaption>
-            </figure>
-          </article>
+          <div className="news-book">
+            <NewsLeaf index={newsPage} onTurnNext={newsPage === 0 ? () => turnNews(1) : undefined} />
+            {newsFrom !== null ? (
+              <NewsLeaf index={newsFrom} turning onTurned={() => setNewsFrom(null)} />
+            ) : null}
+          </div>
+          <div className="news-pager">
+            <button type="button" onClick={() => turnNews(newsPage - 1)} disabled={newsPage === 0 || newsFrom !== null}>
+              Previous page
+            </button>
+            <p className="sr-only" aria-live="polite">Page {newsPage + 1} of 2</p>
+            <button type="button" onClick={() => turnNews(newsPage + 1)} disabled={newsPage === 1 || newsFrom !== null}>
+              Turn the page
+            </button>
+          </div>
         </Container>
       </section>
 

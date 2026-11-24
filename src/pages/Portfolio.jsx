@@ -237,6 +237,32 @@ function StoryMediaItem({ item }) {
   )
 }
 
+function PetTilt({ className, children }) {
+  const ref = useRef(null)
+
+  function tilt(event) {
+    const card = ref.current
+    if (!card || event.pointerType === "touch") return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const rect = card.getBoundingClientRect()
+    const x = (event.clientX - rect.left) / rect.width - 0.5
+    const y = (event.clientY - rect.top) / rect.height - 0.5
+    card.style.transform = `rotateX(${(-y * 12).toFixed(2)}deg) rotateY(${(x * 14).toFixed(2)}deg)`
+  }
+
+  function rest() {
+    if (ref.current) ref.current.style.transform = ""
+  }
+
+  return (
+    <div className="pet-tilt-scene">
+      <div ref={ref} className={className ? `pet-tilt ${className}` : "pet-tilt"} onPointerMove={tilt} onPointerLeave={rest}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
 export default function Portfolio() {
   const { slug } = useParams()
   const [activeStoryFilter, setActiveStoryFilter] = useState("all")
@@ -269,6 +295,30 @@ export default function Portfolio() {
     ? iaStorySections
     : iaStorySections.filter((section) => section.category === activeStoryFilter)
   usePageTitle(profile ? `${profile.name} · One Kind` : "Page not found · One Kind")
+
+  useEffect(() => {
+    const hero = document.querySelector(".profile-hero")
+    if (!hero) return undefined
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (!finePointer || reduce) return undefined
+
+    function onMove(event) {
+      const rect = hero.getBoundingClientRect()
+      hero.style.setProperty("--spot-x", `${event.clientX - rect.left}px`)
+      hero.style.setProperty("--spot-y", `${event.clientY - rect.top}px`)
+      hero.classList.add("is-lit")
+    }
+    function onLeave() {
+      hero.classList.remove("is-lit")
+    }
+    hero.addEventListener("pointermove", onMove)
+    hero.addEventListener("pointerleave", onLeave)
+    return () => {
+      hero.removeEventListener("pointermove", onMove)
+      hero.removeEventListener("pointerleave", onLeave)
+    }
+  }, [slug])
 
   if (!profile) return <NotFound />
   if (!profile.path) return <Navigate to="/#profiles" replace />
@@ -313,69 +363,73 @@ export default function Portfolio() {
               </div>
             </div>
 
-            <div
-              className={`profile-main-photo${mainPhoto ? "" : " profile-photo-placeholder"}`}
-              role={mainPhoto ? undefined : "img"}
-              aria-label={mainPhoto ? undefined : `${profile.name}'s main photo placeholder`}
-            >
-              {mainPhoto ? (
-                <img
-                  src={mainPhoto.src}
-                  alt={mainPhoto.alt}
-                  className="size-full rounded-[inherit] object-cover"
-                  style={mainPhoto.position ? { objectPosition: mainPhoto.position } : undefined}
-                />
-              ) : (
-                <>
-                  <span className="profile-photo-corner profile-photo-corner-top" aria-hidden="true" />
-                  <span className="profile-photo-placeholder-content">
-                    <PawPrint size={32} strokeWidth={1.4} aria-hidden="true" />
-                    <span>Main photo placeholder</span>
-                  </span>
-                </>
-              )}
-              <span className="profile-photo-index">PHOTO / 01</span>
-            </div>
+            <PetTilt>
+              <div
+                className={`profile-main-photo${mainPhoto ? "" : " profile-photo-placeholder"}`}
+                role={mainPhoto ? undefined : "img"}
+                aria-label={mainPhoto ? undefined : `${profile.name}'s main photo placeholder`}
+              >
+                {mainPhoto ? (
+                  <img
+                    src={mainPhoto.src}
+                    alt={mainPhoto.alt}
+                    className="size-full rounded-[inherit] object-cover"
+                    style={mainPhoto.position ? { objectPosition: mainPhoto.position } : undefined}
+                  />
+                ) : (
+                  <>
+                    <span className="profile-photo-corner profile-photo-corner-top" aria-hidden="true" />
+                    <span className="profile-photo-placeholder-content">
+                      <PawPrint size={32} strokeWidth={1.4} aria-hidden="true" />
+                      <span>Main photo placeholder</span>
+                    </span>
+                  </>
+                )}
+                <span className="profile-photo-index">PHOTO / 01</span>
+              </div>
+            </PetTilt>
 
             <div className="profile-side-photo-wrap">
-              {profile.slug === "charles" ? (
-                <div className="profile-side-photo">
-                  <img
-                    src="/images/charles-dog-portrait.png"
-                    alt="Charles's dog wearing a lavender costume"
-                    className="absolute inset-0 size-full rounded-[inherit] object-cover"
-                  />
-                </div>
-              ) : profile.slug === "ia" ? (
-                <div className="profile-side-photo">
-                  <img
-                    src="/images/profile-ia-cat.jpg"
-                    alt="Ia with Maui the cat"
-                    className="absolute inset-0 size-full rounded-[inherit] object-cover"
-                    style={{ objectPosition: "center 35%" }}
-                  />
-                </div>
-              ) : profile.slug === "sharmaine" ? (
-                <div className="profile-side-photo">
-                  <img
-                    src="/images/maine-pet-dogs.jpg"
-                    alt="Sharmaine with her dogs beside a Christmas tree"
-                    className="absolute inset-0 size-full rounded-[inherit] object-cover"
-                    style={{ objectPosition: "62% center" }}
-                  />
-                </div>
-              ) : (
-                <div
-                  role="img"
-                  aria-label={`${profile.name}'s portrait placeholder`}
-                  className="profile-side-photo profile-photo-placeholder"
-                >
-                  <span className="profile-photo-placeholder-content">
-                    <PawPrint size={25} strokeWidth={1.4} aria-hidden="true" />
-                    <span>Portrait placeholder</span>
-                  </span>
-                </div>
-              )}
+              <PetTilt>
+                {profile.slug === "charles" ? (
+                  <div className="profile-side-photo">
+                    <img
+                      src="/images/charles-dog-portrait.png"
+                      alt="Charles's dog wearing a lavender costume"
+                      className="absolute inset-0 size-full rounded-[inherit] object-cover"
+                    />
+                  </div>
+                ) : profile.slug === "ia" ? (
+                  <div className="profile-side-photo">
+                    <img
+                      src="/images/profile-ia-cat.jpg"
+                      alt="Ia with Maui the cat"
+                      className="absolute inset-0 size-full rounded-[inherit] object-cover"
+                      style={{ objectPosition: "center 35%" }}
+                    />
+                  </div>
+                ) : profile.slug === "sharmaine" ? (
+                  <div className="profile-side-photo">
+                    <img
+                      src="/images/maine-pet-dogs.jpg"
+                      alt="Sharmaine with her dogs beside a Christmas tree"
+                      className="absolute inset-0 size-full rounded-[inherit] object-cover"
+                      style={{ objectPosition: "62% center" }}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    role="img"
+                    aria-label={`${profile.name}'s portrait placeholder`}
+                    className="profile-side-photo profile-photo-placeholder"
+                  >
+                    <span className="profile-photo-placeholder-content">
+                      <PawPrint size={25} strokeWidth={1.4} aria-hidden="true" />
+                      <span>Portrait placeholder</span>
+                    </span>
+                  </div>
+                )}
+              </PetTilt>
               {profile.slug !== "ia" && (
                 <p className="profile-caption">
                   {profile.slug === "charles"
@@ -477,8 +531,8 @@ export default function Portfolio() {
             <MaineStory />
           ) : (
             <div className={`profile-story-grid${profile.slug === "charles" ? " profile-story-grid--charles" : ""}`}>
-              <article className="profile-story-card">
-                <span className="profile-card-label">MY EXPERIENCE</span>
+            <article className="profile-story-card">
+              <span className="profile-card-label">MY EXPERIENCE</span>
                 {profile.slug === "charles" ? (
                   <div className="profile-story-video-wrap">
                     <video
@@ -516,10 +570,10 @@ export default function Portfolio() {
                     </button>
                   </div>
                 ) : (
-                  <p className="profile-story-placeholder">Story placeholder — personal experiences coming soon.</p>
+              <p className="profile-story-placeholder">Story placeholder — personal experiences coming soon.</p>
                 )}
-                <span className="profile-card-index">STORY / 01</span>
-              </article>
+              <span className="profile-card-index">STORY / 01</span>
+            </article>
 
               <div
                 className="profile-moments"
@@ -551,18 +605,18 @@ export default function Portfolio() {
                   </>
                 ) : (
                   storyPhotos.slice(0, 4).map(({ number }) => (
-                    <div
-                      key={number}
-                      role="img"
-                      aria-label={`${profile.name}'s story photo placeholder ${number}`}
-                      className="profile-moment profile-photo-placeholder"
-                    >
-                      <span className="profile-moment-number">{number}</span>
-                      <span className="profile-moment-add">
-                        <Plus size={19} aria-hidden="true" />
-                      </span>
-                      <span className="sr-only">Story photo placeholder</span>
-                    </div>
+                <div
+                  key={number}
+                  role="img"
+                  aria-label={`${profile.name}'s story photo placeholder ${number}`}
+                  className="profile-moment profile-photo-placeholder"
+                >
+                  <span className="profile-moment-number">{number}</span>
+                  <span className="profile-moment-add">
+                    <Plus size={19} aria-hidden="true" />
+                  </span>
+                  <span className="sr-only">Story photo placeholder</span>
+                </div>
                   ))
                 )}
               </div>
@@ -725,17 +779,19 @@ export default function Portfolio() {
             {featuredPetPhoto && (
               <div className="profile-pet-featured">
                 <h3 className="profile-pet-featured-title">The Queen</h3>
-                <figure className="group relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <img
-                    src={featuredPetPhoto.src}
-                    alt={featuredPetPhoto.alt}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-center text-base font-semibold text-white">
-                    {featuredPetPhoto.name}
-                  </figcaption>
-                </figure>
+                <PetTilt>
+                  <figure className="group relative aspect-[4/3] overflow-hidden rounded-2xl">
+                    <img
+                      src={featuredPetPhoto.src}
+                      alt={featuredPetPhoto.alt}
+                      loading="lazy"
+                      className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-center text-base font-semibold text-white">
+                      {featuredPetPhoto.name}
+                    </figcaption>
+                  </figure>
+                </PetTilt>
               </div>
             )}
             {profile.slug === "ia" && (
@@ -743,49 +799,54 @@ export default function Portfolio() {
                 <h3 className="profile-pet-featured-title">The Parents</h3>
                 <div className="profile-pet-featured-parents">
                   {iaPetPhotos.slice(0, 2).map(({ src, name, alt }) => (
-                    <figure key={src} className="group relative aspect-square overflow-hidden rounded-2xl">
-                      <img
-                        src={src}
-                        alt={alt || name}
-                        loading="lazy"
-                        className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-center text-sm font-semibold text-white">
-                        {name}
-                      </figcaption>
-                    </figure>
+                    <PetTilt key={src}>
+                      <figure className="group relative aspect-square overflow-hidden rounded-2xl">
+                        <img
+                          src={src}
+                          alt={alt || name}
+                          loading="lazy"
+                          className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-center text-sm font-semibold text-white">
+                          {name}
+                        </figcaption>
+                      </figure>
+                    </PetTilt>
                   ))}
                 </div>
               </div>
             )}
             {galleryPetPhotos
               ? galleryPetPhotos.map(({ src, name, alt, objectPosition }) => (
-                  <figure key={src} className="group relative aspect-square overflow-hidden rounded-2xl">
-                    <img
-                      src={src}
-                      alt={alt || name}
-                      loading="lazy"
-                      className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      style={objectPosition ? { objectPosition } : undefined}
-                    />
-                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-sm font-semibold text-white">
-                      {name}
-                    </figcaption>
-                  </figure>
+                  <PetTilt key={src}>
+                    <figure className="group relative aspect-square overflow-hidden rounded-2xl">
+                      <img
+                        src={src}
+                        alt={alt || name}
+                        loading="lazy"
+                        className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        style={objectPosition ? { objectPosition } : undefined}
+                      />
+                      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-3 pt-10 pb-3 text-sm font-semibold text-white">
+                        {name}
+                      </figcaption>
+                    </figure>
+                  </PetTilt>
                 ))
               : petPhotoSlots.map((number) => (
-                  <div
-                    key={number}
-                    role="img"
-                    aria-label={`${profile.name}'s pet photo and name placeholder ${number}`}
-                    className="profile-photo-placeholder aspect-square rounded-2xl"
-                  >
-                    <span className="profile-photo-placeholder-content">
-                      <PawPrint size={25} strokeWidth={1.4} aria-hidden="true" />
-                      <span>Pet photo {number}</span>
-                      <span className="text-xs text-[color:var(--profile-muted)]">Pet name</span>
-                    </span>
-                  </div>
+                  <PetTilt key={number}>
+                    <div
+                      role="img"
+                      aria-label={`${profile.name}'s pet photo and name placeholder ${number}`}
+                      className="profile-photo-placeholder aspect-square rounded-2xl"
+                    >
+                      <span className="profile-photo-placeholder-content">
+                        <PawPrint size={25} strokeWidth={1.4} aria-hidden="true" />
+                        <span>Pet photo {number}</span>
+                        <span className="text-xs text-[color:var(--profile-muted)]">Pet name</span>
+                      </span>
+                    </div>
+                  </PetTilt>
                 ))}
           </div>
 

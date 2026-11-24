@@ -1,8 +1,8 @@
-import { Camera, PawPrint, Upload, X } from "lucide-react"
+import { Camera, Megaphone, Phone, Upload, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import Container from "./Container"
-import PetAssets from "./PetAssets"
+import PawMark from "./PawMark"
 import { petGalleryApi } from "../data/pets"
 
 const ACCEPT = "image/jpeg,image/png,image/webp"
@@ -176,15 +176,27 @@ export default function LostPets() {
   return (
     <>
       <section id="lost-pets" className="home-paper-section home-sheet home-sheet-board pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="lost-pets-title">
-        <PetAssets variant="stamps" />
+        <div className="bulletin-paws" aria-hidden="true">
+          <PawMark kind="dog" size={72} />
+          <PawMark kind="rabbit" size={52} />
+          <PawMark kind="bird" size={68} />
+          <PawMark kind="claw" size={48} />
+          <PawMark kind="fish" size={40} />
+        </div>
+        <span className="bulletin-note bulletin-note-left" aria-hidden="true"><PawMark kind="rabbit" size={36} /></span>
+        <span className="bulletin-note bulletin-note-right" aria-hidden="true"><PawMark kind="bird" size={36} /></span>
         <Container>
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="bulletin-intro mx-auto max-w-2xl text-center">
             <p className="journal-chapter">The Missing Pages</p>
             <p className="home-index home-index-center">
               <span>04</span>
               Community lost-pet board
             </p>
-            <h2 id="lost-pets-title" className="mt-2 font-display text-2xl text-ink sm:text-3xl lg:text-4xl">
+            <p className="bulletin-kicker">Community bulletin board</p>
+            <span className="bulletin-mark" aria-hidden="true">
+              <PawMark kind="claw" size={18} />
+            </span>
+            <h2 id="lost-pets-title" className="bulletin-title font-display">
               Help bring missing pets home.
             </h2>
             <p className="mt-3 text-sm leading-6 text-mist sm:text-base sm:leading-7">
@@ -196,56 +208,64 @@ export default function LostPets() {
               className="theme-primary-button mt-5 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
               onClick={openReportModal}
             >
-              <PawPrint size={16} aria-hidden="true" />
+              <Megaphone size={16} aria-hidden="true" />
               Report a missing pet
             </button>
             {notice ? <p className="mt-3 text-sm leading-6 text-mist" role="status">{notice}</p> : null}
           </div>
 
           <div className="lost-pets-layout mt-8">
-            <div className="lost-pets-list lost-pets-board" aria-live="polite">
-              <div className="lost-pets-board-heading">
-                <h3>Community bulletin board</h3>
-                <p>Missing-pet notices shared by our community</p>
+            <div className="lost-pets-board" aria-live="polite">
+            <div className="lost-pets-board-heading">
+              <h3>Community bulletin board</h3>
+              <p>Missing-pet notices shared by our community</p>
+            </div>
+            {loading ? <p className="text-center text-sm text-mist">Loading missing-pet reports…</p> : null}
+            {loadError ? <p className="text-center text-sm text-[#FCA5A5]" role="alert">{loadError}</p> : null}
+            {!loading && !loadError && lostPets.length === 0 ? (
+              <div className="lost-pets-empty">
+                <PawMark kind="dog" size={26} />
+                <p>What is the Lost Pets board?</p>
+                <span>
+                  A community space for sharing missing pets’ names and photos so more people can recognize them and help bring them home.
+                  No reports yet—be the first to add one.
+                </span>
               </div>
-              {loading ? <p className="text-sm text-mist">Loading missing-pet reports…</p> : null}
-              {loadError ? <p className="text-sm text-[#FCA5A5]" role="alert">{loadError}</p> : null}
-              {!loading && !loadError && lostPets.length === 0 ? (
-                <div className="lost-pets-empty">
-                  <PawPrint size={26} aria-hidden="true" />
-                  <p>What is the Lost Pets board?</p>
-                  <span>
-                    A community space for sharing missing pets’ names and photos so more people can recognize them and help bring them home.
-                    No reports yet—be the first to add one.
-                  </span>
-                </div>
-              ) : null}
-              {lostPets.length > 0 ? (
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {lostPets.map((pet) => {
-                    const contactHref = pet.contactNumber?.replace(/[^\d+]/g, "")
-                    return (
-                      <article key={pet.id} className="lost-pet-card">
-                        <p className="lost-pet-poster-heading">HAVE YOU SEEN ME?</p>
-                        <img src={pet.src} alt={pet.alt || `Photo of missing pet ${pet.petName}`} loading="lazy" />
-                        <div className="lost-pet-card-details">
-                          <h3 className="lost-pet-name">My name is {pet.petName}!</h3>
-                          {pet.reporterName ? <p className="lost-pet-reporter">Reported by {pet.reporterName}</p> : null}
-                          <p className="lost-pet-contact-label">If found, please contact:</p>
-                          {pet.contactNumber && contactHref ? (
-                            <a className="lost-pet-contact" href={`tel:${contactHref}`}>
-                              {pet.contactNumber}
-                            </a>
-                          ) : (
-                            <p className="lost-pet-contact">Contact details unavailable.</p>
-                          )}
-                          <span className="lost-pet-badge">MISSING</span>
-                        </div>
-                      </article>
-                    )
-                  })}
-                </div>
-              ) : null}
+            ) : null}
+            {lostPets.length > 0 ? (
+              <div className="lost-pet-posters">
+                {lostPets.map((pet) => {
+                  const contactHref = pet.contactNumber?.replace(/[^\d+]/g, "")
+                  return (
+                    <article key={pet.id} className="lost-pet-card">
+                      <span className="lost-pet-tape" aria-hidden="true" />
+                      <span className="lost-pet-burst lost-pet-burst-left" aria-hidden="true" />
+                      <span className="lost-pet-burst lost-pet-burst-right" aria-hidden="true" />
+                      <p className="lost-pet-poster-heading">HAVE YOU SEEN ME?</p>
+                      <img src={pet.src} alt={pet.alt || `Photo of missing pet ${pet.petName}`} loading="lazy" />
+                      <div className="lost-pet-card-details">
+                        <h3 className="lost-pet-name">
+                          <PawMark kind="dog" size={16} />
+                          My name is {pet.petName}!
+                          <PawMark kind="dog" size={16} />
+                        </h3>
+                        {pet.reporterName ? <p className="lost-pet-reporter">Reported by {pet.reporterName}</p> : null}
+                        <p className="lost-pet-contact-label">If found, please contact:</p>
+                        {pet.contactNumber && contactHref ? (
+                          <a className="lost-pet-contact" href={`tel:${contactHref}`}>
+                            <Phone size={15} aria-hidden="true" />
+                            {pet.contactNumber}
+                          </a>
+                        ) : (
+                          <p className="lost-pet-contact">Contact details unavailable.</p>
+                        )}
+                        <span className="lost-pet-badge">MISSING</span>
+                      </div>
+                    </article>
+                  )
+                })}
+              </div>
+            ) : null}
             </div>
           </div>
         </Container>

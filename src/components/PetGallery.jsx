@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import Container from "./Container"
 import PetAssets from "./PetAssets"
-import { petGalleryApi } from "../data/pets"
+import { petGalleryApi, housePosts } from "../data/pets"
 
 const ACCEPT = "image/jpeg,image/png,image/webp"
 const MAX_BYTES = 4 * 1024 * 1024
@@ -60,7 +60,10 @@ export default function PetGallery() {
   const drag = useRef(null)
   const swiped = useRef(false)
   const reach = useVisibleReach()
-  const posts = community
+  const posts = [...housePosts, ...community.filter((post) => {
+    const caption = String(post.caption || post.petName || "").trim().toLowerCase()
+    return !housePosts.some((house) => house.caption.toLowerCase() === caption && house.name.toLowerCase() === String(post.name || "").trim().toLowerCase())
+  })]
   const count = posts.length
   const current = posts[active]
 
@@ -118,6 +121,7 @@ export default function PetGallery() {
 
   return (
     <section id="pets" className="home-paper-section home-sheet home-sheet-circle pet-gallery-section pet-reveal overflow-hidden pb-12 pt-12 sm:pb-16 sm:pt-16" aria-labelledby="pets-title">
+      <div className="circle-paws" aria-hidden="true" />
       <PetAssets variant="stamps" />
       <Container>
         <div className="mx-auto max-w-2xl text-center">
@@ -182,7 +186,7 @@ export default function PetGallery() {
                 if (offset !== 0) show(index)
               }}
             >
-              <img src={post.src} alt={offset === 0 ? post.alt : ""} draggable="false" />
+              <img src={post.src} alt={offset === 0 ? post.alt : ""} draggable="false" style={post.objectPosition ? { objectPosition: post.objectPosition } : undefined} />
             </button>
           )
         })}
