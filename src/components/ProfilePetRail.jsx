@@ -29,12 +29,10 @@ function RunnerArt({ kind }) {
     return (
       <span className="profile-pet-runner__frame-stack">
         {frames.map((src, index) => (
-          <img
+          <span
             key={src}
             className={`profile-pet-runner__frame profile-pet-runner__frame--${index + 1}`}
-            src={src}
-            alt=""
-            draggable="false"
+            style={{ "--runner-mask": `url("${src}")` }}
           />
         ))}
       </span>
@@ -42,36 +40,36 @@ function RunnerArt({ kind }) {
   }
 
   return (
-    <img
+    <span
       className={`profile-pet-runner__art profile-pet-runner__art--${kind}`}
-      src={stillSilhouettes[kind]}
-      alt=""
-      draggable="false"
+      style={{ "--runner-mask": `url("${stillSilhouettes[kind]}")` }}
     />
   )
 }
 
 export default function ProfilePetRail() {
   return (
-    <aside className="profile-pet-rail" aria-hidden="true">
-      <div className="profile-pet-track">
-        {[0, 1].map((sequence) => (
-          <div
-            key={sequence}
-            className={`profile-pet-sequence${sequence ? " is-copy" : ""}`}
-          >
-            {runners.map(({ kind, position }, index) => (
-              <span
-                key={`${kind}-${index}`}
-                className={`profile-pet-runner profile-pet-runner--${kind}`}
-                style={{ "--runner-top": `${position}%` }}
-              >
-                <RunnerArt kind={kind} />
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
-    </aside>
+    <div className="profile-footer-rail">
+      <aside className="profile-pet-rail is-rotated" aria-hidden="true">
+        <div className="profile-pet-track">
+          {[0, 1].map((sequence) => (
+            <div
+              key={sequence}
+              className={`profile-pet-sequence${sequence ? " is-copy" : ""}`}
+            >
+              {runners.map(({ kind, position }, index) => (
+                <span
+                  key={`${kind}-${index}`}
+                  className={`profile-pet-runner profile-pet-runner--${kind}`}
+                  style={{ "--runner-top": `${position}%` }}
+                >
+                  <RunnerArt kind={kind} />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </aside>
+    </div>
   )
 }

@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { PawPrint } from "lucide-react"
 import { navLinks, site } from "../data/site"
 import FooterParade from "./FooterParade"
+import ProfilePetRail from "./ProfilePetRail"
 
 export default function Footer() {
+  const profilePage = useLocation().pathname.startsWith("/profiles/")
   return (
     <footer className="site-footer border-t border-white/10">
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 lg:px-8 md:grid-cols-[1.2fr_0.8fr]">
@@ -30,7 +32,7 @@ export default function Footer() {
         </div>
 
       </div>
-      <FooterParade />
+      {profilePage ? <ProfilePetRail /> : <FooterParade />}
     </footer>
   )
 }
