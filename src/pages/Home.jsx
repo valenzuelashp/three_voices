@@ -233,7 +233,7 @@ export default function Home() {
             </p>
             <PetAssets />
             <h1 id="hero-title" className="hero-heading">
-              A kinder world for animals <span>starts with us.</span>
+              A kinder home for every pet <span>starts with us.</span>
             </h1>
             <p className="hero-lede">{site.lede}</p>
             <div className="hero-actions mt-7 flex flex-wrap gap-3 sm:mt-9">

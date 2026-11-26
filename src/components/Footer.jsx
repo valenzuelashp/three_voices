@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { PawPrint } from "lucide-react"
 import { navLinks, site } from "../data/site"
+import FooterParade from "./FooterParade"
 
 export default function Footer() {
   return (
@@ -29,11 +30,7 @@ export default function Footer() {
         </div>
 
       </div>
-      <div className="border-t border-white/10">
-        <p className="mx-auto w-full max-w-6xl px-4 py-4 text-xs text-mist sm:px-6 sm:py-5 lg:px-8">
-          Photographs from Unsplash. © {new Date().getFullYear()} {site.name}.
-        </p>
-      </div>
+      <FooterParade />
     </footer>
   )
 }
