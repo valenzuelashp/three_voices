@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { ArrowUpRight, Bone, Heart, Newspaper, PawPrint } from "lucide-react"
+import { useEffect } from "react"
+import { Bone, Heart, PawPrint } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 import AdvocacyCard from "../components/AdvocacyCard"
 import Container from "../components/Container"
@@ -125,142 +125,9 @@ function AquariumGlyph({ kind }) {
   )
 }
 
-const inquirerPostUrl =
-  "https://www.facebook.com/inquirerdotnet/posts/trigger-warning-sensitive-contentall-29-dogs-and-cats-dumped-in-san-jose-del-mon/1601376602173289/"
-const inquirerPreviewImageUrl =
-  "https://scontent.fmnl17-5.fna.fbcdn.net/v/t39.99422-6/877512484_1654189299431425_319350756179079831_n.png?stp=dst-jpg_tt6&cstp=mx1292x1569&ctp=p600x600&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=cae128&_nc_ohc=hlNJB2FEJ4AQ7kNvwGut-O-&_nc_oc=AdoAze_F7kkXQJFpM3MyoabOvH765rS4Gsy3YjXRIfulscAuVYllzbhl9fPKe2zMaXw&_nc_zt=14&_nc_ht=scontent.fmnl17-5.fna&_nc_gid=fAz6NFp1wXUa2LOn_wDYEQ&_nc_ss=7b20f&oh=00_AQTu1YZDpoF5l8QyoE1W1QMZYWYCL_w9EDcvFqjFQeUoyw&oe=6B0351F1"
-
-function NewsLeaf({ index, turning = false, onTurned, onTurnNext }) {
-  return (
-    <article
-      className={turning ? "news-leaf is-turning" : "news-leaf"}
-      aria-hidden={turning || undefined}
-      inert={turning || undefined}
-      onAnimationEnd={turning ? onTurned : undefined}
-    >
-      <header className="news-folio">
-        <p>One Kind</p>
-        <p>Page {index + 1} of 2</p>
-      </header>
-      <div className="news-folio-rule" aria-hidden="true" />
-      {index === 0 ? (
-        <>
-          <p className="news-warning">TRIGGER WARNING · SENSITIVE CONTENT — THE IMAGE BELOW IS BLURRED</p>
-          <div className="news-story">
-            <figure>
-              <a href={inquirerPostUrl} target="_blank" rel="noopener noreferrer" aria-label="Open the Inquirer Facebook post">
-                <img
-                  src={inquirerPreviewImageUrl}
-                  alt="Blurred image in an INQUIRER.net graphic about the Bulacan case"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-              </a>
-              <figcaption>IMAGE: INQUIRER.NET · PHOTO: LUNA AND FURRY SIBLINGS ANIMAL RESCUE</figcaption>
-            </figure>
-            <div>
-              <p className="news-kicker">
-                <Newspaper size={16} aria-hidden="true" />
-                ANIMAL WELFARE WATCH
-              </p>
-              <p className="news-dateline">San Jose del Monte, Bulacan</p>
-              <h3>29 dogs and cats claimed by their owners, rescue group says</h3>
-              <p>
-                INQUIRER.net reports that all 29 dogs and cats dumped in San Jose del Monte, Bulacan, have been claimed
-                by their respective owners, according to an animal rescue group.
-              </p>
-              <div className="news-actions">
-                <a
-                  href="https://newsinfo.inquirer.net/2334122/all-dead-pets-dumped-in-bulacan-claimed-by-owners-rescue-group"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="theme-primary-button"
-                >
-                  Read the report <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-                <a href={inquirerPostUrl} target="_blank" rel="noopener noreferrer" className="news-text-link">
-                  View Inquirer post <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <div className="news-story news-story-flip">
-          <div>
-            <p className="news-kicker">PAWS RESCUE · TAYTAY, RIZAL</p>
-            <h3>34 animals rescued from neglect</h3>
-            <p>
-              PAWS reports rescuing 29 dogs and 5 cats found in filthy, unsanitary conditions. Many were severely
-              underweight, and some were confined in cages. PAWS urges spaying and neutering and adopting pets that
-              have already been spayed or neutered.
-            </p>
-            <div className="news-actions">
-              <a
-                href="https://www.facebook.com/share/v/1CQUrzKddi/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="theme-primary-button"
-              >
-                Watch the PAWS update <ArrowUpRight size={16} aria-hidden="true" />
-              </a>
-              <a
-                href="https://mb.com.ph/2026/11/16/child-34-neglected-animals-rescued-from-filthy-rizal-home"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="news-text-link"
-              >
-                Read a report <ArrowUpRight size={16} aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-          <figure>
-            <a
-              href="https://www.facebook.com/share/v/1CQUrzKddi/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open the PAWS rescue video on Facebook"
-            >
-              <img
-                src="/images/paws-taytay-rescue.jpg"
-                alt="PAWS alert about 29 dogs and 5 cats left in neglect in Taytay, Rizal"
-                loading="lazy"
-              />
-            </a>
-            <figcaption>PAWS PHILIPPINES · TAYTAY, RIZAL</figcaption>
-          </figure>
-        </div>
-      )}
-      {index === 0 && onTurnNext ? (
-        <button type="button" className="news-corner" onClick={onTurnNext}>
-          Turn the page
-        </button>
-      ) : null}
-    </article>
-  )
-}
-
 export default function Home() {
   const { hash } = useLocation()
-  const [newsPage, setNewsPage] = useState(0)
-  const [newsFrom, setNewsFrom] = useState(null)
   usePageTitle("One Kind · Animal Advocacy")
-
-  useEffect(() => {
-    if (newsFrom === null) return undefined
-    const timer = window.setTimeout(() => setNewsFrom(null), 1000)
-    return () => window.clearTimeout(timer)
-  }, [newsFrom])
-
-  function turnNews(next) {
-    if (newsFrom !== null || next === newsPage || next < 0 || next > 1) return
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setNewsPage(next)
-      return
-    }
-    setNewsFrom(newsPage)
-    setNewsPage(next)
-  }
 
   useEffect(() => {
     if (!hash) return
@@ -502,36 +369,6 @@ export default function Home() {
       <PetGallery />
 
       <LostPets />
-
-      <section id="news" className="home-paper-section home-sheet home-sheet-watch pet-reveal py-12 sm:py-16 lg:py-20" aria-labelledby="featured-issue-title">
-        <div className="news-spots" aria-hidden="true" />
-        <PetAssets variant="stamps" />
-        <Container>
-          <div className="news-masthead">
-            <p className="journal-chapter">The Stories That Matter</p>
-            <p className="home-index home-index-center">
-              <span>05</span>
-              Animal welfare watch · Philippines
-            </p>
-            <h2 id="featured-issue-title">Stories that need our attention</h2>
-          </div>
-          <div className="news-book">
-            <NewsLeaf index={newsPage} onTurnNext={newsPage === 0 ? () => turnNews(1) : undefined} />
-            {newsFrom !== null ? (
-              <NewsLeaf index={newsFrom} turning onTurned={() => setNewsFrom(null)} />
-            ) : null}
-          </div>
-          <div className="news-pager">
-            <button type="button" onClick={() => turnNews(newsPage - 1)} disabled={newsPage === 0 || newsFrom !== null}>
-              Previous page
-            </button>
-            <p className="sr-only" aria-live="polite">Page {newsPage + 1} of 2</p>
-            <button type="button" onClick={() => turnNews(newsPage + 1)} disabled={newsPage === 1 || newsFrom !== null}>
-              Turn the page
-            </button>
-          </div>
-        </Container>
-      </section>
 
       <section className="home-paper-section home-sheet home-sheet-close home-bottom-cta pet-reveal py-12 sm:py-16 lg:py-20">
         <Reveal>

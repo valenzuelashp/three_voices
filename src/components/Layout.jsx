@@ -28,6 +28,9 @@ export default function Layout() {
       <Starfield />
       <PetCursor />
       <Navbar />
+      {pathname.startsWith("/profiles/") && (
+        <div className="profile-header-strip" aria-hidden="true" />
+      )}
       <main id="content" tabIndex={-1} className={pathname === "/" ? "outline-none" : "page-under-header outline-none"}>
         <AnimatePresence mode="wait">
           <motion.div

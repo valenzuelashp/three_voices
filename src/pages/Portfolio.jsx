@@ -2,6 +2,7 @@ import { Link, Navigate, useParams } from "react-router-dom"
 import { ArrowDown, ArrowLeft, ArrowRight, Pause, PawPrint, Play, Plus } from "lucide-react"
 import { Fragment, useEffect, useRef, useState } from "react"
 import Container from "../components/Container"
+import ProfilePetRail from "../components/ProfilePetRail"
 import { profiles } from "../data/site"
 import usePageTitle from "../usePageTitle"
 import NotFound from "./NotFound"
@@ -325,6 +326,7 @@ export default function Portfolio() {
 
   return (
     <div className="profile-page" style={{ "--accent": profile.accent }}>
+      <ProfilePetRail />
       <section className="profile-hero" aria-labelledby="profile-title">
         <Container>
           <div className="profile-eyebrow">

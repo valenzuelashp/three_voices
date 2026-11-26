@@ -10,7 +10,7 @@ export const navLinks = [
   { label: "Stories", to: "/#profiles" },
   { label: "Gallery", to: "/#pets" },
   { label: "Lost Pets", to: "/#lost-pets" },
-  { label: "News", to: "/#news" },
+  { label: "News", to: "/news" },
   { label: "Get involved", to: "/get-involved" },
 ]
 

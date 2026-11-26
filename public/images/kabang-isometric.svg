@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" role="img" aria-labelledby="title description">
+  <title id="title">Isometric statue of Kabang</title>
+  <description id="description">A bronze-style isometric sculpture of Kabang the hero Aspin standing on a stone pedestal.</description>
+  <defs>
+    <linearGradient id="bronze" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d7b985"/>
+      <stop offset=".18" stop-color="#a98a62"/>
+      <stop offset=".48" stop-color="#806846"/>
+      <stop offset=".72" stop-color="#b99d70"/>
+      <stop offset="1" stop-color="#5f4b35"/>
+    </linearGradient>
+    <linearGradient id="darkBronze" x1="0" y1="0" x2=".8" y2="1">
+      <stop offset="0" stop-color="#765b40"/>
+      <stop offset=".55" stop-color="#503e2d"/>
+      <stop offset="1" stop-color="#30241a"/>
+    </linearGradient>
+    <linearGradient id="stoneTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ece6d8"/>
+      <stop offset="1" stop-color="#bdb18f"/>
+    </linearGradient>
+    <linearGradient id="stoneSide" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c9bea1"/>
+      <stop offset="1" stop-color="#8f8267"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="390" cy="536" rx="236" ry="48" fill="#604b35" opacity=".18" filter="url(#shadow)"/>
+
+  <g transform="translate(0 12)">
+    <path d="M100 454 382 295 662 437 378 574Z" fill="url(#stoneSide)" stroke="#7d735e" stroke-width="3"/>
+    <path d="M100 454 378 574 378 594 100 474Z" fill="#9d9276"/>
+    <path d="M378 574 662 437 662 457 378 594Z" fill="#786e58"/>
+    <path d="M100 454 382 295 662 437 378 574Z" fill="url(#stoneTop)" stroke="#ddd4bc" stroke-width="3"/>
+
+    <path d="M166 446 382 328 592 431 378 538Z" fill="#ede5d2" stroke="#a89e82" stroke-width="2"/>
+    <path d="M166 446 378 538 378 574 166 482Z" fill="#aca181"/>
+    <path d="M378 538 592 431 592 467 378 574Z" fill="#918864"/>
+
+    <path d="M224 443 378 358 532 429 378 506Z" fill="#c8bea1" stroke="#9f9579" stroke-width="2"/>
+    <ellipse cx="378" cy="430" rx="154" ry="78" fill="#ded5ba" opacity=".72"/>
+
+    <g stroke="#f0e7cf" stroke-width="2" opacity=".82">
+      <path d="M233 439 378 512"/>
+      <path d="M271 420 416 493"/>
+      <path d="M310 401 454 473"/>
+      <path d="M348 382 492 454"/>
+      <path d="M388 364 531 435"/>
+      <path d="M428 381 522 429"/>
+    </g>
+
+    <g transform="translate(54 -8)">
+      <ellipse cx="328" cy="412" rx="176" ry="44" fill="#59462f" opacity=".22"/>
+
+      <path d="M164 285c-34 20-54 54-42 86 12 32 54 44 87 28l42-21-18-94Z" fill="url(#darkBronze)" stroke="#433427" stroke-width="4"/>
+      <path d="M122 340c-27-4-50 10-63 31-9 15-3 26 13 24 20-3 41-17 61-35Z" fill="url(#bronze)" stroke="#433427" stroke-width="4"/>
+      <path d="M176 327c-36-8-69 8-82 38-10 24 6 44 36 38 31-7 55-32 64-58Z" fill="url(#bronze)" stroke="#433427" stroke-width="4"/>
+
+      <path d="M214 239c-11 50 7 133 71 164 48 23 126 19 159-20 32-38 26-96-10-133-41-42-168-61-220-11Z" fill="url(#bronze)" stroke="#493829" stroke-width="5"/>
+      <path d="M247 272c38-32 126-45 177-10-37-7-77 2-104 25-29 24-51 68-49 112-25-32-40-92-24-127Z" fill="#ceb17f" opacity=".38"/>
+
+      <path d="M389 247c18 16 29 40 28 67l-29 66-75-19 12-96Z" fill="url(#darkBronze)" stroke="#493829" stroke-width="5"/>
+
+      <path d="M278 139c-43 19-68 65-53 111 15 46 70 73 117 55 49-19 65-75 42-119-20-39-68-64-106-47Z" fill="url(#bronze)" stroke="#493829" stroke-width="5"/>
+      <path d="M251 151c-31-20-50-50-44-87 4-21 18-31 31-12 20 28 35 64 40 105Z" fill="url(#darkBronze)" stroke="#493829" stroke-width="5"/>
+      <path d="M358 149c29-22 44-53 36-88-5-22-20-29-31-9-18 31-29 66-32 105Z" fill="url(#darkBronze)" stroke="#493829" stroke-width="5"/>
+
+      <path d="M248 218c34-26 85-31 120-8l13 51c-37 36-102 39-139 5Z" fill="url(#bronze)" stroke="#493829" stroke-width="5"/>
+      <path d="M274 250c12 30 52 47 80 28l19-16-8-35-79-9Z" fill="#a88a62" stroke="#493829" stroke-width="4"/>
+      <path d="M299 264c16 9 35 11 52 4" fill="none" stroke="#37291e" stroke-width="4" stroke-linecap="round"/>
+      <path d="M326 269c-3 12-17 16-29 10" fill="none" stroke="#37291e" stroke-width="3" stroke-linecap="round"/>
+
+      <ellipse cx="260" cy="203" rx="9" ry="11" fill="#211914"/>
+      <ellipse cx="342" cy="199" rx="9" ry="11" fill="#211914"/>
+      <circle cx="257" cy="200" r="2.5" fill="#d9c69d"/>
+      <circle cx="339" cy="196" r="2.5" fill="#d9c69d"/>
+
+      <path d="M290 287c-12 13-22 28-31 44" fill="none" stroke="#dcc49b" stroke-width="8" stroke-linecap="round" opacity=".72"/>
+      <path d="M255 338c-9 12-20 23-33 34" fill="none" stroke="#4c3928" stroke-width="5" stroke-linecap="round"/>
+
+      <path d="M267 382c-10 45-12 91-6 128" fill="none" stroke="#493829" stroke-width="24" stroke-linecap="round"/>
+      <path d="M362 391c8 41 8 83 3 119" fill="none" stroke="#493829" stroke-width="24" stroke-linecap="round"/>
+      <path d="M220 377c-5 42-3 83 4 125" fill="none" stroke="#493829" stroke-width="22" stroke-linecap="round"/>
+      <path d="M410 380c10 37 15 75 15 112" fill="none" stroke="#493829" stroke-width="22" stroke-linecap="round"/>
+
+      <ellipse cx="261" cy="512" rx="34" ry="12" fill="#604832"/>
+      <ellipse cx="366" cy="512" rx="34" ry="12" fill="#604832"/>
+      <ellipse cx="224" cy="504" rx="31" ry="11" fill="#604832"/>
+      <ellipse cx="425" cy="493" rx="31" ry="11" fill="#604832"/>
+
+      <path d="M455 342c56 13 84 47 77 86-5 28-35 37-65 14" fill="none" stroke="#493829" stroke-width="17" stroke-linecap="round"/>
+      <path d="M455 342c56 13 84 47 77 86" fill="none" stroke="#b09973" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+    </g>
+
+    <g transform="translate(0 18)">
+      <path d="M240 514 378 452 516 514 378 578Z" fill="#3e3528" stroke="#17140f" stroke-width="3"/>
+      <path d="M240 514 378 578 378 594 240 530Z" fill="#5d513d"/>
+      <path d="M378 578 516 514 516 530 378 594Z" fill="#473e30"/>
+      <path d="M224 530 378 594 532 530 532 547 378 612 224 547Z" fill="#74684e"/>
+    </g>
+  </g>
+</svg>
