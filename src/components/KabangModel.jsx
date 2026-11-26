@@ -7,6 +7,13 @@ export default function KabangModel({
   onRotationChange,
   zoomed = false,
   initialRotation = zoomed ? -0.82 : -0.22,
+  modelSrc = "/kabang-bronze.glb",
+  modelName = "Kabang",
+  focusOnMount = true,
+  scrollOffsetRef,
+  keepOnLeft = false,
+  minRotation = -1.55,
+  maxRotation = 1.55,
 }) {
   const hostRef = useRef(null)
   const [loading, setLoading] = useState(true)
@@ -62,7 +69,7 @@ export default function KabangModel({
       new THREE.ShadowMaterial({ opacity: 0.18 }),
     )
     ground.rotation.x = -Math.PI / 2
-    ground.position.y = -0.78
+    ground.position.y = zoomed ? -0.06 : -0.78
     ground.receiveShadow = true
     turntable.add(ground)
 
@@ -75,7 +82,7 @@ export default function KabangModel({
 
     const loader = new GLTFLoader()
     loader.load(
-      "/kabang-bronze.glb",
+      modelSrc,
       (gltf) => {
         if (disposed) return
         model = gltf.scene
@@ -97,14 +104,14 @@ export default function KabangModel({
         const size = box.getSize(new THREE.Vector3())
         const center = box.getCenter(new THREE.Vector3())
         const maxDimension = Math.max(size.x, size.y, size.z)
-        const scale = maxDimension > 0 ? 5.3 / maxDimension : 1
+        const scale = maxDimension > 0 ? (zoomed ? 4.6 : 5.3) / maxDimension : 1
 
         model.scale.setScalar(scale)
         model.position.sub(center.multiplyScalar(scale))
 
         const scaledBox = new THREE.Box3().setFromObject(model)
         model.position.y -= scaledBox.min.y
-        model.position.y -= 0.72
+        if (!zoomed) model.position.y -= 0.72
 
         turntable.add(model)
         setLoading(false)
@@ -132,7 +139,7 @@ export default function KabangModel({
       if (Math.abs(delta) > 2) moved = true
       previousX = event.clientX
       targetRotation += delta * 0.012
-      targetRotation = THREE.MathUtils.clamp(targetRotation, -1.35, 1.35)
+      targetRotation = THREE.MathUtils.clamp(targetRotation, minRotation, maxRotation)
       onRotationChange?.(targetRotation)
     }
 
@@ -148,11 +155,11 @@ export default function KabangModel({
     function onKeyDown(event) {
       if (event.key === "ArrowLeft") {
         event.preventDefault()
-        targetRotation = THREE.MathUtils.clamp(targetRotation - 0.18, -1.35, 1.35)
+        targetRotation = THREE.MathUtils.clamp(targetRotation - 0.18, minRotation, maxRotation)
         onRotationChange?.(targetRotation)
       } else if (event.key === "ArrowRight") {
         event.preventDefault()
-        targetRotation = THREE.MathUtils.clamp(targetRotation + 0.18, -1.35, 1.35)
+        targetRotation = THREE.MathUtils.clamp(targetRotation + 0.18, minRotation, maxRotation)
         onRotationChange?.(targetRotation)
       } else if (event.key === "Enter" || event.key === " ") {
         event.preventDefault()
@@ -165,7 +172,7 @@ export default function KabangModel({
     host.addEventListener("pointerup", onPointerUp)
     host.addEventListener("click", onClick)
     host.addEventListener("keydown", onKeyDown)
-    if (zoomed) host.focus()
+    if (zoomed && focusOnMount) host.focus()
 
     const resize = () => {
       const width = host.clientWidth
@@ -192,8 +199,12 @@ export default function KabangModel({
       camera.lookAt(cameraLookAt)
       turntable.rotation.y += (targetRotation - turntable.rotation.y) * 0.09
       const direction = zoomed ? Math.sign(targetRotation) : 0
-      const horizontalOffset = direction * (host.clientWidth < 768 ? -0.35 : -1.45)
+      const horizontalOffset = keepOnLeft
+        ? (host.clientWidth < 768 ? -0.35 : -1.45)
+        : direction * (host.clientWidth < 768 ? -0.35 : -1.45)
       turntable.position.x += (horizontalOffset - turntable.position.x) * 0.08
+      const verticalOffset = scrollOffsetRef?.current ?? 0
+      turntable.position.y += (verticalOffset - turntable.position.y) * 0.08
       renderer.render(scene, camera)
       frame = window.requestAnimationFrame(animate)
     }
@@ -218,7 +229,7 @@ export default function KabangModel({
       renderer.dispose()
       renderer.domElement.remove()
     }
-  }, [initialRotation, onOpen, onRotationChange, zoomed])
+  }, [focusOnMount, initialRotation, keepOnLeft, maxRotation, minRotation, modelSrc, onOpen, onRotationChange, scrollOffsetRef, zoomed])
 
   return (
     <div
@@ -226,7 +237,11 @@ export default function KabangModel({
       className={`kabang-three-host${zoomed ? " is-zoomed" : ""}`}
       role={zoomed ? "group" : "button"}
       tabIndex={0}
-      aria-label={zoomed ? "Drag or use left and right arrow keys to turn Kabang" : "Click Kabang's statue to explore her story"}
+      aria-label={
+        zoomed
+          ? `Drag or use left and right arrow keys to turn ${modelName}`
+          : `Click ${modelName}'s statue to explore its story`
+      }
       aria-busy={loading}
     >
       {loading && !loadError ? <span className="kabang-model-status">Loading 3D statue...</span> : null}

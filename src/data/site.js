@@ -7,10 +7,10 @@ export const site = {
 export const navLinks = [
   { label: "Home", to: "/" },
   { label: "Advocacy", to: "/#advocacy" },
-  { label: "Stories", to: "/#profiles" },
+  { label: "News", to: "/#news" },
   { label: "Gallery", to: "/#pets" },
   { label: "Lost Pets", to: "/#lost-pets" },
-  { label: "News", to: "/news" },
+  { label: "Stories", to: "/stories" },
   { label: "Get involved", to: "/get-involved" },
 ]
 

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
-import { ArrowUpRight, Newspaper, X } from "lucide-react"
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react"
+import { ArrowDown, ArrowUpRight, Newspaper, X } from "lucide-react"
 import Container from "../components/Container"
 import KabangModel from "../components/KabangModel"
 import PetAssets from "../components/PetAssets"
-import usePageTitle from "../usePageTitle"
 
 const inquirerPostUrl =
   "https://www.facebook.com/inquirerdotnet/posts/trigger-warning-sensitive-contentall-29-dogs-and-cats-dumped-in-san-jose-del-mon/1601376602173289/"
@@ -122,13 +122,46 @@ function NewsLeaf({ index, turning = false, onTurned, onTurnNext }) {
 }
 
 export default function News() {
-  usePageTitle("News · One Kind")
+  const reduceMotion = useReducedMotion()
   const [newsPage, setNewsPage] = useState(0)
   const [newsFrom, setNewsFrom] = useState(null)
   const [kabangOpen, setKabangOpen] = useState(false)
   const [kabangFacing, setKabangFacing] = useState("left")
+  const [hachikoFacing, setHachikoFacing] = useState("right")
+  const [hachikoReady, setHachikoReady] = useState(false)
   const [zoomOrigin, setZoomOrigin] = useState({})
+  const kabangStoryScrollRef = useRef(null)
+  const kabangStoryRef = useRef(null)
+  const hachikoStoryRef = useRef(null)
+  const kabangScrollOffsetRef = useRef(0)
+  const hachikoScrollOffsetRef = useRef(0)
   const kabangTriggerRef = useRef(null)
+  const { scrollYProgress: kabangStoryProgress } = useScroll({
+    container: kabangStoryScrollRef,
+    target: kabangStoryRef,
+    offset: ["start end", "end start"],
+  })
+  const { scrollYProgress: hachikoStoryProgress } = useScroll({
+    container: kabangStoryScrollRef,
+    target: hachikoStoryRef,
+    offset: ["start end", "end start"],
+  })
+  const kabangScrollOffset = useTransform(
+    kabangStoryProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [-0.75, 0.75],
+  )
+  const hachikoScrollOffset = useTransform(
+    hachikoStoryProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [-0.75, 0.75],
+  )
+  useMotionValueEvent(kabangScrollOffset, "change", (value) => {
+    kabangScrollOffsetRef.current = value
+  })
+  useMotionValueEvent(hachikoScrollOffset, "change", (value) => {
+    hachikoScrollOffsetRef.current = value
+  })
   const openKabang = useCallback((sourceRect) => {
     kabangTriggerRef.current = document.activeElement
     setKabangFacing("left")
@@ -145,6 +178,10 @@ export default function News() {
   const updateKabangRotation = useCallback((rotation) => {
     if (rotation < -0.35) setKabangFacing("left")
     if (rotation > 0.35) setKabangFacing("right")
+  }, [])
+  const updateHachikoRotation = useCallback((rotation) => {
+    if (rotation < -0.35) setHachikoFacing("left")
+    if (rotation > 0.35) setHachikoFacing("right")
   }, [])
 
   useEffect(() => {
@@ -181,14 +218,14 @@ export default function News() {
   }
 
   return (
-    <section className="news-page home-paper-section home-sheet home-sheet-watch py-10 sm:py-14 lg:py-20" aria-labelledby="featured-issue-title">
+    <section id="news" className="news-page home-paper-section home-sheet home-sheet-watch py-10 sm:py-14 lg:py-20" aria-labelledby="featured-issue-title">
       <div className="news-spots" aria-hidden="true" />
       <PetAssets variant="stamps" />
       <Container>
         <div className="news-masthead">
           <p className="journal-chapter">The Stories That Matter</p>
           <p className="home-index home-index-center">
-            <span>05</span>
+            <span>02</span>
             Animal welfare watch · Philippines
           </p>
           <h1 id="featured-issue-title">Stories that need our attention</h1>
@@ -231,45 +268,110 @@ export default function News() {
         ? createPortal(
             <div className="kabang-modal-backdrop" role="presentation">
               <section
+                ref={kabangStoryScrollRef}
                 className={`kabang-zoom is-facing-${kabangFacing}`}
                 style={zoomOrigin}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby="kabang-modal-title"
+                aria-labelledby="dog-stories-title"
+                tabIndex={-1}
               >
                 <button
                   type="button"
                   className="kabang-modal-close"
                   onClick={() => setKabangOpen(false)}
-                  aria-label="Close Kabang story"
+                  aria-label="Close dog stories"
                 >
                   <X size={20} aria-hidden="true" />
                 </button>
-                <div className="kabang-zoom-stage">
-                  <KabangModel
-                    zoomed
-                    initialRotation={-0.82}
-                    onRotationChange={updateKabangRotation}
-                  />
-                </div>
-                <p className="kabang-zoom-kicker">DRAG THE STATUE TO TURN</p>
-                <span className="kabang-zoom-instruction">Drag or use arrow keys to explore Kabang</span>
-                <aside className="kabang-face-card kabang-face-left" aria-label="Kabang name">
-                  <p>The hero dog</p>
-                  <h2 id="kabang-modal-title">Kabang</h2>
-                  <small>Zamboanga City · 2011 rescue</small>
-                  <p className="kabang-face-caption">An Aspin remembered for her courage.</p>
-                </aside>
-                <aside className="kabang-face-card kabang-face-right" aria-label="Kabang information">
-                  <p>A story of courage</p>
-                  <h2>A hero in action</h2>
-                  <p>
-                    Nine-year-old Dina Bunaggal and her three-year-old cousin Princess Diansing were crossing a street
-                    in Zamboanga City when a motorcycle approached. Kabang leapt between them and the motorcycle,
-                    protecting both children.
-                  </p>
-                  <small>Zamboanga City · December 2011</small>
-                </aside>
+                <motion.article
+                  ref={kabangStoryRef}
+                  className="kabang-zoom-story kabang-zoom-story--kabang"
+                  initial={reduceMotion ? false : { opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ root: kabangStoryScrollRef, amount: 0.25, once: true }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <h2 id="dog-stories-title" className="sr-only">Stories of brave and loyal dogs</h2>
+                  <div className="kabang-zoom-stage">
+                    <KabangModel
+                      zoomed
+                      initialRotation={-0.25}
+                      onRotationChange={updateKabangRotation}
+                      scrollOffsetRef={kabangScrollOffsetRef}
+                    />
+                  </div>
+                  <p className="kabang-zoom-kicker">DRAG THE STATUE TO TURN</p>
+                  <span className="kabang-zoom-instruction">Drag or use arrow keys to explore Kabang</span>
+                  <span className="kabang-story-scroll-prompt">
+                    Scroll for Hachikō’s story <ArrowDown size={16} aria-hidden="true" />
+                  </span>
+                  <aside className="kabang-face-card kabang-face-left" aria-label="Kabang name">
+                    <p>The hero dog</p>
+                    <h2 id="kabang-modal-title">Kabang</h2>
+                    <small>Zamboanga City · 2011 rescue</small>
+                    <p className="kabang-face-caption">An Aspin remembered for her courage.</p>
+                    <figure className="kabang-photo-frame">
+                      <img src="/images/kabang-portrait-frame.png" alt="Kabang sitting for a portrait" />
+                      <figcaption>Kabang · Zamboanga City</figcaption>
+                    </figure>
+                  </aside>
+                  <aside className="kabang-face-card kabang-face-right" aria-label="Kabang information">
+                    <p>A story of courage</p>
+                    <h2>A hero in action</h2>
+                    <p>
+                      Nine-year-old Dina Bunaggal and her three-year-old cousin Princess Diansing were crossing a street
+                      in Zamboanga City when a motorcycle approached. Kabang leapt between them and the motorcycle,
+                      protecting both children.
+                    </p>
+                    <small>Zamboanga City · December 2011</small>
+                  </aside>
+                </motion.article>
+                <motion.article
+                  ref={hachikoStoryRef}
+                  className={`kabang-zoom-story kabang-zoom-story--hachiko is-facing-${hachikoFacing}`}
+                  initial={reduceMotion ? false : { opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ root: kabangStoryScrollRef, amount: 0.25, once: true }}
+                  onViewportEnter={() => setHachikoReady(true)}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div className="kabang-zoom-stage">
+                    {hachikoReady ? (
+                      <KabangModel
+                        zoomed
+                        focusOnMount={false}
+                        initialRotation={0.82}
+                        keepOnLeft
+                        minRotation={-0.65}
+                        modelSrc="/hachiko_bronze.glb"
+                        modelName="Hachikō"
+                        onRotationChange={updateHachikoRotation}
+                        scrollOffsetRef={hachikoScrollOffsetRef}
+                      />
+                    ) : null}
+                  </div>
+                  <figure className="kabang-photo-frame kabang-hachiko-photo-frame">
+                    <img src="/images/hachiko-portrait-frame.png" alt="Hachikō in an archival portrait" />
+                    <figcaption>Hachikō · Shibuya, Tokyo</figcaption>
+                  </figure>
+                  <p className="kabang-zoom-kicker">A STORY OF LOYALTY</p>
+                  <span className="kabang-zoom-instruction">Drag or use arrow keys to turn Hachikō</span>
+                  <aside className="kabang-hachiko-card" aria-labelledby="hachiko-story-title">
+                    <p>The dog who waited</p>
+                    <h2 id="hachiko-story-title">Hachikō</h2>
+                    <p>
+                      In 1924 Tokyo, Hachikō walked Professor Hidesaburō Ueno to Shibuya Station each morning and
+                      returned each afternoon to greet him. When the professor died suddenly in May 1925, Hachikō
+                      continued waiting at the station.
+                    </p>
+                    <p>
+                      Though adopted by relatives, he kept returning through every season. After a newspaper shared
+                      his story in 1932, he became a beloved national icon and kept waiting until his death in 1935.
+                    </p>
+                    <small>Shibuya Station, Tokyo · 1924–1935</small>
+                  </aside>
+                </motion.article>
               </section>
             </div>,
             document.body,

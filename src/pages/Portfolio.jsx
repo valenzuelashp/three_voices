@@ -322,7 +322,7 @@ export default function Portfolio() {
   }, [slug])
 
   if (!profile) return <NotFound />
-  if (!profile.path) return <Navigate to="/#profiles" replace />
+  if (!profile.path) return <Navigate to="/stories" replace />
 
   return (
     <div className="profile-page" style={{ "--accent": profile.accent }}>
@@ -852,7 +852,7 @@ export default function Portfolio() {
                 ))}
           </div>
 
-          <Link to="/#profiles" className="profile-back-link">
+          <Link to="/stories" className="profile-back-link">
             <ArrowLeft size={16} aria-hidden="true" />
             Back to all voices
           </Link>

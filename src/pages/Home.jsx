@@ -1,14 +1,14 @@
 import { useEffect } from "react"
 import { Bone, Heart, PawPrint } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
-import AdvocacyCard from "../components/AdvocacyCard"
 import Container from "../components/Container"
 import LostPets from "../components/LostPets"
+import News from "./News"
 import PetAssets from "../components/PetAssets"
 import PetGallery from "../components/PetGallery"
 import PetMarquee from "../components/PetMarquee"
 import Reveal from "../components/Reveal"
-import { profiles, site } from "../data/site"
+import { site } from "../data/site"
 import usePageTitle from "../usePageTitle"
 
 const aquariumPets = [
@@ -237,10 +237,10 @@ export default function Home() {
             </h1>
             <p className="hero-lede">{site.lede}</p>
             <div className="hero-actions mt-7 flex flex-wrap gap-3 sm:mt-9">
-              <a href="#profiles" className="theme-primary-button inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold">
+              <Link to="/stories" className="theme-primary-button inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold">
                 <Bone size={16} aria-hidden="true" />
                 Meet our voices
-              </a>
+              </Link>
               <Link
                 to="/get-involved"
                 className="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
@@ -346,23 +346,10 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div id="profiles" className="home-voices">
-            <div className="home-voices-heading">
-              <p className="journal-chapter">The People</p>
-              <p className="home-index">
-                <span>02</span>
-                The people behind the cause
-              </p>
-              <h2 className="home-display home-display-small">Three voices, one advocacy.</h2>
-            </div>
-            <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
-            {profiles.map((profile, index) => (
-              <AdvocacyCard key={profile.slug} item={profile} index={index} />
-            ))}
-            </div>
-          </div>
         </Container>
       </section>
+
+      <News />
 
       <PetMarquee />
 
